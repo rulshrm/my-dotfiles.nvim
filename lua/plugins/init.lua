@@ -1,87 +1,84 @@
+-- ~/.config/nvim/lua/plugins/init.lua
 return {
+  -- Formatting and linting
   {
     "stevearc/conform.nvim",
-    -- event = 'BufWritePre', -- uncomment for format on save
-    opts = {
-      formatters_by_ft = {
-        lua = { "stylua" },
-        html = { "prettier" },
-        css = { "prettier", "prettierd" },
-        javascript = { "prettierd" },
-        javascriptreact = { "prettier" },
-        typescript = { "prettier" },
-        typescriptreact = { "prettier" },
-        go = { "gofmt" },
-        rust = { "rustfmt" },
-        python = { "black" },
-        java = { "google-java-format" },
-        c = { "clang-format" },
-        nix = { "alejandra", "nixpkgs-fmt" },
-        fish = { "fish_indent" },
-        svelte = { "prettier" },
-        markdown = { "prettier", "prettierd" },
-      },
-    },
+    event = "BufWritePre", -- Format on save
     config = function()
-      require "configs.conform"
+      require "configs.conform" -- Memuat konfigurasi utama untuk Conform
+      require "configs.mason-conform" -- Memastikan formatter diinstal
     end,
   },
 
-  -- These are some examples, uncomment them if you want to see them work!
+  -- LSP configuration
   {
     "neovim/nvim-lspconfig",
     config = function()
-      -- Menggunakan default config dari nvchad
       require("nvchad.configs.lspconfig").defaults()
-
-      -- Menambahkan pengaturan custom TypeScript
-      require'lspconfig'.ts_ls.setup{
-        on_attach = function(client, bufnr)
-          print("Typescript LSP connected")
-        end
-      }
-
-      -- Menambahkan pengaturan custom dari file custom
       require "configs.lspconfig"
     end,
   },
 
+  -- Mason for managing LSP servers, formatters, and linters
   {
     "williamboman/mason.nvim",
     opts = {
       ensure_installed = {
-        "lua-language-server",
-        "stylua",
-        "html-lsp",
-        "css-lsp",
-        "prettier",
+        -- LSPs
+        "lua-language-server", -- Lua LSP
+        "html-lsp",            -- HTML LSP
+        "css-lsp",             -- CSS LSP
+        "typescript-language-server", -- TypeScript/JavaScript LSP
+        "json-languageserver", -- JSON LSP
+        "yaml-language-server", -- YAML LSP
+        "vimls",               -- Vimscript LSP
+        "rust_analyzer",       -- Rust LSP
+        "gopls",               -- Go LSP
+        "nimls",               -- Nim LSP
+
+        -- Formatters
+        "prettier",            -- Prettier for formatting
+        "prettierd",           -- Prettier daemon
+        "stylua",              -- Lua formatter
+        "rustfmt",             -- Rust formatter
+        "google-java-format",  -- Java formatter
+        "clang-format",        -- C/C++ formatter
+        "alejandra",           -- Nix formatter
+        "nixpkgs-fmt",         -- Nix formatter
+        "fish_indent",         -- Fish shell formatter
+
+        -- Linters
+        "eslint_d",            -- ESLint daemon for JS/TS
+        "ruff",                -- Python linter/formatter
       },
     },
   },
 
-  -- git stuff
+  -- Git integration
   {
     "lewis6991/gitsigns.nvim",
     event = "User Filepost",
-    opts = function ()
+    opts = function()
       return require "nvchad.configs.gitsigns"
-    end
+    end,
   },
 
+  -- Highlight code chunks
   {
     "shellRaining/hlchunk.nvim",
     event = { "BufReadPre", "BufNewFile" },
     config = function()
       require "configs.chunk"
-      --
     end,
   },
 
+  -- Wakatime integration
   {
     "wakatime/vim-wakatime",
     lazy = false,
   },
 
+  -- File icons
   {
     "nvim-tree/nvim-web-devicons",
     opts = function()
@@ -90,16 +87,8 @@ return {
     end,
   },
 
-  --{
-  --  "lukas-reineke/indent-blankline.nvim",
-  --  main = "ibl",
-  --  ---@module "ibl"
-  --  ---@type ibl.config
-  --  opts = {},
-  --  enabled = false,
-  --},
-
-    {
+  -- Indentation guides
+  {
     "lukas-reineke/indent-blankline.nvim",
     event = "User FilePost",
     opts = {
@@ -107,16 +96,13 @@ return {
       scope = { char = "│", highlight = "IblScopeChar" },
     },
     config = function(_, opts)
-      dofile(vim.g.base46_cache .. "blankline")
-
       local hooks = require "ibl.hooks"
       hooks.register(hooks.type.WHITESPACE, hooks.builtin.hide_first_space_indent_level)
       require("ibl").setup(opts)
-
-      dofile(vim.g.base46_cache .. "blankline")
     end,
   },
 
+  -- Inline diagnostics
   {
     "rachartier/tiny-inline-diagnostic.nvim",
     event = "VeryLazy",
@@ -125,6 +111,7 @@ return {
     end,
   },
 
+  -- Discord Rich Presence
   {
     "IogaMaster/neocord",
     event = "VeryLazy",
@@ -132,71 +119,52 @@ return {
       require "configs.discord"
     end,
   },
-  { "nvchad/volt",     lazy = true },
+
+  -- Colorizer for highlighting colors
   {
-    "nvchad/minty",
-    lazy = true,
+    "NvChad/nvim-colorizer.lua",
     config = function()
-      require "configs.minty"
+      require("colorizer").setup({
+        "*", -- Apply to all file types
+        html = { mode = "background" },
+        css = { rgb_fn = true, names = true },
+        javascript = { names = true },
+        lua = { names = true },
+      })
     end,
   },
+
+  -- Copilot integration
   {
-  "github/copilot.vim",
-  lazy = false,
-  config = function()  -- Mapping tab is already used by NvChad
-    vim.g.copilot_no_tab_map = true;
-    vim.g.copilot_enable_suggestions = true;
-    vim.g.copilot_assume_mapped = true;
-    vim.g.copilot_tab_fallback = "";
-  -- The mapping is set to other key, see custom/lua/mappings
-  -- or run <leader>ch to see copilot mapping section
-  end
-  },
-  {
-  'tpope/vim-commentary',
-  event = 'BufRead'  -- Opsi untuk memuat plugin ketika file dibaca
+    "github/copilot.vim",
+    lazy = false,
+    config = function()
+      vim.g.copilot_no_tab_map = true
+      vim.g.copilot_enable_suggestions = true
+      vim.g.copilot_assume_mapped = true
+    end,
   },
 
+  -- Commenting utility
   {
-  "NvChad/nvim-colorizer.lua",
-  config = function()
-    require("colorizer").setup({
-      "*",  -- Apply to all file types
-      html = { mode = "background" },  -- Color preview as background color for HTML
-      css = { rgb_fn = true, names = true, rgba_fn = true, rrgbaa_fn = true },  -- Enable RGB, RGBA, and color names for CSS
-      javascript = { names = true, rgba_fn = true, rrgbaa_fn = true },  -- Enable color names, RGBA for Javascript
-      lua = { names = true, rgb_fn = true, rgba_fn = true, rrgbaa_fn = true },  -- Enable RGB, RGBA, and color names for Lua
-      -- Support for more formats
-      -- Enable HSL and RGBA for additional color notations
-      hsl_fn = true,  -- Enable HSL function (hsl(360, 100%, 100%))
-      aarrggbb = true,  -- Enable AARRGGBB format (e.g., #AARRGGBB)
-      rrgbrgba = true,  -- Enable RRGGBBAA and similar formats
-    })
-  end
+    "tpope/vim-commentary",
+    event = "BufRead",
   },
 
+  -- Treesitter for syntax highlighting and more
+  {
+    "nvim-treesitter/nvim-treesitter",
+    event = { "BufReadPost", "BufNewFile" },
+    build = ":TSUpdate",
+    opts = function()
+      return require "nvchad.configs.treesitter"
+    end,
+    config = function(_, opts)
+      require("nvim-treesitter.configs").setup(opts)
+    end,
+  },
 
-  -- {
-  --   "hrsh7th/nvim-cmp",
-  --   dependencies = {
-  --     {
-  --       "supermaven-inc/supermaven-nvim",
-  --       opts = {},
-  --     },
-  --   },
-  --
-  --   opts = function (_, opts)
-  --     opts.sources[1].trigger_chars = {"-"}
-  --     table.insert(opts.sources, 1, {name = "supermaven"})
-  --   end
-  -- },
-
-  { "nvchad/menu",     lazy = true },
-
-  { "nvchad/showkeys", cmd = "ShowkeysToggle", opts = { position = "top-center" } },
-
-  { "nvchad/timerly",  cmd = "TimerlyToggle" },
-
+  -- Telescope for fuzzy finding
   {
     "nvim-telescope/telescope.nvim",
     dependencies = { "nvim-treesitter/nvim-treesitter" },
@@ -206,16 +174,43 @@ return {
     end,
   },
 
+  -- Autotag for HTML/JSX
   {
-    "nvim-treesitter/nvim-treesitter",
-    event = { "BufReadPost", "BufNewFile" },
-    cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
-    build = ":TSUpdate",
-    opts = function()
-      return require "nvchad.configs.treesitter"
+    "windwp/nvim-ts-autotag",
+    event = "BufRead",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    config = function()
+      require("nvim-ts-autotag").setup({ enable = true })
     end,
-    config = function(_, opts)
-      require("nvim-treesitter.configs").setup(opts)
+  },
+
+  -- Autocompletion
+  { "hrsh7th/nvim-cmp", dependencies = { "hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-buffer", "hrsh7th/cmp-path" } },
+  { "L3MON4D3/LuaSnip", dependencies = { "rafamadriz/friendly-snippets" } },
+
+  -- Null-LS for additional formatters/linters
+  {
+    "jose-elias-alvarez/null-ls.nvim",
+    config = function()
+      require "configs.null-ls"
+    end,
+  },
+
+  -- Autopairs
+  {
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    config = function()
+      require("nvim-autopairs").setup {}
+    end,
+  },
+
+  {
+    "romgrk/barbar.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" }, -- Untuk ikon file
+    event = "BufReadPre", -- Memuat plugin saat buffer dibuka
+    config = function()
+      require("configs.barbar") -- Memuat konfigurasi barbar
     end,
   },
 }

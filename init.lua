@@ -1,19 +1,19 @@
-vim.g.base46_cache = vim.fn.stdpath "data" .. "/nvchad/base46/"
+-- Set base46 cache path and leader key
+vim.g.base46_cache = vim.fn.stdpath("data") .. "/nvchad/base46/"
 vim.g.mapleader = " "
 
--- bootstrap lazy and all plugins
-local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
-
+-- Bootstrap lazy.nvim plugin manager
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   local repo = "https://github.com/folke/lazy.nvim.git"
-  vim.fn.system { "git", "clone", "--filter=blob:none", repo, "--branch=stable", lazypath }
+  vim.fn.system({ "git", "clone", "--filter=blob:none", repo, "--branch=stable", lazypath })
 end
-
 vim.opt.rtp:prepend(lazypath)
 
-local lazy_config = require "configs.lazy"
+-- Load lazy.nvim configuration
+local lazy_config = require("configs.lazy")
 
--- load plugins
+-- Setup plugins using lazy.nvim
 require("lazy").setup({
   {
     "NvChad/NvChad",
@@ -21,19 +21,39 @@ require("lazy").setup({
     branch = "v2.5",
     import = "nvchad.plugins",
     config = function()
-      require "options"
+      require("options")
     end,
   },
-
   { import = "plugins" },
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    event = "User FilePost",
+    opts = {
+      indent = { char = "│", highlight = "IblChar" },
+      scope = { char = "│", highlight = "IblScopeChar" },
+    },
+    config = function(_, opts)
+      local hooks = require "ibl.hooks"
+      hooks.register(hooks.type.WHITESPACE, hooks.builtin.hide_first_space_indent_level)
+      require("ibl").setup(opts)
+    end,
+  },
+  {
+    "mfussenegger/nvim-dap",
+    config = function()
+      require "configs.dap"
+    end,
+  },
 }, lazy_config)
 
--- load theme
+-- Load base46 theme and statusline
 dofile(vim.g.base46_cache .. "defaults")
 dofile(vim.g.base46_cache .. "statusline")
 
-require "nvchad.autocmds"
+-- Load custom autocommands
+require("nvchad.autocmds")
 
+-- Schedule mappings to load after startup
 vim.schedule(function()
-  require "mappings"
+  require("mappings")
 end)
