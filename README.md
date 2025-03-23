@@ -13,6 +13,7 @@ Welcome to my Neovim configuration! This repository contains my custom Neovim se
 - **Git Integration**: Git features powered by `gitsigns.nvim`.
 - **Rich UI**: Enhanced visuals with `indent-blankline.nvim`, `hlchunk.nvim`, and `nvim-colorizer.lua`.
 - **Discord Rich Presence**: Integrated with `neocord` for Discord status updates.
+- **Copilot Integration**: GitHub Copilot support for AI-powered code suggestions.
 
 ## Installation
 
@@ -81,6 +82,10 @@ Welcome to my Neovim configuration! This repository contains my custom Neovim se
 ### Discord Rich Presence
 - Integrated with `neocord` for Discord status updates.
 
+### Copilot Integration
+- GitHub Copilot support for AI-powered code suggestions.
+- Keybindings for accepting, navigating, and dismissing suggestions.
+
 ## Key Mappings
 
 Here are some of the key mappings configured in this setup:
@@ -93,6 +98,9 @@ Here are some of the key mappings configured in this setup:
 - `<Tab>`: Next tab.
 - `<S-Tab>`: Previous tab.
 - `<leader>tc`: Close current tab.
+- `<leader>ba`: Close all buffers except the current one.
+- `<leader>bl`: Close all buffers to the left.
+- `<leader>br`: Close all buffers to the right.
 - `<leader>1`–`<leader>9`: Go to specific tab.
 
 ### Telescope
@@ -108,18 +116,27 @@ Here are some of the key mappings configured in this setup:
 - `<leader>wj`: Move to the bottom window.
 - `<leader>wk`: Move to the top window.
 - `<leader>wl`: Move to the right window.
+- `<leader>wq`: Close the current window.
 
 ### Git
 - `<leader>gs`: Stage hunk.
 - `<leader>gu`: Undo stage hunk.
 - `<leader>gp`: Preview hunk.
 - `<leader>gb`: Blame line.
+- `<leader>gr`: Reset hunk.
+- `<leader>gR`: Reset buffer.
 
 ### Debugging
 - `<F5>`: Start debugging.
 - `<F10>`: Step over.
 - `<F11>`: Step into.
 - `<F12>`: Step out.
+
+### Copilot
+- `<C-e>`: Accept Copilot suggestion.
+- `<C-n>`: Go to the next Copilot suggestion.
+- `<C-p>`: Go to the previous Copilot suggestion.
+- `<C-d>`: Dismiss Copilot suggestion.
 
 ## File Structure
 
@@ -156,4 +173,3 @@ Feel free to fork this repository and submit pull requests if you have improveme
 ## License
 
 This configuration is open-source and available under the [MIT License](LICENSE).
-```

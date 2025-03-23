@@ -78,6 +78,23 @@ map("n", "<leader>gb", "<Cmd>Gitsigns blame_line<CR>", { desc = "Blame Line" })
 map("n", "<leader>gr", "<Cmd>Gitsigns reset_hunk<CR>", { desc = "Reset Hunk" })
 map("n", "<leader>gR", "<Cmd>Gitsigns reset_buffer<CR>", { desc = "Reset Buffer" })
 
+-- Keybindings untuk Copilot
+map("i", "<C-e>", function()
+  vim.fn.feedkeys(vim.fn["copilot#Accept"](), "")
+end, { desc = "Copilot Accept", silent = true, expr = true })
+
+map("i", "<C-n>", function()
+  vim.fn.feedkeys(vim.fn["copilot#Next"](), "")
+end, { desc = "Copilot Next Suggestion", silent = true, expr = true })
+
+map("i", "<C-p>", function()
+  vim.fn.feedkeys(vim.fn["copilot#Previous"](), "")
+end, { desc = "Copilot Previous Suggestion", silent = true, expr = true })
+
+map("i", "<C-d>", function()
+  vim.fn.feedkeys(vim.fn["copilot#Dismiss"](), "")
+end, { desc = "Copilot Dismiss Suggestion", silent = true, expr = true })
+
 local M = {}
 
 M.copilot = {
