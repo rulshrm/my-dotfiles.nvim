@@ -19,8 +19,7 @@ Welcome to my Neovim configuration! This repository contains my custom Neovim se
 1. Clone this repository:
    ```bash
    git clone https://github.com/rulshrm/my-dotfiles.nvim.git ~/.config/nvim
-  ```
-
+   ```
 2. Install [Neovim](https://neovim.io/) (v0.8 or later).
 
 3. Install the required dependencies:
