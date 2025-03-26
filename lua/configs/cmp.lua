@@ -17,10 +17,10 @@ cmp.setup {
     ["<CR>"] = cmp.mapping.confirm { select = true },
   },
   sources = cmp.config.sources {
-    { name = "copilot" },
-    { name = "nvim_lsp" },
-    { name = "luasnip" },
-    { name = "buffer" },
-    { name = "path" },
+    { name = "copilot", priority = 1000 }, -- Prioritas tinggi untuk Copilot
+    { name = "nvim_lsp", priority = 900 },
+    { name = "luasnip", priority = 800 },
+    { name = "buffer", priority = 700 },
+    { name = "path", priority = 600 },
   },
 }

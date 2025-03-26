@@ -24,7 +24,8 @@ end
 -- TypeScript LSP with formatting disabled
 lspconfig.ts_ls.setup {
   on_attach = function(client, bufnr)
-    client.server_capabilities.document_formatting = false -- Disable formatting
+    client.server_capabilities.document_formatting = false -- Nonaktifkan formatting dari LSP
+    client.server_capabilities.document_range_formatting = false
   end,
   on_init = on_init,
   capabilities = capabilities,

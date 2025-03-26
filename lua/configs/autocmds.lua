@@ -2,7 +2,11 @@
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*",
   callback = function()
-    vim.lsp.buf.format { async = true }
+    local conform = require("conform")
+    local success = conform.format({ async = true })
+    if not success then
+      vim.lsp.buf.format { async = true }
+    end
   end,
 })
 

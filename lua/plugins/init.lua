@@ -3,9 +3,9 @@ return {
   -- Formatting and linting
   {
     "stevearc/conform.nvim",
-    event = "BufWritePre", -- Format on save
+    event = "BufWritePre",            -- Format on save
     config = function()
-      require "configs.conform" -- Memuat konfigurasi utama untuk Conform
+      require "configs.conform"       -- Memuat konfigurasi utama untuk Conform
       require "configs.mason-conform" -- Memastikan formatter diinstal
     end,
   },
@@ -25,32 +25,51 @@ return {
     opts = {
       ensure_installed = {
         -- LSPs
-        "lua-language-server", -- Lua LSP
-        "html-lsp",            -- HTML LSP
-        "css-lsp",             -- CSS LSP
+        "lua-language-server",        -- Lua LSP
+        "html-lsp",                   -- HTML LSP
+        "css-lsp",                    -- CSS LSP
         "typescript-language-server", -- TypeScript/JavaScript LSP
-        "json-languageserver", -- JSON LSP
-        "yaml-language-server", -- YAML LSP
-        "vimls",               -- Vimscript LSP
-        "rust_analyzer",       -- Rust LSP
-        "gopls",               -- Go LSP
-        "nimls",               -- Nim LSP
+        "json-languageserver",        -- JSON LSP
+        "yaml-language-server",       -- YAML LSP
+        "vimls",                      -- Vimscript LSP
+        "rust_analyzer",              -- Rust LSP
+        "gopls",                      -- Go LSP
+        "nimls",                      -- Nim LSP
 
         -- Formatters
-        "prettier",            -- Prettier for formatting
-        "prettierd",           -- Prettier daemon
-        "stylua",              -- Lua formatter
-        "rustfmt",             -- Rust formatter
-        "google-java-format",  -- Java formatter
-        "clang-format",        -- C/C++ formatter
-        "alejandra",           -- Nix formatter
-        "nixpkgs-fmt",         -- Nix formatter
-        "fish_indent",         -- Fish shell formatter
+        "prettier",           -- Prettier for formatting
+        "prettierd",          -- Prettier daemon
+        "stylua",             -- Lua formatter
+        "rustfmt",            -- Rust formatter
+        "google-java-format", -- Java formatter
+        "clang-format",       -- C/C++ formatter
+        "alejandra",          -- Nix formatter
+        "nixpkgs-fmt",        -- Nix formatter
+        "fish_indent",        -- Fish shell formatter
 
         -- Linters
-        "eslint_d",            -- ESLint daemon for JS/TS
-        "ruff",                -- Python linter/formatter
+        "eslint_d", -- ESLint daemon for JS/TS
+        "ruff",     -- Python linter/formatter
       },
+    },
+  },
+
+  -- Auto-save
+  {
+    "brianhuster/autosave.nvim",
+    event = "InsertEnter",
+    opts = {
+      enabled = true, -- Aktifkan autosave
+      execution_message = "AutoSave: saved at " .. vim.fn.strftime("%H:%M:%S"),
+      events = { "InsertLeave", "TextChanged" }, -- Simpan otomatis saat meninggalkan mode insert atau teks berubah
+      conditions = {
+        exists = true, -- Hanya simpan jika file ada
+        filename_is_not = { "plugins.lua" }, -- Jangan simpan file tertentu
+        filetype_is_not = { "gitcommit", "markdown" }, -- Jangan simpan file dengan tipe tertentu
+        modifiable = true, -- Hanya simpan file yang dapat dimodifikasi
+      },
+      write_all_buffers = false, -- Hanya simpan buffer aktif
+      debounce_delay = 1000, -- Tunda penyimpanan otomatis (dalam milidetik)
     },
   },
 
@@ -145,6 +164,15 @@ return {
     end,
   },
 
+  -- Copilot completion
+  {
+    "zbirenbaum/copilot-cmp",
+    dependencies = { "github/copilot.vim" },
+    config = function()
+      require("copilot_cmp").setup()
+    end,
+  },
+
   -- Commenting utility
   {
     "tpope/vim-commentary",
@@ -208,9 +236,9 @@ return {
   {
     "romgrk/barbar.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" }, -- Untuk ikon file
-    event = "BufReadPre", -- Memuat plugin saat buffer dibuka
+    event = "BufReadPre",                             -- Memuat plugin saat buffer dibuka
     config = function()
-      require("configs.barbar") -- Memuat konfigurasi barbar
+      require("configs.barbar")                       -- Memuat konfigurasi barbar
     end,
   },
 }

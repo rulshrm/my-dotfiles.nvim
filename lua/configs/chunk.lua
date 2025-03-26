@@ -3,7 +3,7 @@ require("hlchunk").setup({
         enable = true,
     chars = {
         horizontal_line = "─",
-        vertical_line = "│",
+        -- vertical_line = "│",
         left_top = "┌",
         left_bottom = "└",
         right_arrow = "─",

@@ -5,7 +5,7 @@ Welcome to my Neovim configuration! This repository contains my custom Neovim se
 ## Features
 
 - **LSP Support**: Configured with `nvim-lspconfig` and `mason.nvim` for managing LSP servers.
-- **Formatting and Linting**: Integrated with `conform.nvim` and `null-ls.nvim` for tools like `prettier`, `eslint_d`, `ruff`, and more.
+- **Formatting and Linting**: Integrated with `conform.nvim` and `null-ls.nvim` for tools like `prettierd`, `eslint_d`, `ruff`, and more.
 - **Treesitter**: Syntax highlighting, incremental selection, and text objects powered by `nvim-treesitter`.
 - **Autocompletion**: Configured with `nvim-cmp` and `LuaSnip` for a smooth coding experience.
 - **Debugging**: Debugging support using `nvim-dap` for Node.js and TypeScript.
@@ -52,7 +52,7 @@ Welcome to my Neovim configuration! This repository contains my custom Neovim se
 - **`conform.nvim`**: Handles formatting on save.
 - **`null-ls.nvim`**: Provides additional formatters and linters.
 - Tools used:
-  - `prettier`/`prettierd` for web development.
+  - `prettierd` for web development.
   - `eslint_d` for JavaScript/TypeScript linting.
   - `ruff` for Python linting.
   - `stylua` for Lua formatting.
@@ -131,6 +131,8 @@ Here are some of the key mappings configured in this setup:
 - `<F10>`: Step over.
 - `<F11>`: Step into.
 - `<F12>`: Step out.
+- `<leader>db`: Toggle breakpoint.
+- `<leader>dr`: Open debug REPL.
 
 ### Copilot
 - `<C-e>`: Accept Copilot suggestion.
@@ -146,6 +148,7 @@ Here are some of the key mappings configured in this setup:
 ├── mappings.lua
 ├── options.lua
 ├── configs/
+│   ├── autocmds.lua
 │   ├── barbar.lua
 │   ├── chunk.lua
 │   ├── cmp.lua

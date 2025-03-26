@@ -2,6 +2,20 @@
 local options = {
   -- Formatters grouped by filetype
   formatters_by_ft = {
+    -- Web development
+    html = { "prettierd" }, -- HTML formatter
+    css = { "prettierd" }, -- CSS formatter
+    javascript = { "prettierd" }, -- JavaScript formatter (daemon)
+    javascriptreact = { "prettierd" }, -- React (JSX) formatter
+    typescript = { "prettierd" }, -- TypeScript formatter
+    typescriptreact = { "prettierd" }, -- React (TSX) formatter
+    svelte = { "prettier" }, -- Svelte formatter
+
+    -- Markup and configuration files
+    markdown = { "prettierd" }, -- Markdown formatter
+    yaml = { "prettierd" }, -- YAML formatter
+    json = { "prettierd" }, -- JSON formatter
+
     -- Programming languages
     lua = { "stylua" }, -- Lua formatter
     python = { "ruff" }, -- Python linter/formatter
@@ -13,20 +27,6 @@ local options = {
     cpp = { "clang-format" }, -- C++ formatter (optional if needed)
     fish = { "fish_indent" }, -- Fish shell formatter
     nix = { "alejandra", "nixpkgs-fmt" }, -- Nix formatters
-
-    -- Web development
-    html = { "prettier" }, -- HTML formatter
-    css = { "prettier", "prettierd" }, -- CSS formatter
-    javascript = { "prettierd" }, -- JavaScript formatter (daemon)
-    javascriptreact = { "prettier" }, -- React (JSX) formatter
-    typescript = { "prettier" }, -- TypeScript formatter
-    typescriptreact = { "prettier" }, -- React (TSX) formatter
-    svelte = { "prettier" }, -- Svelte formatter
-
-    -- Markup and configuration files
-    markdown = { "prettier", "prettierd" }, -- Markdown formatter
-    yaml = { "prettier" }, -- YAML formatter
-    json = { "prettier" }, -- JSON formatter
   },
 
   -- Format on save settings
