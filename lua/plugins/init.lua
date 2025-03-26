@@ -57,7 +57,7 @@ return {
   -- Git integration
   {
     "lewis6991/gitsigns.nvim",
-    event = "User Filepost",
+    event = { "BufReadPre", "BufNewFile" },
     opts = function()
       return require "nvchad.configs.gitsigns"
     end,
@@ -90,10 +90,10 @@ return {
   -- Indentation guides
   {
     "lukas-reineke/indent-blankline.nvim",
-    event = "User FilePost",
+    event = { "BufReadPre", "BufNewFile" },
     opts = {
       indent = { char = "│", highlight = "IblChar" },
-      scope = { char = "│", highlight = "IblScopeChar" },
+      -- scope = { char = "│", highlight = "IblScopeChar" },
     },
     config = function(_, opts)
       local hooks = require "ibl.hooks"

@@ -25,50 +25,6 @@ require("lazy").setup({
     end,
   },
   { import = "plugins" },
-  {
-    "lukas-reineke/indent-blankline.nvim",
-    event = "User FilePost",
-    opts = {
-      indent = { char = "│", highlight = "IblChar" },
-      scope = { char = "│", highlight = "IblScopeChar" },
-    },
-    config = function(_, opts)
-      local hooks = require "ibl.hooks"
-      hooks.register(hooks.type.WHITESPACE, hooks.builtin.hide_first_space_indent_level)
-      require("ibl").setup(opts)
-    end,
-  },
-  {
-    "mfussenegger/nvim-dap",
-    config = function()
-      require "configs.dap"
-    end,
-  },
-  {
-    "github/copilot.vim",
-    lazy = false,
-    config = function()
-      vim.g.copilot_no_tab_map = true -- Nonaktifkan pemetaan default untuk <Tab>
-      vim.g.copilot_enable_suggestions = true -- Aktifkan saran Copilot
-      vim.g.copilot_assume_mapped = true -- Beritahu Copilot bahwa tombol sudah dipetakan
-      vim.g.copilot_filetypes = {
-        ["*"] = true, -- Aktifkan untuk semua filetype
-        ["markdown"] = true, -- Aktifkan untuk Markdown
-        ["lua"] = true, -- Aktifkan untuk Lua
-        ["javascript"] = true, -- Aktifkan untuk JavaScript
-        ["typescript"] = true, -- Aktifkan untuk TypeScript
-        ["html"] = true, -- Aktifkan untuk HTML
-        ["css"] = true, -- Aktifkan untuk CSS
-      }
-    end,
-  },
-  {
-    "zbirenbaum/copilot-cmp",
-    dependencies = { "github/copilot.vim" },
-    config = function()
-      require("copilot_cmp").setup()
-    end,
-  },
 }, lazy_config)
 
 -- Load base46 theme and statusline
