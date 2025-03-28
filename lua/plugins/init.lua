@@ -305,4 +305,13 @@ return {
       require("mini.icons").setup()
     end,
   },
+
+  -- Nvim-notify for notifications
+  {
+    "rcarriga/nvim-notify",
+    lazy = false, -- Muat plugin segera setelah Neovim dimulai
+    config = function()
+      require("configs.notify").setup() -- Panggil konfigurasi modular
+    end,
+  },
 }
