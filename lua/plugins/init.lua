@@ -205,10 +205,15 @@ return {
   -- Autotag for HTML/JSX
   {
     "windwp/nvim-ts-autotag",
-    event = "BufRead",
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    event = "InsertEnter", -- Memuat plugin saat memasuki mode insert
+    dependencies = { "nvim-treesitter/nvim-treesitter" }, -- Bergantung pada Treesitter
     config = function()
-      require("nvim-ts-autotag").setup({ enable = true })
+      require("nvim-ts-autotag").setup({
+        filetypes = {
+          "html", "javascript", "typescript", "javascriptreact", "typescriptreact", "svelte", "vue", "tsx", "jsx", "xml",
+        },
+        skip_tags = { "area", "base", "br", "col", "command", "embed", "hr", "img", "slot", "input", "keygen", "link", "meta", "param", "source", "track", "wbr" },
+      })
     end,
   },
 
