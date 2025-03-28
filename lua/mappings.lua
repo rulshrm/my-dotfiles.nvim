@@ -4,7 +4,22 @@ require "nvchad.mappings"
 
 local map = vim.keymap.set
 
-map("n", ";", ":", { desc = "CMD enter command mode" })
+-- Remap ; to l
+map("n", ";", "l", { desc = "Move right (remapped from ;)" })
+map("v", ";", "l", { desc = "Move right (remapped from ;)" })
+
+-- Remap l to k
+map("n", "l", "k", { desc = "Move up (remapped from l)" })
+map("v", "l", "k", { desc = "Move up (remapped from l)" })
+
+-- Remap k to j
+map("n", "k", "j", { desc = "Move down (remapped from k)" })
+map("v", "k", "j", { desc = "Move down (remapped from k)" })
+
+-- Remap j to h
+map("n", "j", "h", { desc = "Move left (remapped from j)" })
+map("v", "j", "h", { desc = "Move left (remapped from j)" })
+
 map("i", "jk", "<ESC>")
 map("n", "<leader>ih", function()
   vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled {})
