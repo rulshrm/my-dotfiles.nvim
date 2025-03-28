@@ -230,12 +230,16 @@ return {
   },
 
   -- Import cost for JavaScript/TypeScript
-   {
-    'barrett-ruth/import-cost.nvim',
-    build = 'sh install.sh yarn',
-    -- if on windows
-    -- build = 'pwsh install.ps1 yarn',
-    config = true
+  {
+    "barrett-ruth/import-cost.nvim",
+    build = "sh install.sh yarn",
+    event = { "BufReadPre", "BufNewFile" }, -- Memuat plugin saat buffer dibuka
+    config = function()
+      require("import-cost").setup({
+        silent = false, -- Tampilkan pesan error jika ada masalah
+        filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact" }, -- Filetype yang didukung
+      })
+    end,
   },
 
   -- Autopairs
