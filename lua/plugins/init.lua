@@ -266,35 +266,7 @@ return {
     "folke/which-key.nvim",
     event = "VeryLazy", -- Memuat plugin hanya saat dibutuhkan
     config = function()
-      require("which-key").setup {
-        plugins = {
-          marks = true, -- Tampilkan marks
-          registers = true, -- Tampilkan registers
-          spelling = {
-            enabled = true, -- Aktifkan saran ejaan
-            suggestions = 20, -- Jumlah saran ejaan
-          },
-        },
-        key_labels = {
-          ["<leader>"] = "SPC", -- Tampilkan <leader> sebagai "SPC"
-          ["<CR>"] = "RET",
-          ["<Tab>"] = "TAB",
-        },
-        window = {
-          border = "rounded", -- Gunakan border bulat
-          position = "bottom", -- Tampilkan di bagian bawah
-          margin = { 1, 0, 1, 0 }, -- Margin di sekitar popup
-          padding = { 2, 2, 2, 2 }, -- Padding di dalam popup
-        },
-        layout = {
-          height = { min = 4, max = 25 }, -- Tinggi minimum dan maksimum
-          width = { min = 20, max = 50 }, -- Lebar minimum dan maksimum
-          spacing = 3, -- Spasi antar kolom
-          align = "center", -- Rata tengah
-        },
-        ignore_missing = true, -- Abaikan keybinding yang tidak ada
-        show_help = true, -- Tampilkan bantuan di popup
-      }
+      require("configs.which-key").setup() -- Panggil konfigurasi modular
     end,
   },
 
