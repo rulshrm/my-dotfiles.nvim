@@ -286,4 +286,14 @@ return {
       require("configs.notify").setup() -- Panggil konfigurasi modular
     end,
   },
+
+  -- API testing with Rest.nvim
+  {
+    "rest-nvim/rest.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require("configs.rest") -- Panggil konfigurasi modular
+    end,
+    cmd = { "RestNvim", "RestNvimPreview", "RestNvimLast" },
+  },
 }
