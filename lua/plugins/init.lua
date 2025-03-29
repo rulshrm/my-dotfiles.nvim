@@ -261,14 +261,14 @@ return {
     end,
   },
 
-  -- Which-key for keybindings
-  {
-    "folke/which-key.nvim",
-    event = "VeryLazy", -- Memuat plugin hanya saat dibutuhkan
-    config = function()
-      require("configs.which-key").setup() -- Panggil konfigurasi modular
-    end,
-  },
+  -- -- Which-key for keybindings
+  -- {
+  --   "folke/which-key.nvim",
+  --   event = "VeryLazy", -- Memuat plugin hanya saat dibutuhkan
+  --   config = function()
+  --     require("configs.which-key").setup() -- Panggil konfigurasi modular
+  --   end,
+  -- },
 
   {
     "echasnovski/mini.icons",
