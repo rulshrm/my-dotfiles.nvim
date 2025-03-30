@@ -13,8 +13,7 @@ null_ls.setup({
         "--semi", "true",                    -- Tambahkan titik koma di akhir pernyataan
         "--trailing-comma", "es5",           -- Tambahkan koma trailing untuk ES5
         "--bracket-same-line", "false",      -- Jangan letakkan `>` di baris yang sama
-        "--single-quote", "false",           -- Gunakan tanda kutip ganda
-        "--single-attribute-per-line", "true" -- Bungkus setiap atribut JSX/TSX ke baris baru
+        "--single-quote", "false"            -- Gunakan tanda kutip ganda
       },
     }),
 

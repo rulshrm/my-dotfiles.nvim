@@ -224,9 +224,11 @@ return {
   -- Null-LS for additional formatters/linters
   {
     "jose-elias-alvarez/null-ls.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
-      require "configs.null-ls"
+      require("configs.null-ls")
     end,
+    event = { "BufReadPre", "BufNewFile" }, -- Muat null-ls saat buffer dibuka
   },
 
   -- Import cost for JavaScript/TypeScript
@@ -295,5 +297,27 @@ return {
       require("configs.rest") -- Panggil konfigurasi modular
     end,
     cmd = { "RestNvim", "RestNvimPreview", "RestNvimLast" },
+  },
+
+  -- Refactoring tool
+  {
+    "ThePrimeagen/refactoring.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter" },
+    config = function()
+      require("configs.refactoring")
+    end,
+    keys = {
+      { "<leader>rr", "<cmd>lua require('refactoring').select_refactor()<CR>", desc = "Refactor Code" },
+    },
+  },
+
+  -- Neogen for generating comments
+  {
+    "danymat/neogen",
+    dependencies = "nvim-treesitter/nvim-treesitter",
+    config = function()
+      require("neogen").setup({ enabled = true })
+    end,
+    cmd = { "Neogen" },
   },
 }

@@ -124,3 +124,28 @@ map("n", "<leader>dr", function() require("dap").repl.open() end, { desc = "Open
 map("n", "<leader>rr", "<cmd>RestNvim<CR>", { desc = "Run HTTP Request" })
 map("n", "<leader>rp", "<cmd>RestNvimPreview<CR>", { desc = "Preview HTTP Request" })
 map("n", "<leader>rl", "<cmd>RestNvimLast<CR>", { desc = "Run Last HTTP Request" })
+
+-- Keybinding untuk refactoring.nvim
+map("v", "<leader>re", function()
+  require("refactoring").refactor("Extract Function")
+end, { desc = "Extract Function" })
+
+map("v", "<leader>rf", function()
+  require("refactoring").refactor("Extract Function To File")
+end, { desc = "Extract Function to File" })
+
+map("v", "<leader>rv", function()
+  require("refactoring").refactor("Extract Variable")
+end, { desc = "Extract Variable" })
+
+map("v", "<leader>ri", function()
+  require("refactoring").refactor("Inline Variable")
+end, { desc = "Inline Variable" })
+
+map("n", "<leader>rb", function()
+  require("refactoring").refactor("Extract Block")
+end, { desc = "Extract Block" })
+
+map("n", "<leader>rbf", function()
+  require("refactoring").refactor("Extract Block To File")
+end, { desc = "Extract Block to File" })

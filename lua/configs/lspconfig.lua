@@ -24,12 +24,12 @@ end
 -- TypeScript LSP with formatting disabled
 lspconfig.ts_ls.setup {
   on_attach = function(client, bufnr)
-    client.server_capabilities.document_formatting = false -- Nonaktifkan formatting dari LSP
+    -- Nonaktifkan formatting dari tsserver
+    client.server_capabilities.document_formatting = false
     client.server_capabilities.document_range_formatting = false
   end,
-  on_init = on_init,
-  capabilities = capabilities,
-}
+  capabilities = require("cmp_nvim_lsp").default_capabilities(),
+})
 
 -- Rust Analyzer with custom inlay hints
 lspconfig.rust_analyzer.setup {
