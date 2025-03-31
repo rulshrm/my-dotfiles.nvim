@@ -3,10 +3,9 @@ return {
   -- Formatting and linting
   {
     "stevearc/conform.nvim",
-    event = "BufWritePre",            -- Format on save
+    event = {"BufReadPre", "BufNewFile"},
     config = function()
-      require "configs.conform"       -- Memuat konfigurasi utama untuk Conform
-      require "configs.mason-conform" -- Memastikan formatter diinstal
+      require "configs.conform" -- Memuat konfigurasi utama untuk Conform
     end,
   },
 
@@ -222,14 +221,14 @@ return {
   { "L3MON4D3/LuaSnip", dependencies = { "rafamadriz/friendly-snippets" } },
 
   -- Null-LS for additional formatters/linters
-  {
-    "jose-elias-alvarez/null-ls.nvim",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    config = function()
-      require("configs.null-ls")
-    end,
-    event = { "BufReadPre", "BufNewFile" }, -- Muat null-ls saat buffer dibuka
-  },
+  -- {
+  --   "jose-elias-alvarez/null-ls.nvim",
+  --   dependencies = { "nvim-lua/plenary.nvim" },
+  --   config = function()
+  --     require("configs.null-ls")
+  --   end,
+  --   event = { "BufReadPre", "BufNewFile" }, -- Muat null-ls saat buffer dibuka
+  -- },
 
   -- Import cost for JavaScript/TypeScript
   {

@@ -31,10 +31,32 @@ map("n", "<C-t>", function()
   require("minty.shades").open({ border = false })
 end, {})
 
--- Formatting
+-- Formatting LSP
+-- map("n", "<leader>f", function()
+--   vim.lsp.buf.format { async = true }
+-- end, { desc = "Format Code" })
+
+-- Formatting keybinding lama untuk null-ls
+-- map("n", "<leader>f", function()
+--   vim.lsp.buf.format({
+--     async = true,
+--     filter = function(client)
+--       return client.name == "null-ls"
+--     end,
+--   })
+-- end, { desc = "Format Code with null-ls" })
+
+-- Tambahkan keybinding untuk conform.nvim
 map("n", "<leader>f", function()
-  vim.lsp.buf.format { async = true }
-end, { desc = "Format Code" })
+  require("conform").format({ async = true })
+end, { desc = "Format Code with conform.nvim" })
+
+-- Check active formatters
+map("n", "<leader>cf", function()
+  local ft = vim.bo.filetype
+  local formatters = require("conform").list_formatters(ft)
+  vim.notify("Active formatters for " .. ft .. ": " .. vim.inspect(formatters), vim.log.levels.INFO)
+end, { desc = "Check active formatters" })
 
 -- Navigate diagnostics
 map("n", "[d", vim.diagnostic.goto_prev, { desc = "Previous Diagnostic" })

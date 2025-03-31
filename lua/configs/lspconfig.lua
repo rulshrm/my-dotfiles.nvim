@@ -29,7 +29,7 @@ lspconfig.ts_ls.setup {
     client.server_capabilities.document_range_formatting = false
   end,
   capabilities = require("cmp_nvim_lsp").default_capabilities(),
-})
+}
 
 -- Rust Analyzer with custom inlay hints
 lspconfig.rust_analyzer.setup {
