@@ -4,16 +4,18 @@ return {
   {
     "neovim/nvim-lspconfig",
     config = function()
-      require("nvchad.configs.lspconfig").defaults()
-      require "configs.lspconfig"
+      require("configs.lspconfig").setup()
     end,
   },
 
   -- Mason for managing LSP servers, formatters, and linters
   {
     "williamboman/mason.nvim",
+    dependencies = { "williamboman/mason-lspconfig.nvim" },
     config = function()
+      print("Loading Mason...")
       require("configs.mason").setup()
+      print("Mason loaded successfully!")
     end,
   },
 
@@ -184,17 +186,7 @@ return {
   { "hrsh7th/nvim-cmp", dependencies = { "hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-buffer", "hrsh7th/cmp-path" } },
   { "L3MON4D3/LuaSnip", dependencies = { "rafamadriz/friendly-snippets" } },
 
-  -- Null-LS for additional formatters/linters
-  -- {
-  --   "jose-elias-alvarez/null-ls.nvim",
-  --   dependencies = { "nvim-lua/plenary.nvim" },
-  --   config = function()
-  --     require("configs.null-ls")
-  --   end,
-  --   event = { "BufReadPre", "BufNewFile" }, -- Muat null-ls saat buffer dibuka
-  -- },
-
-  -- Import cost for JavaScript/TypeScript
+  --- Import cost for JavaScript/TypeScript
   {
     "barrett-ruth/import-cost.nvim",
     build = "sh install.sh yarn",

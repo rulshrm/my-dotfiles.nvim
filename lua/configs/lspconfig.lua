@@ -1,87 +1,105 @@
-local on_attach = require("nvchad.configs.lspconfig").on_attach
-local on_init = require("nvchad.configs.lspconfig").on_init
-local capabilities = require("nvchad.configs.lspconfig").capabilities
+local M = {}
 
-local lspconfig = require "lspconfig"
-local servers = { "gopls", "zls", "rust_analyzer", "nimls", "ltex", "fortls", "ts_ls", "jdtls", "ruby_lsp", "ruff" }
+local on_attach = function(client, bufnr)
+  -- Keybindings untuk LSP
+  local buf_map = function(mode, lhs, rhs, opts)
+    opts = opts or {}
+    opts.buffer = bufnr
+    vim.keymap.set(mode, lhs, rhs, opts)
+  end
 
--- Default LSP setup with error handling
-for _, lsp in ipairs(servers) do
-  if lspconfig[lsp] then
-    lspconfig[lsp].setup {
-      on_attach = on_attach,
-      on_init = on_init,
-      capabilities = capabilities,
-      flags = {
-        debounce_text_changes = 150,
-      },
-    }
-  else
-    print("Warning: LSP server " .. lsp .. " is not installed.")
+  buf_map("n", "gd", vim.lsp.buf.definition, { desc = "Go to Definition" })
+  buf_map("n", "gr", vim.lsp.buf.references, { desc = "Go to References" })
+  buf_map("n", "K", vim.lsp.buf.hover, { desc = "Hover Documentation" })
+  buf_map("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename Symbol" })
+  buf_map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
+  buf_map("n", "<leader>f", function()
+    vim.lsp.buf.format({ async = true })
+  end, { desc = "Format Code" })
+
+  -- Highlight symbol under cursor
+  if client.server_capabilities.document_highlight then
+    vim.api.nvim_create_augroup("LspDocumentHighlight", { clear = true })
+    vim.api.nvim_create_autocmd("CursorHold", {
+      buffer = bufnr,
+      callback = vim.lsp.buf.document_highlight,
+    })
+    vim.api.nvim_create_autocmd("CursorMoved", {
+      buffer = bufnr,
+      callback = vim.lsp.buf.clear_references,
+    })
   end
 end
 
--- TypeScript LSP with formatting disabled
-lspconfig.ts_ls.setup {
-  on_attach = function(client, bufnr)
-    -- Nonaktifkan formatting dari tsserver
-    client.server_capabilities.document_formatting = false
-    client.server_capabilities.document_range_formatting = false
-  end,
-  capabilities = require("cmp_nvim_lsp").default_capabilities(),
-}
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
--- Rust Analyzer with custom inlay hints
-lspconfig.rust_analyzer.setup {
-  on_attach = on_attach,
-  on_init = on_init,
-  capabilities = capabilities,
-  settings = {
-    ["rust-analyzer"] = {
-      inlayHints = {
-        chainingHints = { enable = true },
-        closingBraceHints = { enable = true, minLines = 25 },
-        parameterHints = { enable = true },
-        typeHints = { enable = true },
-      },
-    },
-  },
-}
+M.setup = function()
+  local lspconfig = require("lspconfig")
 
--- Clangd with fallback flags and inlay hints
-lspconfig.clangd.setup {
-  on_attach = on_attach,
-  on_init = on_init,
-  capabilities = capabilities,
-  settings = {
-    clangd = {
-      fallbackFlags = { "-std=c++20" },
-    },
-  },
-}
+  -- Default LSP setup
+  local servers = {
+    "lua_ls",
+    "html",
+    "cssls",
+    "ts_ls",
+    "jsonls",
+    "yamlls",
+    "vimls",
+    "rust_analyzer",
+    "gopls",
+    "nimls",
+  }
 
--- Lua LSP with dynamic workspace paths
-lspconfig.lua_ls.setup {
-  on_attach = on_attach,
-  on_init = on_init,
-  capabilities = capabilities,
-  settings = {
-    Lua = {
-      hint = {
-        enable = true,
-        arrayIndex = "Disable",
-      },
-      diagnostics = {
-        globals = { "vim" },
-      },
-      workspace = {
-        library = {
-          vim.fn.expand "$VIMRUNTIME/lua",
-          vim.fn.expand "$VIMRUNTIME/lua/vim/lsp",
-          vim.fn.stdpath "data" .. "/lazy/ui/nvchad_types",
-          vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy",
+  for _, server in ipairs(servers) do
+    lspconfig[server].setup({
+      on_attach = on_attach,
+      capabilities = capabilities,
+    })
+  end
+
+  -- Custom configuration for specific LSPs
+  lspconfig.ts_ls.setup({
+    on_attach = function(client, bufnr)
+      -- Disable formatting for ts_ls
+      client.server_capabilities.document_formatting = false
+      client.server_capabilities.document_range_formatting = false
+      on_attach(client, bufnr)
+    end,
+    capabilities = capabilities,
+  })
+
+  lspconfig.lua_ls.setup({
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+      Lua = {
+        diagnostics = {
+          globals = { "vim" },
+        },
+        workspace = {
+          library = {
+            vim.fn.expand("$VIMRUNTIME/lua"),
+            vim.fn.stdpath("data") .. "/lazy/ui/nvchad_types",
+          },
         },
       },
     },
-  },
-}
+  })
+
+  lspconfig.rust_analyzer.setup({
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+      ["rust-analyzer"] = {
+        inlayHints = {
+          chainingHints = { enable = true },
+          closingBraceHints = { enable = true, minLines = 25 },
+          parameterHints = { enable = true },
+          typeHints = { enable = true },
+        },
+      },
+    },
+  })
+end
+
+return M

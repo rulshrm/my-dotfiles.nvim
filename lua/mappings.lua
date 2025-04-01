@@ -55,15 +55,8 @@ map("n", "<leader>f", function()
 end, { desc = "Format file with Prettierd" })
 
 -- Navigate diagnostics
-map("n", "[d", function()
-  vim.diagnostic.goto_prev()
-  vim.notify("Moved to previous diagnostic", vim.log.levels.INFO)
-end, { desc = "Previous Diagnostic" })
-
-map("n", "]d", function()
-  vim.diagnostic.goto_next()
-  vim.notify("Moved to next diagnostic", vim.log.levels.INFO)
-end, { desc = "Next Diagnostic" })
+map("n", "[d", vim.diagnostic.goto_prev, { desc = "Previous Diagnostic" })
+map("n", "]d", vim.diagnostic.goto_next, { desc = "Next Diagnostic" })
 
 -- mouse users + nvimtree users!
 vim.keymap.set("n", "<RightMouse>", function()
@@ -78,8 +71,6 @@ end, {})
 -- Navigasi antar tab
 map("n", "<Tab>", "<Cmd>BufferNext<CR>", { desc = "Pindah ke tab berikutnya" })
 map("n", "<S-Tab>", "<Cmd>BufferPrevious<CR>", { desc = "Pindah ke tab sebelumnya" })
-map("n", "<leader>tm", "<Cmd>BufferMovePrevious<CR>", { desc = "Pindahkan tab ke kiri" })
-map("n", "<leader>tp", "<Cmd>BufferMoveNext<CR>", { desc = "Pindahkan tab ke kanan" })
 
 -- Menutup tab
 map("n", "<leader>tc", "<Cmd>BufferClose<CR>", { desc = "Tutup tab saat ini" })
@@ -146,7 +137,6 @@ map("n", "<F11>", function() require("dap").step_into() end, { desc = "Step Into
 map("n", "<F12>", function() require("dap").step_out() end, { desc = "Step Out" })
 map("n", "<leader>db", function() require("dap").toggle_breakpoint() end, { desc = "Toggle Breakpoint" })
 map("n", "<leader>dr", function() require("dap").repl.open() end, { desc = "Open Debug REPL" })
-map("n", "<leader>dq", function() require("dap").terminate() end, { desc = "Stop Debugging" })
 
 -- Keybindings untuk rest-nvim
 map("n", "<leader>rr", "<cmd>RestNvim<CR>", { desc = "Run HTTP Request" })

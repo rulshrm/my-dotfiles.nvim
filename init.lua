@@ -33,6 +33,7 @@ dofile(vim.g.base46_cache .. "statusline")
 
 -- Load custom autocommands
 require("nvchad.autocmds")
+require("configs.autocmds")
 
 -- Schedule mappings to load after startup
 vim.schedule(function()
