@@ -12,36 +12,9 @@ return {
   -- Mason for managing LSP servers, formatters, and linters
   {
     "williamboman/mason.nvim",
-    opts = {
-      ensure_installed = {
-        -- LSPs
-        "lua-language-server",        -- Lua LSP
-        "html-lsp",                   -- HTML LSP
-        "css-lsp",                    -- CSS LSP
-        "typescript-language-server", -- TypeScript/JavaScript LSP
-        "json-languageserver",        -- JSON LSP
-        "yaml-language-server",       -- YAML LSP
-        "vimls",                      -- Vimscript LSP
-        "rust_analyzer",              -- Rust LSP
-        "gopls",                      -- Go LSP
-        "nimls",                      -- Nim LSP
-
-        -- Formatters
-        "prettier",           -- Prettier for formatting
-        "prettierd",          -- Prettier daemon
-        "stylua",             -- Lua formatter
-        "rustfmt",            -- Rust formatter
-        "google-java-format", -- Java formatter
-        "clang-format",       -- C/C++ formatter
-        "alejandra",          -- Nix formatter
-        "nixpkgs-fmt",        -- Nix formatter
-        "fish_indent",        -- Fish shell formatter
-
-        -- Linters
-        "eslint_d", -- ESLint daemon for JS/TS
-        "ruff",     -- Python linter/formatter
-      },
-    },
+    config = function()
+      require("configs.mason").setup()
+    end,
   },
 
   -- Auto-save
