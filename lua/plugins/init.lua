@@ -1,14 +1,5 @@
 -- ~/.config/nvim/lua/plugins/init.lua
 return {
-  -- Formatting and linting
-  {
-    "stevearc/conform.nvim",
-    event = {"BufReadPre", "BufNewFile"},
-    config = function()
-      require "configs.conform" -- Memuat konfigurasi utama untuk Conform
-    end,
-  },
-
   -- LSP configuration
   {
     "neovim/nvim-lspconfig",

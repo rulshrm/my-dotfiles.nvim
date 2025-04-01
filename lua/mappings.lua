@@ -32,35 +32,38 @@ map("n", "<C-t>", function()
 end, {})
 
 -- Formatting LSP
--- map("n", "<leader>f", function()
---   vim.lsp.buf.format { async = true }
--- end, { desc = "Format Code" })
-
--- Formatting keybinding lama untuk null-ls
--- map("n", "<leader>f", function()
---   vim.lsp.buf.format({
---     async = true,
---     filter = function(client)
---       return client.name == "null-ls"
---     end,
---   })
--- end, { desc = "Format Code with null-ls" })
-
--- Tambahkan keybinding untuk conform.nvim
 map("n", "<leader>f", function()
-  require("conform").format({ async = true })
-end, { desc = "Format Code with conform.nvim" })
+  local file = vim.fn.expand("%:p") -- Dapatkan path file saat ini
+  local filetype = vim.bo.filetype
 
--- Check active formatters
-map("n", "<leader>cf", function()
-  local ft = vim.bo.filetype
-  local formatters = require("conform").list_formatters(ft)
-  vim.notify("Active formatters for " .. ft .. ": " .. vim.inspect(formatters), vim.log.levels.INFO)
-end, { desc = "Check active formatters" })
+  -- Validasi filetype
+  local supported_filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact", "json", "css", "html", "yaml", "markdown" }
+  if not vim.tbl_contains(supported_filetypes, filetype) then
+    vim.notify("Prettierd does not support filetype: " .. filetype, vim.log.levels.WARN)
+    return
+  end
+
+  -- Jalankan prettierd
+  local cmd = string.format("prettierd %s", file)
+  local result = vim.fn.system(cmd)
+
+  if vim.v.shell_error ~= 0 then
+    vim.notify("Prettierd failed for " .. vim.fn.expand("%:t") .. ": " .. result, vim.log.levels.ERROR)
+  else
+    vim.notify("File " .. vim.fn.expand("%:t") .. " formatted with Prettierd", vim.log.levels.INFO)
+  end
+end, { desc = "Format file with Prettierd" })
 
 -- Navigate diagnostics
-map("n", "[d", vim.diagnostic.goto_prev, { desc = "Previous Diagnostic" })
-map("n", "]d", vim.diagnostic.goto_next, { desc = "Next Diagnostic" })
+map("n", "[d", function()
+  vim.diagnostic.goto_prev()
+  vim.notify("Moved to previous diagnostic", vim.log.levels.INFO)
+end, { desc = "Previous Diagnostic" })
+
+map("n", "]d", function()
+  vim.diagnostic.goto_next()
+  vim.notify("Moved to next diagnostic", vim.log.levels.INFO)
+end, { desc = "Next Diagnostic" })
 
 -- mouse users + nvimtree users!
 vim.keymap.set("n", "<RightMouse>", function()
@@ -75,6 +78,8 @@ end, {})
 -- Navigasi antar tab
 map("n", "<Tab>", "<Cmd>BufferNext<CR>", { desc = "Pindah ke tab berikutnya" })
 map("n", "<S-Tab>", "<Cmd>BufferPrevious<CR>", { desc = "Pindah ke tab sebelumnya" })
+map("n", "<leader>tm", "<Cmd>BufferMovePrevious<CR>", { desc = "Pindahkan tab ke kiri" })
+map("n", "<leader>tp", "<Cmd>BufferMoveNext<CR>", { desc = "Pindahkan tab ke kanan" })
 
 -- Menutup tab
 map("n", "<leader>tc", "<Cmd>BufferClose<CR>", { desc = "Tutup tab saat ini" })
@@ -141,6 +146,7 @@ map("n", "<F11>", function() require("dap").step_into() end, { desc = "Step Into
 map("n", "<F12>", function() require("dap").step_out() end, { desc = "Step Out" })
 map("n", "<leader>db", function() require("dap").toggle_breakpoint() end, { desc = "Toggle Breakpoint" })
 map("n", "<leader>dr", function() require("dap").repl.open() end, { desc = "Open Debug REPL" })
+map("n", "<leader>dq", function() require("dap").terminate() end, { desc = "Stop Debugging" })
 
 -- Keybindings untuk rest-nvim
 map("n", "<leader>rr", "<cmd>RestNvim<CR>", { desc = "Run HTTP Request" })
