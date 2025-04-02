@@ -149,6 +149,32 @@ return {
     end,
   },
 
+  -- Copilot Chat
+  {
+    "CopilotC-Nvim/CopilotChat.nvim",
+    branch = "canary",
+    dependencies = {
+      { "github/copilot.vim" },
+      { "nvim-lua/plenary.nvim" },
+      { "nvim-telescope/telescope.nvim" }
+    },
+    config = function()
+      require("configs.copilot-chat").setup()
+    end,
+    keys = {
+      { "<leader>cc", "<cmd>CopilotChat<CR>", desc = "CopilotChat - Open" },
+      { "<leader>ce", "<cmd>CopilotChatExplain<CR>", desc = "CopilotChat - Explain code" },
+      { "<leader>ct", "<cmd>CopilotChatTests<CR>", desc = "CopilotChat - Generate tests" },
+      { "<leader>cr", "<cmd>CopilotChatReview<CR>", desc = "CopilotChat - Review code" },
+      { "<leader>cf", "<cmd>CopilotChatRefactor<CR>", desc = "CopilotChat - Refactor code" },
+      -- Tambahkan keybinding untuk prompt kustom
+      { "<leader>cd", "<cmd>CopilotChatDocumentation<CR>", desc = "CopilotChat - Generate docs" },
+      { "<leader>cb", "<cmd>CopilotChatFixBug<CR>", desc = "CopilotChat - Fix bugs" },
+      { "<leader>co", "<cmd>CopilotChatOptimize<CR>", desc = "CopilotChat - Optimize code" },
+    },
+    event = "VeryLazy",
+  },
+
   -- Commenting utility
   {
     "tpope/vim-commentary",

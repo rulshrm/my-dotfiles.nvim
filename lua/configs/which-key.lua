@@ -57,6 +57,20 @@ M.setup = function()
     ["<leader>ws"] = { "<Cmd>split<CR>", "Split Horizontal" },
     ["<leader>wv"] = { "<Cmd>vsplit<CR>", "Split Vertical" },
   })
+
+  wk.register({
+    ["<leader>c"] = {
+      name = "Copilot",
+      c = { "<cmd>CopilotChat<CR>", "Open Chat" },
+      e = { "<cmd>CopilotChatExplain<CR>", "Explain Code" },
+      t = { "<cmd>CopilotChatTests<CR>", "Generate Tests" },
+      r = { "<cmd>CopilotChatReview<CR>", "Review Code" },
+      f = { "<cmd>CopilotChatRefactor<CR>", "Refactor Code" },
+      d = { "<cmd>CopilotChatDocumentation<CR>", "Generate Documentation" },
+      b = { "<cmd>CopilotChatFixBug<CR>", "Fix Bugs" },
+      o = { "<cmd>CopilotChatOptimize<CR>", "Optimize Code" },
+    },
+  })
 end
 
 return M
