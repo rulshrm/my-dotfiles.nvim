@@ -153,6 +153,14 @@ return {
   {
     "tpope/vim-commentary",
     event = "BufRead",
+    init = function()
+      -- Ubah keybinding default gc ke alternatif lain
+      vim.keymap.set("n", "<leader>/", "<Plug>Commentary", { desc = "Comment line" })
+      vim.keymap.set("v", "<leader>/", "<Plug>Commentary", { desc = "Comment selection" })
+      
+      -- Nonaktifkan keybinding default gc untuk menghindari konflik
+      vim.g.commentary_map_backslash = 0
+    end,
   },
 
   -- Treesitter for syntax highlighting and more

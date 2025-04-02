@@ -36,6 +36,15 @@ return {
     enable = true,              -- Enable indentation based on syntax
   },
 
+  autotag = {
+    enable = true,              -- Enable autotagging
+  },
+
+  context_commentstring = {
+    enable = true,              -- Enable context comment string
+    enable_autocmd = false,     -- Disable automatic commands
+  },
+
   folding = {
     enable = true,              -- Enable code folding
     disable = {},               -- Disable folding for specific languages if needed
