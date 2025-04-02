@@ -32,27 +32,27 @@ map("n", "<C-t>", function()
 end, {})
 
 -- Formatting LSP
-map("n", "<leader>f", function()
-  local file = vim.fn.expand("%:p") -- Dapatkan path file saat ini
-  local filetype = vim.bo.filetype
+-- map("n", "<leader>f", function()
+--   local file = vim.fn.expand("%:p") -- Dapatkan path file saat ini
+--   local filetype = vim.bo.filetype
 
-  -- Validasi filetype
-  local supported_filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact", "json", "css", "html", "yaml", "markdown" }
-  if not vim.tbl_contains(supported_filetypes, filetype) then
-    vim.notify("Prettierd does not support filetype: " .. filetype, vim.log.levels.WARN)
-    return
-  end
+--   -- Validasi filetype
+--   local supported_filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact", "json", "css", "html", "yaml", "markdown" }
+--   if not vim.tbl_contains(supported_filetypes, filetype) then
+--     vim.notify("Prettierd does not support filetype: " .. filetype, vim.log.levels.WARN)
+--     return
+--   end
 
-  -- Jalankan prettierd
-  local cmd = string.format("prettierd %s", file)
-  local result = vim.fn.system(cmd)
+--   -- Jalankan prettierd
+--   local cmd = string.format("prettierd %s", file)
+--   local result = vim.fn.system(cmd)
 
-  if vim.v.shell_error ~= 0 then
-    vim.notify("Prettierd failed for " .. vim.fn.expand("%:t") .. ": " .. result, vim.log.levels.ERROR)
-  else
-    vim.notify("File " .. vim.fn.expand("%:t") .. " formatted with Prettierd", vim.log.levels.INFO)
-  end
-end, { desc = "Format file with Prettierd" })
+--   if vim.v.shell_error ~= 0 then
+--     vim.notify("Prettierd failed for " .. vim.fn.expand("%:t") .. ": " .. result, vim.log.levels.ERROR)
+--   else
+--     vim.notify("File " .. vim.fn.expand("%:t") .. " formatted with Prettierd", vim.log.levels.INFO)
+--   end
+-- end, { desc = "Format file with Prettierd" })
 
 -- Navigate diagnostics
 map("n", "[d", vim.diagnostic.goto_prev, { desc = "Previous Diagnostic" })
@@ -114,7 +114,7 @@ map("n", "<leader>gr", "<Cmd>Gitsigns reset_hunk<CR>", { desc = "Reset Hunk" })
 map("n", "<leader>gR", "<Cmd>Gitsigns reset_buffer<CR>", { desc = "Reset Buffer" })
 
 -- Keybindings untuk Copilot
-map("i", "<C-e>", function()
+map("i", "<Tab>", function()
   vim.fn.feedkeys(vim.fn["copilot#Accept"](), "")
 end, { desc = "Copilot Accept", silent = true, expr = true })
 

@@ -13,9 +13,16 @@ return {
     "williamboman/mason.nvim",
     dependencies = { "williamboman/mason-lspconfig.nvim" },
     config = function()
-      print("Loading Mason...")
       require("configs.mason").setup()
-      print("Mason loaded successfully!")
+    end,
+  },
+
+  -- Null-ls for integrating external formatters and linters
+  {
+    "jose-elias-alvarez/null-ls.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require("configs.null-ls").setup()
     end,
   },
 
@@ -34,7 +41,7 @@ return {
         modifiable = true, -- Hanya simpan file yang dapat dimodifikasi
       },
       write_all_buffers = false, -- Hanya simpan buffer aktif
-      debounce_delay = 1000, -- Tunda penyimpanan otomatis (dalam milidetik)
+      debounce_delay = 2000, -- Tunda penyimpanan otomatis (dalam milidetik)
     },
   },
 
@@ -43,7 +50,7 @@ return {
     "lewis6991/gitsigns.nvim",
     event = { "BufReadPre", "BufNewFile" },
     opts = function()
-      return require "nvchad.configs.gitsigns"
+      return require "configs.gitsigns"
     end,
   },
 
@@ -150,7 +157,7 @@ return {
     event = { "BufReadPost", "BufNewFile" },
     build = ":TSUpdate",
     opts = function()
-      return require "nvchad.configs.treesitter"
+      return require "configs.treesitter"
     end,
     config = function(_, opts)
       require("nvim-treesitter.configs").setup(opts)
@@ -163,7 +170,7 @@ return {
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     cmd = "Telescope",
     opts = function()
-      return require "nvchad.configs.telescope"
+      return require "configs.telescope"
     end,
   },
 
@@ -183,8 +190,19 @@ return {
   },
 
   -- Autocompletion
-  { "hrsh7th/nvim-cmp", dependencies = { "hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-buffer", "hrsh7th/cmp-path" } },
-  { "L3MON4D3/LuaSnip", dependencies = { "rafamadriz/friendly-snippets" } },
+  {
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "L3MON4D3/LuaSnip",
+      "rafamadriz/friendly-snippets",
+    },
+    config = function()
+      require("configs.cmp")
+    end,
+  },
 
   --- Import cost for JavaScript/TypeScript
   {
@@ -274,5 +292,87 @@ return {
       require("neogen").setup({ enabled = true })
     end,
     cmd = { "Neogen" },
+  },
+
+  -- Typescript tools
+{
+    "pmizio/typescript-tools.nvim",
+    event = "LspAttach",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "neovim/nvim-lspconfig",
+      {
+        "saghen/blink.cmp",
+        -- Ensure blink.cmp is loaded before typescript-tools
+        lazy = false,
+        priority = 1000,
+      }
+    },
+  },
+
+  {
+    "razak17/tailwind-fold.nvim",
+    opts = {
+      min_chars = 50,
+    },
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    ft = { "html", "svelte", "astro", "vue", "typescriptreact" },
+  },
+
+  {
+    "MaximilianLloyd/tw-values.nvim",
+    keys = {
+      { "<Leader>cv", "<CMD>TWValues<CR>", desc = "Tailwind CSS values" },
+    },
+    opts = {
+      border = "rounded", -- Valid window border style,
+      show_unknown_classes = true                   -- Shows the unknown classes popup
+    }
+  },
+
+  {
+    "laytan/tailwind-sorter.nvim",
+    cmd = {
+      "TailwindSort",
+      "TailwindSortOnSaveToggle"
+    },
+    keys = {
+      { "<Leader>cS", "<CMD>TailwindSortOnSaveToggle<CR>", desc = "toggle Tailwind CSS classes sort on save" },
+
+    },
+    dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-lua/plenary.nvim" },
+    build = "cd formatter && npm i && npm run build",
+    config = true,
+  },
+
+  {
+    "axelvc/template-string.nvim",
+    event = "InsertEnter",
+    ft = {
+      "javascript",
+      "typescript",
+      "javascriptreact",
+      "typescriptreact",
+    },
+    config = true, -- run require("template-string").setup()
+  },
+
+  {
+    "dmmulroy/tsc.nvim",
+    cmd = { "TSC" },
+    config = true,
+  },
+
+  {
+    "dmmulroy/ts-error-translator.nvim",
+    config = true
+  },
+
+  -- Debugging with nvim-dap
+  {
+    "mfussenegger/nvim-dap",
+    config = function()
+      require("configs.dap")
+    end,
   },
 }
