@@ -6,7 +6,7 @@ M.ensure_installed = {
   "lua_ls",                   -- Lua LSP
   "html",                     -- HTML LSP
   "cssls",                    -- CSS LSP
-  "tsserver",                 -- TypeScript/JavaScript LSP
+  "ts_ls",                 -- TypeScript/JavaScript LSP
   "jsonls",                   -- JSON LSP
   "yamlls",                   -- YAML LSP
   "vimls",                    -- Vimscript LSP
@@ -58,7 +58,7 @@ M.setup = function()
   mason_lspconfig.setup({
     ensure_installed = {
       "lua_ls",
-      "tsserver",
+      "ts_ls",
       "html",
       "cssls",
       "jsonls",
@@ -103,8 +103,8 @@ M.setup = function()
       })
     end,
 
-    ["tsserver"] = function()
-      require("lspconfig").tsserver.setup({
+    ["ts_ls"] = function()
+      require("lspconfig").ts_ls.setup({
         on_attach = function(client, bufnr)
           -- Disable tsserver formatting
           client.server_capabilities.documentFormattingProvider = false

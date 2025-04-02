@@ -379,4 +379,73 @@ return {
       require("configs.dap")
     end,
   },
+
+  -- Tailwind Fold - Untuk melipat kelas Tailwind yang panjang
+  {
+    "razak17/tailwind-fold.nvim",
+    event = { "BufReadPost", "BufNewFile" }, -- Load saat buffer dibuka
+    opts = {
+      min_chars = 50,      -- Minimal karakter sebelum dilipat
+      fold_last_level = true, -- Lipat level terakhir
+    },
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    ft = {
+      "html", 
+      "javascript",
+      "typescript",
+      "javascriptreact",
+      "typescriptreact",
+      "svelte", 
+      "astro", 
+      "vue"
+    },
+  },
+
+  -- Tailwind Values - Untuk melihat nilai dari kelas Tailwind
+  {
+    "MaximilianLloyd/tw-values.nvim",
+    keys = {
+      { "<leader>tw", "<cmd>TWValues<cr>", desc = "Show Tailwind CSS values" },
+    },
+    opts = {
+      border = "rounded",           -- Style border window
+      show_unknown_classes = true,  -- Tampilkan kelas yang tidak dikenal
+      focus_preview = true,         -- Focus ke window preview
+      copy_register = "+",          -- Register untuk menyalin nilai
+      keymaps = {
+        copy = "<C-c>"             -- Keybind untuk menyalin nilai
+      }
+    }
+  },
+
+  -- Tailwind Sorter - Untuk mengurutkan kelas Tailwind
+  {
+    "laytan/tailwind-sorter.nvim",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-lua/plenary.nvim"
+    },
+    build = "cd formatter && npm i && npm run build",
+    config = function()
+      require("tailwind-sorter").setup({
+        on_save_enabled = true,     -- Urutkan saat menyimpan
+        on_save_pattern = {         -- Pattern file yang akan diurutkan
+          "*.html",
+          "*.js",
+          "*.jsx",
+          "*.tsx",
+          "*.twig",
+          "*.hbs",
+          "*.php",
+          "*.heex",
+          "*.astro"
+        },
+        node_path = "node",
+      })
+    end,
+    keys = {
+      { "<leader>ts", "<cmd>TailwindSort<cr>", desc = "Sort Tailwind classes" },
+      { "<leader>tS", "<cmd>TailwindSortOnSaveToggle<cr>", desc = "Toggle Tailwind sort on save" },
+    },
+  },
 }
