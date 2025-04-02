@@ -18,6 +18,17 @@
 --     end
 --   end,
 -- })
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = { "*.js", "*.jsx", "*.ts", "*.tsx", "*.json", "*.css", "*.html", "*.yaml", "*.md" },
+  callback = function()
+    vim.lsp.buf.format({
+      async = false,
+      filter = function(client)
+        return client.name == "null-ls"
+      end,
+    })
+  end,
+})
 
 -- Reload file secara otomatis jika diubah di luar Neovim
 vim.api.nvim_create_autocmd("FileChangedShellPost", {

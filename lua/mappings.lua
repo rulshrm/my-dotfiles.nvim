@@ -31,28 +31,24 @@ map("n", "<C-t>", function()
   require("minty.shades").open({ border = false })
 end, {})
 
--- Formatting LSP
--- map("n", "<leader>f", function()
---   local file = vim.fn.expand("%:p") -- Dapatkan path file saat ini
---   local filetype = vim.bo.filetype
+-- Format keybinding
+map("n", "<leader>f", function()
+  print("Format triggered")
+  local bufnr = vim.api.nvim_get_current_buf()
+  local clients = vim.lsp.get_active_clients({ bufnr = bufnr })
+  
+  for _, client in ipairs(clients) do
+    print(string.format("Active client: %s", client.name))
+  end
 
---   -- Validasi filetype
---   local supported_filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact", "json", "css", "html", "yaml", "markdown" }
---   if not vim.tbl_contains(supported_filetypes, filetype) then
---     vim.notify("Prettierd does not support filetype: " .. filetype, vim.log.levels.WARN)
---     return
---   end
-
---   -- Jalankan prettierd
---   local cmd = string.format("prettierd %s", file)
---   local result = vim.fn.system(cmd)
-
---   if vim.v.shell_error ~= 0 then
---     vim.notify("Prettierd failed for " .. vim.fn.expand("%:t") .. ": " .. result, vim.log.levels.ERROR)
---   else
---     vim.notify("File " .. vim.fn.expand("%:t") .. " formatted with Prettierd", vim.log.levels.INFO)
---   end
--- end, { desc = "Format file with Prettierd" })
+  vim.lsp.buf.format({
+    async = true,
+    filter = function(client)
+      print(string.format("Checking client: %s", client.name))
+      return client.name == "null-ls"
+    end,
+  })
+end, { desc = "Format with null-ls" })
 
 -- Navigate diagnostics
 map("n", "[d", vim.diagnostic.goto_prev, { desc = "Previous Diagnostic" })

@@ -14,9 +14,6 @@ M.ensure_installed = {
   "gopls",                    -- Go LSP
   "nimls",                    -- Nim LSP
 
-  -- Formatters
-  "prettierd",                -- Prettier daemon
-  "stylua",                   -- Lua formatter
   "rustfmt",                  -- Rust formatter
   "shfmt",                    -- Shell script formatter
   "black",                    -- Python formatter
@@ -29,23 +26,11 @@ M.ensure_installed = {
 }
 
 M.setup = function()
-  print("Setting up Mason...") -- Tambahkan log untuk debugging
+  -- Debug log
+  vim.notify("Setting up Mason...", vim.log.levels.INFO)
+
   local mason = require("mason")
   local mason_lspconfig = require("mason-lspconfig")
-  local mason_registry = require("mason-registry")
-
-  -- Auto-install missing tools
-  for _, tool in ipairs(M.ensure_installed) do
-    local ok, package = pcall(mason_registry.get_package, tool)
-    if ok then
-      if not package:is_installed() then
-        vim.notify("Installing " .. tool .. "...", vim.log.levels.INFO)
-        package:install()
-      end
-    else
-      vim.notify("Package " .. tool .. " not found in Mason registry.", vim.log.levels.ERROR)
-    end
-  end
 
   -- Setup Mason
   mason.setup({
@@ -56,40 +41,52 @@ M.setup = function()
         package_pending = "➜",
         package_uninstalled = "✗",
       },
+      keymaps = {
+        toggle_server_expand = "<CR>",
+        install_server = "i",
+        update_server = "u",
+        uninstall_server = "x",
+      },
+    },
+    max_concurrent_installers = 10,
+    pip = {
+      install_args = {},
     },
   })
 
   -- Setup Mason LSPConfig
   mason_lspconfig.setup({
-    ensure_installed = M.ensure_installed,
-    automatic_installation = true, -- Install LSPs automatically
+    ensure_installed = {
+      "lua_ls",
+      "tsserver",
+      "html",
+      "cssls",
+      "jsonls",
+      "yamlls",
+    },
+    automatic_installation = true,
   })
 
-  print("Mason setup completed!") -- Tambahkan log untuk debugging
-
-  -- Configure LSP servers
+  -- Configure handlers for LSP servers
   mason_lspconfig.setup_handlers({
+    -- Default handler
     function(server_name)
       require("lspconfig")[server_name].setup({
-        on_attach = require("nvchad.configs.lspconfig").on_attach,
-        capabilities = require("nvchad.configs.lspconfig").capabilities,
-      })
-    end,
-    -- Custom configuration for specific LSPs
-    ["tsserver"] = function()
-      require("lspconfig").tsserver.setup({
         on_attach = function(client, bufnr)
-          -- Disable formatting for tsserver
-          client.server_capabilities.document_formatting = false
-          client.server_capabilities.document_range_formatting = false
+          -- Disable formatting untuk semua LSP
+          client.server_capabilities.documentFormattingProvider = false
+          client.server_capabilities.documentRangeFormattingProvider = false
+
+          -- Notify when LSP attaches
+          vim.notify(string.format("LSP %s attached", server_name), vim.log.levels.INFO)
         end,
         capabilities = require("cmp_nvim_lsp").default_capabilities(),
       })
     end,
+
+    -- Special configuration for specific servers
     ["lua_ls"] = function()
       require("lspconfig").lua_ls.setup({
-        on_attach = require("nvchad.configs.lspconfig").on_attach,
-        capabilities = require("nvchad.configs.lspconfig").capabilities,
         settings = {
           Lua = {
             diagnostics = {
@@ -105,7 +102,40 @@ M.setup = function()
         },
       })
     end,
+
+    ["tsserver"] = function()
+      require("lspconfig").tsserver.setup({
+        on_attach = function(client, bufnr)
+          -- Disable tsserver formatting
+          client.server_capabilities.documentFormattingProvider = false
+          client.server_capabilities.documentRangeFormattingProvider = false
+
+          -- Basic LSP keybindings
+          local opts = { noremap = true, silent = true, buffer = bufnr }
+          vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+          vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+          vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+          vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+          vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+
+          -- Notify when tsserver attaches
+          vim.notify("TypeScript LSP attached", vim.log.levels.INFO)
+        end,
+        capabilities = require("cmp_nvim_lsp").default_capabilities(),
+      })
+    end,
   })
+
+  -- Install any missing tools
+  local registry = require("mason-registry")
+  for _, tool in ipairs(M.ensure_installed) do
+    if not registry.is_installed(tool) then
+      vim.notify(string.format("Installing %s...", tool), vim.log.levels.INFO)
+      registry.get_package(tool):install()
+    end
+  end
+
+  vim.notify("Mason setup completed!", vim.log.levels.INFO)
 end
 
 return M

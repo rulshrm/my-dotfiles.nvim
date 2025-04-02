@@ -1,6 +1,12 @@
 local M = {}
 
 local on_attach = function(client, bufnr)
+  -- Disable formatting for tsserver as we'll use null-ls/prettierd
+  if client.name == "tsserver" then
+    client.server_capabilities.documentFormattingProvider = false
+    client.server_capabilities.documentRangeFormattingProvider = false
+  end
+
   -- Keybindings untuk LSP
   local buf_map = function(mode, lhs, rhs, opts)
     opts = opts or {}
@@ -13,35 +19,28 @@ local on_attach = function(client, bufnr)
   buf_map("n", "K", vim.lsp.buf.hover, { desc = "Hover Documentation" })
   buf_map("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename Symbol" })
   buf_map("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
-  buf_map("n", "<leader>f", function()
-    vim.lsp.buf.format({ async = true })
-  end, { desc = "Format Code" })
 
-  -- Highlight symbol under cursor
-  if client.server_capabilities.document_highlight then
-    vim.api.nvim_create_augroup("LspDocumentHighlight", { clear = true })
-    vim.api.nvim_create_autocmd("CursorHold", {
-      buffer = bufnr,
-      callback = vim.lsp.buf.document_highlight,
-    })
-    vim.api.nvim_create_autocmd("CursorMoved", {
-      buffer = bufnr,
-      callback = vim.lsp.buf.clear_references,
-    })
-  end
+  -- Notify when LSP attaches
+  vim.notify(string.format("LSP %s attached to buffer %d", client.name, bufnr), vim.log.levels.INFO)
 end
-
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 M.setup = function()
   local lspconfig = require("lspconfig")
+  local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+  -- TypeScript setup
+  lspconfig.ts_ls.setup({
+    on_attach = on_attach,
+    capabilities = capabilities,
+    root_dir = lspconfig.util.root_pattern("package.json", "tsconfig.json", "jsconfig.json"),
+    single_file_support = true,
+  })
 
   -- Default LSP setup
   local servers = {
     "lua_ls",
     "html",
     "cssls",
-    "ts_ls",
     "jsonls",
     "yamlls",
     "vimls",
@@ -58,16 +57,6 @@ M.setup = function()
   end
 
   -- Custom configuration for specific LSPs
-  lspconfig.ts_ls.setup({
-    on_attach = function(client, bufnr)
-      -- Disable formatting for ts_ls
-      client.server_capabilities.document_formatting = false
-      client.server_capabilities.document_range_formatting = false
-      on_attach(client, bufnr)
-    end,
-    capabilities = capabilities,
-  })
-
   lspconfig.lua_ls.setup({
     on_attach = on_attach,
     capabilities = capabilities,

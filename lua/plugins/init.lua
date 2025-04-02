@@ -1,4 +1,4 @@
--- ~/.config/nvim/lua/plugins/init.lua
+-- filepath: ~/.config/nvim/lua/plugins/init.lua
 return {
   -- LSP configuration
   {
@@ -20,7 +20,11 @@ return {
   -- Null-ls for integrating external formatters and linters
   {
     "jose-elias-alvarez/null-ls.nvim",
-    dependencies = { "nvim-lua/plenary.nvim" },
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = { 
+      "nvim-lua/plenary.nvim",
+      "mason.nvim",
+    },
     config = function()
       require("configs.null-ls").setup()
     end,
