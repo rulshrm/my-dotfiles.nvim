@@ -281,14 +281,20 @@ return {
   --- Import cost for JavaScript/TypeScript
   {
     "barrett-ruth/import-cost.nvim",
+    dependencies = {
+        "nvim-lua/plenary.nvim",
+    },
     build = "sh install.sh yarn",
-    event = { "BufReadPre", "BufNewFile" }, -- Memuat plugin saat buffer dibuka
+    event = { "BufReadPre", "BufNewFile" },
+    ft = {
+        "javascript",
+        "typescript",
+        "javascriptreact",
+        "typescriptreact"
+    },
     config = function()
-      require("import-cost").setup({
-        silent = false, -- Tampilkan pesan error jika ada masalah
-        filetypes = { "javascript", "typescript", "javascriptreact", "typescriptreact" }, -- Filetype yang didukung
-      })
-    end,
+        require("import-cost").setup()  -- Gunakan konfigurasi default
+    end
   },
 
   -- Autopairs
