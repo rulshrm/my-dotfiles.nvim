@@ -482,4 +482,42 @@ return {
       { "<leader>tS", "<cmd>TailwindSortOnSaveToggle<cr>", desc = "Toggle Tailwind sort on save" },
     },
   },
+
+  {
+    "jake-stewart/multicursor.nvim",
+    event = "VeryLazy",
+    config = function()
+        require("multicursor").setup({
+            normal_keys = {
+                -- Ubah keybinding agar tidak bentrok dengan Copilot
+                ["<M-n>"] = {
+                    method = require("multicursor").normal_next,
+                    opts = { desc = "Create cursor down" }
+                },
+                ["<M-p>"] = {
+                    method = require("multicursor").normal_prev,
+                    opts = { desc = "Create cursor up" }
+                },
+                ["<M-S-n>"] = {
+                    method = require("multicursor").extend_next,
+                    opts = { desc = "Select next occurrence" }
+                },
+                ["<M-S-p>"] = {
+                    method = require("multicursor").extend_prev,
+                    opts = { desc = "Select previous occurrence" }
+                },
+            },
+            visual_keys = {
+                ["<M-n>"] = {
+                    method = require("multicursor").visual_next,
+                    opts = { desc = "Select next occurrence" }
+                },
+                ["<M-p>"] = {
+                    method = require("multicursor").visual_prev,
+                    opts = { desc = "Select previous occurrence" }
+                },
+            },
+        })
+    end,
+  },
 }

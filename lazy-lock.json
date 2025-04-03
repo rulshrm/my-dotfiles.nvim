@@ -25,6 +25,7 @@
   "menu": { "branch": "main", "commit": "ce1d8b5fc980edc388cd0da0884cacea25dcc6c5" },
   "mini.icons": { "branch": "main", "commit": "397ed3807e96b59709ef3292f0a3e253d5c1dc0a" },
   "minty": { "branch": "main", "commit": "aafc9e8e0afe6bf57580858a2849578d8d8db9e0" },
+  "multicursor.nvim": { "branch": "main", "commit": "7d3b16fbd86d0de77f7dc25bf2b923796eb37537" },
   "neocord": { "branch": "main", "commit": "41bacd44e9d36f5e36e0271672ac2c02f6fa355a" },
   "neogen": { "branch": "main", "commit": "05d754004da8c89115b291f2a23ca530a8cac8fd" },
   "null-ls.nvim": { "branch": "main", "commit": "0010ea927ab7c09ef0ce9bf28c2b573fc302f5a7" },
