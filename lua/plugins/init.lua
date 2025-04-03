@@ -37,7 +37,7 @@ return {
     opts = {
       enabled = true, -- Aktifkan autosave
       execution_message = "AutoSave: saved at " .. vim.fn.strftime("%H:%M:%S"),
-      events = { "InsertLeave", "TextChanged" }, -- Simpan otomatis saat meninggalkan mode insert atau teks berubah
+      events = { "InsertLeave", "TextChanged", "BufWritePre", "CursorHold" }, -- Tambahkan event tambahan
       conditions = {
         exists = true, -- Hanya simpan jika file ada
         filename_is_not = { "plugins.lua" }, -- Jangan simpan file tertentu
