@@ -215,15 +215,51 @@ return {
   -- Autotag for HTML/JSX
   {
     "windwp/nvim-ts-autotag",
-    event = "InsertEnter", -- Memuat plugin saat memasuki mode insert
-    dependencies = { "nvim-treesitter/nvim-treesitter" }, -- Bergantung pada Treesitter
+    event = { "InsertEnter", "BufReadPre", "BufNewFile" },
+    dependencies = { 
+        "nvim-treesitter/nvim-treesitter",
+        "nvim-treesitter/nvim-treesitter-textobjects",
+    },
     config = function()
-      require("nvim-ts-autotag").setup({
-        filetypes = {
-          "html", "javascript", "typescript", "javascriptreact", "typescriptreact", "svelte", "vue", "tsx", "jsx", "xml",
-        },
-        skip_tags = { "area", "base", "br", "col", "command", "embed", "hr", "img", "slot", "input", "keygen", "link", "meta", "param", "source", "track", "wbr" },
-      })
+        require("nvim-ts-autotag").setup({
+            -- Filetypes yang didukung
+            filetypes = {
+                'html', 'javascript', 'typescript', 'javascriptreact', 'typescriptreact', 
+                'svelte', 'vue', 'tsx', 'jsx', 'rescript', 'xml',
+                'php', 'markdown', 'astro', 'glimmer', 'handlebars', 'hbs'
+            },
+            -- Tag yang akan dilewati
+            skip_tags = {
+                'area', 'base', 'br', 'col', 'command', 'embed', 'hr', 'img', 
+                'slot', 'input', 'keygen', 'link', 'meta', 'param', 'source', 
+                'track', 'wbr', 'menuitem'
+            },
+            -- Opsi tambahan
+            enable_close_on_slash = true,    -- Tutup tag saat mengetik /
+            enable_rename = true,            -- Rename tag otomatis
+            enable_close = true,             -- Enable auto close
+            enable = true,                   -- Enable plugin
+            indent_after_close = true,       -- Auto indent setelah menutup tag
+            custom_elements = {},            -- Custom elements jika diperlukan
+            custom_tags = {},                -- Custom tags jika diperlukan
+        })
+
+        -- Tambahkan autocmd untuk memastikan plugin berfungsi
+        vim.api.nvim_create_autocmd(
+            { "FileType" },
+            {
+                pattern = { 
+                    "html", "javascript", "typescript", "javascriptreact", 
+                    "typescriptreact", "svelte", "vue", "tsx", "jsx", "xml",
+                    "php", "markdown", "astro", "glimmer", "handlebars", "hbs"
+                },
+                callback = function()
+                    vim.cmd("TSEnable highlight")
+                    vim.cmd("TSEnable indent")
+                    vim.cmd("TSEnable autotag")
+                end,
+            }
+        )
     end,
   },
 
