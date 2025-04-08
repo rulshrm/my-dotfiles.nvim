@@ -37,7 +37,7 @@ return {
     opts = {
       enabled = true, -- Aktifkan autosave
       execution_message = "AutoSave: saved at " .. vim.fn.strftime("%H:%M:%S"),
-      events = { "InsertLeave", "TextChanged", "BufWritePre", "CursorHold" }, -- Tambahkan event tambahan
+      events = { "InsertLeave", "TextChanged"},
       conditions = {
         exists = true, -- Hanya simpan jika file ada
         filename_is_not = { "plugins.lua" }, -- Jangan simpan file tertentu
@@ -137,6 +137,7 @@ return {
       vim.g.copilot_no_tab_map = true
       vim.g.copilot_enable_suggestions = true
       vim.g.copilot_assume_mapped = true
+      vim.g.copilot_node_command = "node"
     end,
   },
 
