@@ -71,6 +71,13 @@ M.setup = function()
       o = { "<cmd>CopilotChatOptimize<CR>", "Optimize Code" },
     },
   })
+
+  wk.register({
+    ["<leader>t"] = {
+      name = "Toggle",
+      w = { "<cmd>lua vim.wo.wrap = not vim.wo.wrap<CR>", "Toggle Wrap" },
+    },
+  })
 end
 
 return M

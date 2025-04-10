@@ -15,3 +15,10 @@ vim.api.nvim_set_hl(0, "IblScopeChar", { fg = "#61afef" }) -- Sesuaikan warna se
 vim.api.nvim_set_hl(0, "ImportCostSmall", { fg = "#98c379", bold = true }) -- Green
 vim.api.nvim_set_hl(0, "ImportCostMedium", { fg = "#e5c07b", bold = true }) -- Yellow
 vim.api.nvim_set_hl(0, "ImportCostLarge", { fg = "#e06c75", bold = true }) -- Red
+
+-- Text wrap configuration
+vim.opt.wrap = true               -- Enable line wrapping
+vim.opt.breakindent = true        -- Preserve indentation in wrapped text
+vim.opt.linebreak = true          -- Wrap at word boundaries
+vim.opt.showbreak = '↪ '          -- Show character at wrap point
+vim.opt.textwidth = 80            -- Maximum line length

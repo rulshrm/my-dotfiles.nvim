@@ -163,3 +163,15 @@ end, { desc = "Extract Block" })
 map("n", "<leader>rbf", function()
   require("refactoring").refactor("Extract Block To File")
 end, { desc = "Extract Block to File" })
+
+-- Toggle wrap
+map("n", "<leader>tw", function()
+    vim.wo.wrap = not vim.wo.wrap
+    vim.notify("Wrap " .. (vim.wo.wrap and "enabled" or "disabled"))
+end, { desc = "Toggle Wrap" })
+
+-- Soft wrap movement
+map("n", "j", "gj", { desc = "Move down (soft wrap)" })
+map("n", "k", "gk", { desc = "Move up (soft wrap)" })
+map("v", "j", "gj", { desc = "Move down (soft wrap)" })
+map("v", "k", "gk", { desc = "Move up (soft wrap)" })
