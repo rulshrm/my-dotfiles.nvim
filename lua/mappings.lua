@@ -164,14 +164,27 @@ map("n", "<leader>rbf", function()
   require("refactoring").refactor("Extract Block To File")
 end, { desc = "Extract Block to File" })
 
--- Toggle wrap
+-- Wrap related mappings
 map("n", "<leader>tw", function()
     vim.wo.wrap = not vim.wo.wrap
-    vim.notify("Wrap " .. (vim.wo.wrap and "enabled" or "disabled"))
+    -- Update related options when toggling wrap
+    if vim.wo.wrap then
+        vim.opt.virtualedit = ""
+        vim.notify("Wrap enabled", vim.log.levels.INFO)
+    else
+        vim.opt.virtualedit = "all"
+        vim.notify("Wrap disabled", vim.log.levels.INFO)
+    end
 end, { desc = "Toggle Wrap" })
 
--- Soft wrap movement
-map("n", "j", "gj", { desc = "Move down (soft wrap)" })
-map("n", "k", "gk", { desc = "Move up (soft wrap)" })
-map("v", "j", "gj", { desc = "Move down (soft wrap)" })
-map("v", "k", "gk", { desc = "Move up (soft wrap)" })
+-- Better navigation for wrapped lines
+map("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true, desc = "Move down (wrap aware)" })
+map("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true, desc = "Move up (wrap aware)" })
+map("v", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true, desc = "Move down (wrap aware)" })
+map("v", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true, desc = "Move up (wrap aware)" })
+
+-- End of line navigation in wrapped lines
+map("n", "$", "g$", { desc = "End of wrapped line" })
+map("n", "0", "g0", { desc = "Start of wrapped line" })
+map("v", "$", "g$", { desc = "End of wrapped line" })
+map("v", "0", "g0", { desc = "Start of wrapped line" })

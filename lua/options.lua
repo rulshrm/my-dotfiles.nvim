@@ -22,3 +22,7 @@ vim.opt.breakindent = true        -- Preserve indentation in wrapped text
 vim.opt.linebreak = true          -- Wrap at word boundaries
 vim.opt.showbreak = '↪ '          -- Show character at wrap point
 vim.opt.textwidth = 80            -- Maximum line length
+vim.opt.whichwrap:append("<,>,[,]") -- Allow wrap when using arrow keys
+vim.opt.display:append("lastline")   -- Show as much as possible of last line
+vim.opt.formatoptions:append("l")    -- Long lines are not broken in insert mode
+vim.opt.breakindentopt = "shift:2"   -- Shift wrapped lines for better readability

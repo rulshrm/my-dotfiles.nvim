@@ -37,3 +37,12 @@ vim.api.nvim_create_autocmd("FileChangedShellPost", {
     vim.cmd("echohl WarningMsg | echo 'File changed on disk. Buffer reloaded.' | echohl None")
   end,
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "markdown", "text", "html", "xml" },
+    callback = function()
+        vim.opt_local.wrap = true
+        vim.opt_local.linebreak = true
+        vim.opt_local.breakindent = true
+    end,
+})
