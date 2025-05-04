@@ -213,10 +213,19 @@ return {
   -- Telescope for fuzzy finding
   {
     "nvim-telescope/telescope.nvim",
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
     cmd = "Telescope",
+    dependencies = { 
+        "nvim-treesitter/nvim-treesitter",
+        "nvim-lua/plenary.nvim",
+        { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+    },
     opts = function()
-      return require "configs.telescope"
+        return require("configs.telescope")
+    end,
+    config = function(_, opts)
+        require("telescope").setup(opts)
+        -- Load extensions
+        require("telescope").load_extension("fzf")
     end,
   },
 
