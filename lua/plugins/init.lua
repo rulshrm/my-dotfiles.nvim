@@ -547,37 +547,56 @@ return {
     "jake-stewart/multicursor.nvim",
     event = "VeryLazy",
     config = function()
-        require("multicursor").setup({
+        -- Use pcall to safely require the module
+        local status_ok, multicursor = pcall(require, "multicursor.nvim")
+        if not status_ok then
+            vim.notify("multicursor.nvim not found!", vim.log.levels.WARN)
+            return
+        end
+
+        multicursor.setup({
             normal_keys = {
-                -- Ubah keybinding agar tidak bentrok dengan Copilot
                 ["<M-n>"] = {
-                    method = require("multicursor").normal_next,
+                    method = multicursor.normal_next,
                     opts = { desc = "Create cursor down" }
                 },
                 ["<M-p>"] = {
-                    method = require("multicursor").normal_prev,
+                    method = multicursor.normal_prev,
                     opts = { desc = "Create cursor up" }
                 },
                 ["<M-S-n>"] = {
-                    method = require("multicursor").extend_next,
+                    method = multicursor.extend_next,
                     opts = { desc = "Select next occurrence" }
                 },
                 ["<M-S-p>"] = {
-                    method = require("multicursor").extend_prev,
+                    method = multicursor.extend_prev,
                     opts = { desc = "Select previous occurrence" }
                 },
             },
             visual_keys = {
                 ["<M-n>"] = {
-                    method = require("multicursor").visual_next,
+                    method = multicursor.visual_next,
                     opts = { desc = "Select next occurrence" }
                 },
                 ["<M-p>"] = {
-                    method = require("multicursor").visual_prev,
+                    method = multicursor.visual_prev,
                     opts = { desc = "Select previous occurrence" }
                 },
             },
+            hint_config = {
+                border = "rounded",
+                position = "bottom-right",
+            },
+            generate_hints = {
+                normal = true,
+                visual = true,
+                insert = false,
+            },
         })
     end,
+    keys = {
+        { "<leader>m", "<cmd>lua require('multicursor.nvim').start()<CR>", desc = "Start multicursor" },
+        { "<leader>M", "<cmd>lua require('multicursor.nvim').extend_cursors()<CR>", desc = "Extend cursors" },
+    },
   },
 }
