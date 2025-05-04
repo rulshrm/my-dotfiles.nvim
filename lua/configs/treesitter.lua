@@ -13,22 +13,20 @@ return {
     "json",         -- JSON
     "yaml",         -- YAML
     "markdown",     -- Markdown
-    "bash",         -- Bash scripting
-    "svelte",       -- Svelte
-    "graphql",      -- GraphQL
-    "scss",         -- SCSS
-    "vue",          -- Vue
-    "astro",        -- Astro
-    "dockerfile",   -- Dockerfile
-    "python",       -- Python
-    "go",           -- Go
-    "rust",         -- Rust
-    "c",            -- C
-    "cpp",          -- C++
-  },
+  },  -- Install only what you need
+
+  sync_install = false,        -- Install parsers asynchronously
+  auto_install = false,        -- Disable automatic installation
 
   highlight = {
     enable = true,              -- Enable syntax highlighting
+    disable = function(_, buf)
+      local max_filesize = 100 * 1024 -- 100 KB
+      local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+      if ok and stats and stats.size > max_filesize then
+        return true
+      end
+    end,
     use_languagetree = true,    -- Use language tree for better performance
   },
 

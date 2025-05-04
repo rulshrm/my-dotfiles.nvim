@@ -1,6 +1,16 @@
+-- Enable bytecode cache to improve startup time
+vim.loader.enable()
+
 -- Set base46 cache path and leader key
 vim.g.base46_cache = vim.fn.stdpath("data") .. "/nvchad/base46/"
 vim.g.mapleader = " "
+vim.g.maplocalleader = ","
+vim.opt.termguicolors = true
+
+-- Optimize runtimepath
+vim.opt.runtimepath:remove("/etc/xdg/nvim")
+vim.opt.runtimepath:remove("/etc/xdg/nvim/after")
+vim.opt.runtimepath:remove("/usr/share/vim/vimfiles")
 
 -- Bootstrap lazy.nvim plugin manager
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"

@@ -18,6 +18,13 @@ M.ui = {
   statusline = {
     theme = "minimal",
     separator_style = "round",
+    overriden_modules = function()
+      return {
+        fileInfo = function()
+          return "%F"
+        end,
+      }
+    end,
   },
   ident = {
     enable = true,

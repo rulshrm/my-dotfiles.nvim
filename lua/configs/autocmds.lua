@@ -1,48 +1,46 @@
--- -- Format file secara otomatis sebelum menyimpan menggunakan prettierd
--- vim.api.nvim_create_autocmd("BufWritePre", {
---   pattern = { "*.js", "*.jsx", "*.ts", "*.tsx", "*.json", "*.css", "*.html", "*.yaml", "*.md" },
---   callback = function()
---     local file = vim.fn.expand("%:p") -- Dapatkan path file saat ini
---     if vim.fn.filereadable(file) == 0 then
---       vim.notify("File not readable: " .. file, vim.log.levels.ERROR)
---       return
---     end
+local autocmd = vim.api.nvim_create_autocmd
+local augroup = vim.api.nvim_create_augroup
 
---     local cmd = string.format("prettierd %s", file)
---     local result = vim.fn.system(cmd)
+-- Create augroups once
+local format_group = augroup("FormatGroup", { clear = true })
+local general_group = augroup("GeneralGroup", { clear = true })
 
---     if vim.v.shell_error ~= 0 then
---       vim.notify("Prettierd failed: " .. result, vim.log.levels.ERROR)
---     else
---       vim.notify("File formatted with Prettierd", vim.log.levels.INFO)
---     end
---   end,
--- })
-vim.api.nvim_create_autocmd("BufWritePre", {
+-- Format on save with debounce
+autocmd("BufWritePre", {
+  group = format_group,
   pattern = { "*.js", "*.jsx", "*.ts", "*.tsx", "*.json", "*.css", "*.html", "*.yaml", "*.md" },
   callback = function()
     vim.lsp.buf.format({
       async = false,
+      timeout_ms = 2000,
       filter = function(client)
         return client.name == "null-ls"
-      end,
+      end
     })
   end,
 })
 
+-- Optimize file reload
+autocmd("FocusGained", {
+  group = general_group,
+  command = "checktime",
+})
+
 -- Reload file secara otomatis jika diubah di luar Neovim
-vim.api.nvim_create_autocmd("FileChangedShellPost", {
+autocmd("FileChangedShellPost", {
+  group = general_group,
   pattern = "*",
   callback = function()
     vim.cmd("echohl WarningMsg | echo 'File changed on disk. Buffer reloaded.' | echohl None")
   end,
 })
 
-vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "markdown", "text", "html", "xml" },
-    callback = function()
-        vim.opt_local.wrap = true
-        vim.opt_local.linebreak = true
-        vim.opt_local.breakindent = true
-    end,
+autocmd("FileType", {
+  group = general_group,
+  pattern = { "markdown", "text", "html", "xml" },
+  callback = function()
+    vim.opt_local.wrap = true
+    vim.opt_local.linebreak = true
+    vim.opt_local.breakindent = true
+  end,
 })

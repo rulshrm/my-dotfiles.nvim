@@ -3,6 +3,12 @@ return {
   -- LSP configuration
   {
     "neovim/nvim-lspconfig",
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = {
+      { "folke/neodev.nvim", opts = {} },
+      "mason.nvim",
+      "mason-lspconfig.nvim",
+    },
     config = function()
       require("configs.lspconfig").setup()
     end,
@@ -193,8 +199,9 @@ return {
   -- Treesitter for syntax highlighting and more
   {
     "nvim-treesitter/nvim-treesitter",
-    event = { "BufReadPost", "BufNewFile" },
     build = ":TSUpdate",
+    event = { "BufReadPost", "BufNewFile" },
+    cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
     opts = function()
       return require "configs.treesitter"
     end,
@@ -267,6 +274,7 @@ return {
   -- Autocompletion
   {
     "hrsh7th/nvim-cmp",
+    event = "InsertEnter",
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",

@@ -1,5 +1,25 @@
 local M = {}
 
+-- Cache capabilities
+local capabilities = vim.tbl_deep_extend(
+  "force",
+  vim.lsp.protocol.make_client_capabilities(),
+  require("cmp_nvim_lsp").default_capabilities()
+)
+
+-- Optimize diagnostics
+vim.diagnostic.config({
+  update_in_insert = false,    -- Disable diagnostics in insert mode
+  virtual_text = false,        -- Disable virtual text
+  signs = true,               -- Show signs
+  underline = true,           -- Show underlines
+  severity_sort = true,       -- Sort by severity
+  float = {
+    border = "rounded",
+    source = "always",
+  },
+})
+
 local on_attach = function(client, bufnr)
   -- Disable formatting for tsserver as we'll use null-ls/prettierd
   if client.name == "tsserver" then
@@ -26,7 +46,6 @@ end
 
 M.setup = function()
   local lspconfig = require("lspconfig")
-  local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
   -- TypeScript setup
   lspconfig.ts_ls.setup({

@@ -26,3 +26,26 @@ vim.opt.whichwrap:append("<,>,[,]") -- Allow wrap when using arrow keys
 vim.opt.display:append("lastline")   -- Show as much as possible of last line
 vim.opt.formatoptions:append("l")    -- Long lines are not broken in insert mode
 vim.opt.breakindentopt = "shift:2"   -- Shift wrapped lines for better readability
+
+-- Performance
+vim.opt.hidden = true         -- Enable background buffers
+vim.opt.history = 100        -- Reduce history size
+vim.opt.lazyredraw = true    -- Don't redraw while executing macros
+vim.opt.synmaxcol = 240      -- Max column for syntax highlight
+vim.opt.updatetime = 250     -- Decrease update time
+vim.opt.timeoutlen = 300     -- Decrease timeout length
+vim.opt.redrawtime = 1500    -- Time limit for syntax highlighting
+vim.opt.ttimeoutlen = 10     -- Reduce key code delay
+vim.opt.ttyfast = true       -- Faster terminal connection
+
+-- Disable unused built-in plugins
+local disabled_built_ins = {
+  "netrw", "netrwPlugin", "netrwSettings", "netrwFileHandlers",
+  "gzip", "zip", "zipPlugin", "tar", "tarPlugin",
+  "getscript", "getscriptPlugin", "vimball", "vimballPlugin",
+  "2html_plugin", "logipat", "rrhelper", "spellfile_plugin", "matchit"
+}
+
+for _, plugin in pairs(disabled_built_ins) do
+  vim.g["loaded_" .. plugin] = 1
+end
