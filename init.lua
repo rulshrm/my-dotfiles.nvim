@@ -7,6 +7,10 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = ","
 vim.opt.termguicolors = true
 
+-- Package management prioritization
+vim.g.did_load_filetypes = 1
+vim.g.do_filetype_lua = 1
+
 -- Optimize runtimepath
 vim.opt.runtimepath:remove("/etc/xdg/nvim")
 vim.opt.runtimepath:remove("/etc/xdg/nvim/after")
