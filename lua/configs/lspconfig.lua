@@ -20,6 +20,15 @@ vim.diagnostic.config({
   },
 })
 
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    update_in_insert = false,
+    severity_sort = true,
+    underline = true,
+    virtual_text = false,  -- Sudah diatur di diagnostic.config
+  }
+)
+
 local on_attach = function(client, bufnr)
   -- Disable formatting for tsserver as we'll use null-ls/prettierd
   if client.name == "tsserver" then
