@@ -10,12 +10,10 @@ autocmd("BufWritePre", {
   group = format_group,
   pattern = { "*.js", "*.jsx", "*.ts", "*.tsx", "*.json", "*.css", "*.html", "*.yaml", "*.md" },
   callback = function()
-    vim.lsp.buf.format({
+    require("conform").format({
       async = false,
       timeout_ms = 2000,
-      filter = function(client)
-        return client.name == "null-ls"
-      end
+      lsp_fallback = true,
     })
   end,
 })

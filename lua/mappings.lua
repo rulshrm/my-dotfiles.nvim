@@ -33,22 +33,21 @@ end, {})
 
 -- Format keybinding
 map("n", "<leader>f", function()
-  print("Format triggered")
-  local bufnr = vim.api.nvim_get_current_buf()
-  local clients = vim.lsp.get_active_clients({ bufnr = bufnr })
+  -- Wrap in pcall to handle any errors
+  local status, err = pcall(function()
+    -- Gunakan conform.format() daripada lsp.buf.format
+    require("conform").format({
+      async = true,
+      lsp_fallback = true, -- Fallback ke LSP jika tidak ada formatter conform
+    })
+  end)
   
-  for _, client in ipairs(clients) do
-    print(string.format("Active client: %s", client.name))
+  if not status then
+    vim.notify("Format error: " .. tostring(err), vim.log.levels.ERROR)
+  else
+    vim.notify("Format successful", vim.log.levels.INFO)
   end
-
-  vim.lsp.buf.format({
-    async = true,
-    filter = function(client)
-      print(string.format("Checking client: %s", client.name))
-      return client.name == "null-ls"
-    end,
-  })
-end, { desc = "Format with null-ls" })
+end, { desc = "Format dengan conform.nvim" })
 
 -- Navigate diagnostics
 map("n", "[d", vim.diagnostic.goto_prev, { desc = "Previous Diagnostic" })

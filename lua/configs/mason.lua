@@ -19,6 +19,7 @@ M.ensure_installed = {
   "stylua",                      -- Lua formatter
   "eslint_d",                    -- JavaScript/TypeScript linter
   "shellcheck",                  -- Shell script linter
+  "prettierd",                   -- prettierd 
 }
 
 M.setup = function()

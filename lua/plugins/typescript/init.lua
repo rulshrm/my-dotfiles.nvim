@@ -8,7 +8,21 @@ return {
       "javascriptreact",
       "typescriptreact",
     },
-    opts = {},
+    opts = {
+      settings = {
+        -- Enable inlay hints
+        tsserver_file_preferences = {
+          includeInlayParameterNameHints = "all",
+          includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+          includeInlayFunctionParameterTypeHints = true,
+          includeInlayVariableTypeHints = true,
+          includeInlayPropertyDeclarationTypeHints = true,
+          includeInlayFunctionLikeReturnTypeHints = true,
+          includeInlayEnumMemberValueHints = true,
+        },
+      },
+      complete_function_calls = true,
+    },
   },
   {
     "b0o/schemastore.nvim",

@@ -26,7 +26,12 @@ return {
       "nvim-treesitter/nvim-treesitter-textobjects",
     },
     config = function()
-      require("configs.autotag").setup()
+      require("nvim-ts-autotag").setup({
+        filetypes = {
+          'html', 'javascript', 'typescript', 'javascriptreact', 'typescriptreact', 
+          'svelte', 'vue', 'tsx', 'jsx', 'xml',
+        },
+      })
     end,
   },
 }

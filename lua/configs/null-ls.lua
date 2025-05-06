@@ -1,39 +1,32 @@
 -- filepath ~/.config/nvim/lua/configs/null-ls.lua
+-- Apply patches before loading null-ls
+require("configs.null-ls-patch").apply_patches()
+
 local null_ls = require("null-ls")
 local notify = vim.notify
 
 local M = {}
 
 M.setup = function()
-  -- Debug log
   notify("Setting up null-ls...", vim.log.levels.INFO)
 
-  -- Verifikasi prettierd terinstall
-  if vim.fn.executable("prettierd") ~= 1 then
-    notify("prettierd not found. Please install it via Mason", vim.log.levels.ERROR)
-    return
-  end
-
-  -- Setup null-ls
+  -- Ini akan memastikan bahwa _request_name_to_capability sudah diinisialisasi
   null_ls.setup({
     debug = true,
+    on_init = function(client)
+      -- Ensure field exists before any operations
+      client._request_name_to_capability = client._request_name_to_capability or {}
+    end,
     sources = {
-      -- Formatting
+      -- Formatting sources
       null_ls.builtins.formatting.prettierd.with({
         filetypes = {
-          "javascript",
-          "typescript",
-          "javascriptreact",
-          "typescriptreact",
-          "json",
-          "css",
-          "html",
-          "yaml",
-          "markdown"
+          "javascript", "typescript", "javascriptreact", "typescriptreact",
+          "json", "css", "html", "yaml", "markdown",
         },
       }),
       
-      -- Linting
+      -- Linting sources
       null_ls.builtins.diagnostics.eslint_d.with({
         condition = function(utils)
           return utils.root_has_file({ ".eslintrc.js", ".eslintrc.json" })
@@ -41,12 +34,13 @@ M.setup = function()
       }),
     },
     
-    -- Perbaiki on_attach handler
     on_attach = function(client, bufnr)
-      -- Debug log
-      notify(string.format("null-ls attaching to buffer %d", bufnr), vim.log.levels.INFO)
+      -- Double ensure field exists
+      client._request_name_to_capability = client._request_name_to_capability or {}
       
-      -- Format on save
+      notify(string.format("null-ls attached to buffer %d", bufnr), vim.log.levels.INFO)
+      
+      -- Auto-format on save
       if client.supports_method("textDocument/formatting") then
         vim.api.nvim_create_autocmd("BufWritePre", {
           buffer = bufnr,
