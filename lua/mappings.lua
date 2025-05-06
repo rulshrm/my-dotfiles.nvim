@@ -53,6 +53,9 @@ end, { desc = "Format dengan conform.nvim" })
 map("n", "[d", vim.diagnostic.goto_prev, { desc = "Previous Diagnostic" })
 map("n", "]d", vim.diagnostic.goto_next, { desc = "Next Diagnostic" })
 
+-- Tampilkan diagnostics hanya ketika diperlukan
+map("n", "<leader>d", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
+
 -- mouse users + nvimtree users!
 vim.keymap.set("n", "<RightMouse>", function()
   vim.cmd.exec '"normal! \\<RightMouse>"'
