@@ -24,6 +24,18 @@ autocmd("BufWritePre", {
   end,
 })
 
+-- Limit format on save hanya untuk file dibawah ukuran tertentu
+autocmd("BufWritePre", {
+  pattern = { "*.js", "*.ts", "*.tsx" },
+  callback = function()
+    local max_size = 100 * 1024  -- 100KB
+    local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(0))
+    if ok and stats and stats.size < max_size then
+      require("conform").format()
+    end
+  end,
+})
+
 -- Optimize file reload
 autocmd("FocusGained", {
   group = general_group,
