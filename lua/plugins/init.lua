@@ -1,6 +1,10 @@
 -- filepath: ~/.config/nvim/lua/plugins/init.lua
 return {
   -- Core plugin categories
+  {
+    "nvim-lua/plenary.nvim",
+    lazy = false, -- Load immediately
+  },
   { import = "plugins.lsp" },        -- LSP related plugins
   { import = "plugins.completion" },  -- Completion related plugins
   { import = "plugins.coding" },      -- Coding tools
