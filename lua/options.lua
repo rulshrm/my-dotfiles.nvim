@@ -38,6 +38,19 @@ vim.opt.redrawtime = 1500    -- Time limit for syntax highlighting
 vim.opt.ttimeoutlen = 10     -- Reduce key code delay
 vim.opt.ttyfast = true       -- Faster terminal connection
 
+-- Cache filesystem operations
+vim.opt.directory = vim.fn.stdpath("data") .. "/swap/"
+vim.opt.undodir = vim.fn.stdpath("data") .. "/undo/"
+vim.opt.backupdir = vim.fn.stdpath("data") .. "/backup/"
+
+-- Create directories if they don't exist
+for _, dir in ipairs({ "swap", "undo", "backup" }) do
+  local path = vim.fn.stdpath("data") .. "/" .. dir
+  if vim.fn.isdirectory(path) == 0 then
+    vim.fn.mkdir(path, "p")
+  end
+end
+
 -- Disable unused built-in plugins
 local disabled_built_ins = {
   "netrw", "netrwPlugin", "netrwSettings", "netrwFileHandlers",
