@@ -17,17 +17,20 @@ vim.diagnostic.config({
   float = {
     border = "rounded",
     source = "always",
+    max_width = 80,
   },
 })
 
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
-    update_in_insert = false,
-    severity_sort = true,
-    underline = true,
-    virtual_text = false,  -- Sudah diatur di diagnostic.config
-  }
-)
+-- Setup handler caching
+local handlers = {
+  ["textDocument/publishDiagnostics"] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics, {
+      update_in_insert = false,
+      virtual_text = false,
+      severity_sort = true,
+    }
+  ),
+}
 
 local on_attach = function(client, bufnr)
   -- Disable formatting for tsserver as we'll use null-ls/prettierd
@@ -56,20 +59,21 @@ end
 M.setup = function()
   local lspconfig = require("lspconfig")
 
-  -- TypeScript setup
-  lspconfig.ts_ls.setup({
-    on_attach = on_attach,
-    capabilities = capabilities,
-    root_dir = lspconfig.util.root_pattern("package.json", "tsconfig.json", "jsconfig.json"),
-    single_file_support = true,
-  })
+  -- Setup LSP dengan handler & capabilities yang di-cache
+  for _, server in ipairs({
+    "lua_ls", "tsserver", "html", "cssls", "jsonls"
+  }) do
+    lspconfig[server].setup({
+      capabilities = capabilities,
+      handlers = handlers,
+      flags = {
+        debounce_text_changes = 150,
+      }
+    })
+  end
 
   -- Default LSP setup
   local servers = {
-    "lua_ls",
-    "html",
-    "cssls",
-    "jsonls",
     "yamlls",
     "vimls",
     "rust_analyzer",
