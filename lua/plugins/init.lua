@@ -1,18 +1,27 @@
 -- filepath: ~/.config/nvim/lua/plugins/init.lua
+
+--[[
+  Plugins entry point
+  This file organizes all plugin imports by category
+  Each category is in its own subdirectory under plugins/
+--]]
+
 return {
-  -- Core plugin categories
+  -- Core dependencies
   {
     "nvim-lua/plenary.nvim",
-    lazy = false, -- Load immediately
+    lazy = false, -- Required by many plugins, load immediately
   },
-  { import = "plugins.lsp" },        -- LSP related plugins
-  { import = "plugins.completion" },  -- Completion related plugins
-  { import = "plugins.coding" },      -- Coding tools
-  { import = "plugins.editor" },      -- Editor enhancements
-  { import = "plugins.ui" },          -- UI components
-  { import = "plugins.utils" },       -- Utilities
-  { import = "plugins.testing" },     -- Testing plugins
-  { import = "plugins.project" },     -- Project management
-  { import = "plugins.typescript" },  -- TypeScript specific
-  { import = "plugins.docs" },        -- Documentation plugins
+
+  -- Plugin category imports
+  { import = "plugins.lsp" },         -- Language Server Protocol support
+  { import = "plugins.completion" },   -- Autocompletion and snippets
+  { import = "plugins.coding" },       -- Code analysis and refactoring tools  
+  { import = "plugins.editor" },       -- Editor features and enhancements
+  { import = "plugins.ui" },           -- User interface components
+  { import = "plugins.utils" },        -- Utility functions and helpers
+  { import = "plugins.testing" },      -- Testing frameworks integration
+  { import = "plugins.project" },      -- Project management features
+  { import = "plugins.typescript" },   -- TypeScript specific tooling
+  { import = "plugins.docs" },         -- Documentation generators
 }
