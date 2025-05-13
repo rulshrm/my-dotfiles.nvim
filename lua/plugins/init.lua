@@ -7,21 +7,32 @@
 --]]
 
 return {
-  -- Core dependencies
+  -- Core plugins dengan lazy = false untuk load saat startup
   {
     "nvim-lua/plenary.nvim",
     lazy = false, -- Required by many plugins, load immediately
   },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    lazy = false,
+    build = ":TSUpdate",
+  },
 
-  -- Plugin category imports
-  { import = "plugins.lsp" },         -- Language Server Protocol support
-  { import = "plugins.completion" },   -- Autocompletion and snippets
-  { import = "plugins.coding" },       -- Code analysis and refactoring tools  
-  { import = "plugins.editor" },       -- Editor features and enhancements
-  { import = "plugins.ui" },           -- User interface components
-  { import = "plugins.utils" },        -- Utility functions and helpers
-  { import = "plugins.testing" },      -- Testing frameworks integration
-  { import = "plugins.project" },      -- Project management features
-  { import = "plugins.typescript" },   -- TypeScript specific tooling
-  { import = "plugins.docs" },         -- Documentation generators
+  -- Plugins yang bisa di-lazy load
+  {
+    "hrsh7th/nvim-cmp",
+    event = "InsertEnter",
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+    }
+  },
+
+  -- Group plugins berdasarkan event/command
+  { import = "plugins.lsp", event = { "BufReadPre", "BufNewFile" } },
+  { import = "plugins.completion", event = "InsertEnter" },
+  { import = "plugins.ui", event = "VeryLazy" },
+  { import = "plugins.coding", event = { "BufReadPre", "BufNewFile" } },
+  { import = "plugins.utils", event = "VeryLazy" },
 }
