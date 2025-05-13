@@ -1,7 +1,34 @@
--- Enable bytecode cache to improve startup time
+-- Enable bytecode cache untuk startup time yang lebih cepat
 vim.loader.enable()
 
--- Set base46 cache path and leader key
+-- Setup lazy loading untuk fitur builtin
+vim.g.loaded_gzip = 1
+vim.g.loaded_zip = 1
+vim.g.loaded_zipPlugin = 1
+vim.g.loaded_tar = 1
+vim.g.loaded_tarPlugin = 1
+vim.g.loaded_getscript = 1
+vim.g.loaded_getscriptPlugin = 1
+vim.g.loaded_vimball = 1
+vim.g.loaded_vimballPlugin = 1
+vim.g.loaded_2html_plugin = 1
+vim.g.loaded_matchit = 1
+vim.g.loaded_matchparen = 1
+vim.g.loaded_logiPat = 1
+vim.g.loaded_rrhelper = 1
+
+-- Performance settings
+vim.opt.shadafile = "NONE"
+vim.opt.history = 100
+vim.opt.lazyredraw = true
+vim.opt.synmaxcol = 240
+vim.opt.updatetime = 250
+vim.opt.timeoutlen = 300
+vim.opt.redrawtime = 1500
+vim.opt.ttimeoutlen = 10
+vim.opt.ttyfast = true
+
+-- Cache paths
 vim.g.base46_cache = vim.fn.stdpath("data") .. "/nvchad/base46/"
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
