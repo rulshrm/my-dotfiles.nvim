@@ -7,21 +7,40 @@ vim.g.loaded_ruby_provider = 0
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_node_provider = 0
 
+-- Throttle function
+local function throttle(func, timeout)
+  local timer = vim.loop.new_timer()
+  local running = false
+  
+  return function(...)
+    if not running then
+      running = true
+      func(...)
+      timer:start(timeout, 0, function()
+        running = false
+      end)
+    end
+  end
+end
+
+-- Throttled format
+local format = throttle(function()
+  require("conform").format({
+    async = false,
+    timeout_ms = 2000,
+    lsp_fallback = true,
+  })
+end, 250)
+
 -- Create augroups once
 local format_group = augroup("FormatGroup", { clear = true })
 local general_group = augroup("GeneralGroup", { clear = true })
 
--- Format on save with debounce
+-- Format group dengan throttling
 autocmd("BufWritePre", {
   group = format_group,
-  pattern = { "*.js", "*.jsx", "*.ts", "*.tsx", "*.json", "*.css", "*.html", "*.yaml", "*.md" },
-  callback = function()
-    require("conform").format({
-      async = false,
-      timeout_ms = 2000,
-      lsp_fallback = true,
-    })
-  end,
+  pattern = { "*.js", "*.jsx", "*.ts", "*.tsx", "*.json" },
+  callback = format
 })
 
 -- Limit format on save hanya untuk file dibawah ukuran tertentu
