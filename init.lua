@@ -7,18 +7,23 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = ","
 vim.opt.termguicolors = true
 
--- Rebuild cache if missing
+-- Modified theme cache rebuilding logic
 local present, base46 = pcall(require, "base46")
 if not present then
-  vim.notify("Rebuilding theme cache...", vim.log.levels.INFO)
-  require("plenary.job"):new({
-    command = "git",
-    args = { "clone", "--depth", "1", "https://github.com/NvChad/base46", vim.g.base46_cache },
-    on_exit = function()
-      vim.cmd("redraw!")
-      vim.notify("Theme cache rebuilt! Please restart Neovim.", vim.log.levels.INFO)
-    end,
-  }):start()
+  vim.notify("Base46 not found. Installing...", vim.log.levels.INFO)
+  local base46_path = vim.g.base46_cache
+  if vim.fn.empty(vim.fn.glob(base46_path)) > 0 then
+    vim.fn.system({
+      "git",
+      "clone",
+      "--depth",
+      "1",
+      "https://github.com/NvChad/base46",
+      base46_path,
+    })
+    vim.cmd("redraw!")
+    vim.notify("Theme cache rebuilt! Please restart Neovim.", vim.log.levels.INFO)
+  end
 end
 
 -- Package management prioritization
