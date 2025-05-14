@@ -86,14 +86,34 @@ return {
     end,
   },
 
-  -- PHPUnit Testing
+  -- Replace vim-phpunit with neotest + PHPUnit adapter
   {
-    "rcarriga/vim-phpunit",
-    dependencies = { "tpope/vim-dispatch" },
-    ft = "php",
+    "nvim-neotest/neotest",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "antoinemadec/FixCursorHold.nvim",
+      "olimorris/neotest-phpunit" -- PHPUnit adapter
+    },
     config = function()
-      vim.g.phpunit_bin = './vendor/bin/phpunit'
-      vim.g.phpunit_options = '--colors=always'
+      require("neotest").setup({
+        adapters = {
+          require("neotest-phpunit")({
+            phpunit_cmd = function()
+              return "vendor/bin/phpunit"
+            end,
+            root_files = { "composer.json", "phpunit.xml", "phpunit.xml.dist" },
+            filter_dirs = { "vendor", "node_modules" },
+          })
+        }
+      })
     end,
+    keys = {
+      { "<leader>tt", "<cmd>lua require('neotest').run.run()<CR>", desc = "Run Nearest Test" },
+      { "<leader>tf", "<cmd>lua require('neotest').run.run(vim.fn.expand('%'))<CR>", desc = "Run File" },
+      { "<leader>ts", "<cmd>lua require('neotest').summary.toggle()<CR>", desc = "Toggle Summary" },
+      { "<leader>to", "<cmd>lua require('neotest').output.open()<CR>", desc = "Show Output" },
+      { "<leader>tp", "<cmd>lua require('neotest').output_panel.toggle()<CR>", desc = "Toggle Output Panel" },
+    },
   },
 }
