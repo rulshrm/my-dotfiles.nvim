@@ -29,6 +29,39 @@ return {
     }
   },
 
+  -- PHP/Laravel Development
+  {
+    "adalessa/laravel.nvim",
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+      "tpope/vim-dotenv",
+      "MunifTanjim/nui.nvim",
+    },
+    cmd = { "Artisan", "Composer" },
+    keys = {
+      { "<leader>la", ":Artisan<cr>" },
+      { "<leader>lr", ":Artisan route:list<cr>" },
+      { "<leader>lm", ":Artisan make:" },
+      { "<leader>lt", ":Artisan tinker<cr>" },
+    },
+    config = function()
+      require("laravel").setup()
+    end,
+  },
+  {
+    "jwalton512/vim-blade",
+    ft = "blade",
+  },
+  {
+    "tpope/vim-dispatch",
+    cmd = { "Dispatch", "Make" },
+  },
+  {
+    "noahfrederick/vim-composer",
+    dependencies = { "tpope/vim-dispatch" },
+    ft = "php",
+  },
+
   -- Group plugins berdasarkan event/command
   { import = "plugins.lsp", event = { "BufReadPre", "BufNewFile" } },
   { import = "plugins.completion", event = "InsertEnter" },
