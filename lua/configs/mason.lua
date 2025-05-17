@@ -1,35 +1,24 @@
 local M = {}
 
--- Daftar alat yang akan diinstal oleh Mason
-M.ensure_installed = {
-  -- LSPs
-  "lua-language-server",          -- Lua LSP
-  "html-lsp",                     -- HTML LSP
-  "css-lsp",                      -- CSS LSP
-  "typescript-language-server",    -- TypeScript/JavaScript LSP
-  "json-lsp",                     -- JSON LSP
-  "yaml-language-server",         -- YAML LSP
-  "vim-language-server",          -- Vimscript LSP
-  "rust-analyzer",                -- Rust LSP
-  "gopls",                        -- Go LSP
-  "nimlsp",                       -- Nim LSP
+function M.setup()
+  local mason_status, mason = pcall(require, "mason")
+  if not mason_status then
+    vim.notify("mason.nvim not found!", vim.log.levels.ERROR)
+    return
+  end
 
-  -- Formatters & Linters
-  "prettier",                     -- Prettier formatter
-  "stylua",                      -- Lua formatter
-  "eslint_d",                    -- JavaScript/TypeScript linter
-  "shellcheck",                  -- Shell script linter
-  "prettierd",                   -- prettierd 
-}
+  local mason_lspconfig_status, mason_lspconfig = pcall(require, "mason-lspconfig")
+  if not mason_lspconfig_status then
+    vim.notify("mason-lspconfig.nvim not found!", vim.log.levels.ERROR)
+    return
+  end
 
-M.setup = function()
-  -- Debug log
-  vim.notify("Setting up Mason...", vim.log.levels.INFO)
+  local lspconfig_status, lspconfig = pcall(require, "lspconfig")
+  if not lspconfig_status then
+    vim.notify("nvim-lspconfig not found!", vim.log.levels.ERROR)
+    return
+  end
 
-  local mason = require("mason")
-  local mason_lspconfig = require("mason-lspconfig")
-
-  -- Setup Mason
   mason.setup({
     ui = {
       border = "rounded",
@@ -39,50 +28,59 @@ M.setup = function()
         package_uninstalled = "✗",
       },
     },
-    max_concurrent_installers = 10,
+    -- log_level = vim.log.levels.DEBUG, -- Uncomment for debugging
   })
 
-  -- Setup Mason LSPConfig
   mason_lspconfig.setup({
     ensure_installed = {
       "lua_ls",
-      "tsserver",  -- Changed from ts_ls to tsserver
+      "ts_ls",
+      "eslint",
+      "jsonls",
       "html",
       "cssls",
-      "jsonls",
-      "yamlls",
+      "tailwindcss",
+      "marksman",
+      -- Add other LSPs you use here
     },
-    automatic_installation = true,
+
+    handlers = {
+      function(server_name)
+        lspconfig[server_name].setup({})
+      end,
+
+      ["lua_ls"] = function()
+        lspconfig.lua_ls.setup({
+          settings = {
+            Lua = {
+              completion = {
+                callSnippet = "Replace",
+              },
+              diagnostics = {
+                globals = { "vim" },
+              },
+              workspace = {
+                checkThirdParty = false,
+              },
+              telemetry = { enable = false },
+            },
+          },
+        })
+      end,
+      
+      ["tsserver"] = function()
+        lspconfig.tsserver.setup({
+          -- Add any tsserver specific settings here
+        })
+      end,
+
+      ["eslint"] = function()
+        lspconfig.eslint.setup({
+           -- ESLint specific settings
+        })
+      end,
+    },
   })
-
-  -- Configure handlers for LSP servers
-  mason_lspconfig.setup_handlers({
-    -- Default handler
-    function(server_name)
-      require("lspconfig")[server_name].setup({
-        on_attach = function(client, bufnr)
-          -- Disable formatting untuk semua LSP
-          client.server_capabilities.documentFormattingProvider = false
-          client.server_capabilities.documentRangeFormattingProvider = false
-
-          -- Notify when LSP attaches
-          vim.notify(string.format("LSP %s attached", server_name), vim.log.levels.INFO)
-        end,
-        capabilities = require("cmp_nvim_lsp").default_capabilities(),
-      })
-    end,
-  })
-
-  -- Install any missing tools
-  local registry = require("mason-registry")
-  for _, tool in ipairs(M.ensure_installed) do
-    if not registry.is_installed(tool) then
-      vim.notify(string.format("Installing %s...", tool), vim.log.levels.INFO)
-      registry.get_package(tool):install()
-    end
-  end
-
-  vim.notify("Mason setup completed!", vim.log.levels.INFO)
 end
 
 return M
