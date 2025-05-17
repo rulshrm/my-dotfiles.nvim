@@ -1,6 +1,11 @@
 -- Enable bytecode cache untuk startup time yang lebih cepat
 vim.loader.enable()
 
+vim.cmd([[
+  syntax enable
+  syntax on
+]])
+
 -- Setup lazy loading untuk fitur builtin
 vim.g.loaded_gzip = 1
 vim.g.loaded_zip = 1
@@ -84,7 +89,7 @@ require("lazy").setup({
       require("options")
     end,
   },
-  { import = "plugins" },
+  { import = "plugins" }
 }, lazy_config)
 
 -- Load base46 theme and statusline
