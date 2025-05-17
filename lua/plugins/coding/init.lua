@@ -2,35 +2,7 @@ return {
   {
     "barrett-ruth/import-cost.nvim",
     build = "sh install.sh npm",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    event = { "BufRead", "BufNewFile" },
-    ft = {
-      "javascript", 
-      "javascriptreact",
-      "typescript", 
-      "typescriptreact"
-    },
-    config = function()
-      require("import-cost").setup({
-        highlight = {
-          enable = true,
-          groups = {
-            small = "ImportCostSmall",    -- 0-10kb
-            medium = "ImportCostMedium",  -- 10-50kb
-            large = "ImportCostLarge",    -- 50kb+
-          },
-        },
-        virtual_text = {
-          enabled = true,
-          format = function(cost)
-            if cost.error then
-              return "[Error]"
-            end
-            return ("(size: %s)"):format(cost.size)
-          end,
-        },
-      })
-    end,
+    config = true
   },
   {
     "razak17/tailwind-fold.nvim",
