@@ -79,3 +79,29 @@ autocmd("FileType", {
     vim.opt_local.breakindent = true
   end,
 })
+
+-- HTML specific settings
+local html_group = augroup("HTMLGroup", { clear = true })
+
+autocmd("FileType", {
+  group = html_group,
+  pattern = { "html", "htm" },
+  callback = function()
+    -- Enable syntax highlighting
+    vim.cmd("syntax enable")
+    vim.cmd("syntax sync fromstart")
+    
+    -- Enable treesitter highlighting
+    vim.cmd("TSBufEnable highlight")
+    
+    -- Set indentation
+    vim.opt_local.expandtab = true
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.tabstop = 2
+    
+    -- Enable emmet if available
+    if vim.fn.exists(":EmmetInstall") > 0 then
+      vim.cmd("EmmetInstall")
+    end
+  end,
+})
