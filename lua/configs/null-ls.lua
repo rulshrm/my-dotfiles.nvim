@@ -25,12 +25,20 @@ M.setup = function()
           "json", "css", "html", "yaml", "markdown",
         },
       }),
+      null_ls.builtins.formatting.phpcsfixer,
+      null_ls.builtins.formatting.blade_formatter,
       
       -- Linting sources
       null_ls.builtins.diagnostics.eslint_d.with({
         condition = function(utils)
           return utils.root_has_file({ ".eslintrc.js", ".eslintrc.json" })
         end,
+      }),
+      null_ls.builtins.diagnostics.php,
+      null_ls.builtins.diagnostics.phpcs.with({
+        extra_args = {
+          "--standard=PSR12",
+        },
       }),
     },
     
