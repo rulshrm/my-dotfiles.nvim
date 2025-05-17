@@ -61,7 +61,7 @@ M.setup = function()
 
   -- Setup LSP dengan handler & capabilities yang di-cache
   for _, server in ipairs({
-    "lua_ls", "tsserver", "html", "cssls", "jsonls"
+    "lua_ls", "ts_ls", "html", "cssls", "jsonls"
   }) do
     lspconfig[server].setup({
       capabilities = capabilities,
@@ -119,6 +119,61 @@ M.setup = function()
           typeHints = { enable = true },
         },
       },
+    },
+  })
+
+  -- PHP/Laravel Setup
+  lspconfig.intelephense.setup({
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+      intelephense = {
+        environment = {
+          phpVersion = "8.2" -- Sesuaikan dengan versi PHP Anda
+        },
+        files = {
+          maxSize = 5000000;
+        },
+        stubs = {
+          "apache", "bcmath", "bz2", "calendar", "com_dotnet", "Core", 
+          "curl", "date", "dba", "dom", "enchant", "exif", "fileinfo", 
+          "filter", "fpm", "ftp", "gd", "hash", "iconv", "imap", "interbase",
+          "intl", "json", "ldap", "libxml", "mbstring", "mcrypt", "meta",
+          "mssql", "mysqli", "oci8", "odbc", "openssl", "pcntl", "pcre",
+          "PDO", "pdo_ibm", "pdo_mysql", "pdo_pgsql", "pdo_sqlite", "pgsql",
+          "Phar", "posix", "pspell", "readline", "recode", "Reflection",
+          "regex", "session", "shmop", "SimpleXML", "snmp", "soap", "sockets",
+          "sodium", "SPL", "sqlite3", "standard", "superglobals", "sybase",
+          "sysvmsg", "sysvsem", "sysvshm", "tidy", "tokenizer", "xml",
+          "xmlreader", "xmlrpc", "xmlwriter", "xsl", "Zend OPcache", "zip",
+          "zlib", "mysql", "laravel"
+        },
+      },
+    },
+  })
+
+  -- HTML LSP Configuration
+  lspconfig.html.setup({
+    capabilities = capabilities,
+    on_attach = on_attach,
+    filetypes = { "html", "template", "jsx", "tsx" },
+    init_options = {
+      configurationSection = { "html", "css", "javascript" },
+      embeddedLanguages = {
+        css = true,
+        javascript = true
+      },
+      provideFormatter = false, -- We use prettier/null-ls for formatting
+    }
+  })
+
+  -- Emmet LSP Configuration
+  lspconfig.emmet_ls.setup({
+    capabilities = capabilities,
+    on_attach = on_attach,
+    filetypes = {
+      "html", "typescriptreact", "javascriptreact", "css", 
+      "sass", "scss", "less", "template"
     },
   })
 end
