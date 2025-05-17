@@ -3,7 +3,7 @@
 return {
   -- Parsers to install
   ensure_installed = {
-    "vim",          -- Vimscript
+"vim",          -- Vimscript
     "lua",          -- Lua
     "html",         -- HTML
     "css",          -- CSS
@@ -13,6 +13,8 @@ return {
     "json",         -- JSON
     "yaml",         -- YAML
     "markdown",     -- Markdown
+    "php",          -- PHP
+    "blade",        -- Blade templates
   },  -- Install only what you need
 
   sync_install = false,        -- Install parsers asynchronously
@@ -28,6 +30,7 @@ return {
       end
     end,
     use_languagetree = true,    -- Use language tree for better performance
+    additional_vim_regex_highlighting = false,
   },
 
   indent = {
@@ -36,6 +39,11 @@ return {
 
   autotag = {
     enable = true,              -- Enable autotagging
+    filetypes = {
+      'html', 'javascript', 'typescript', 'javascriptreact', 'typescriptreact', 
+      'svelte', 'vue', 'tsx', 'jsx', 'rescript', 'xml',
+      'php', 'markdown', 'astro', 'glimmer', 'handlebars', 'hbs'
+    },
   },
 
   context_commentstring = {
