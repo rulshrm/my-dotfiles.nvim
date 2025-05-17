@@ -190,3 +190,10 @@ map("n", "$", "g$", { desc = "End of wrapped line" })
 map("n", "0", "g0", { desc = "Start of wrapped line" })
 map("v", "$", "g$", { desc = "End of wrapped line" })
 map("v", "0", "g0", { desc = "Start of wrapped line" })
+
+-- Laravel specific mappings
+map("n", "<leader>la", "<cmd>Artisan<CR>", { desc = "Laravel Artisan" })
+map("n", "<leader>lr", "<cmd>Artisan route:list<CR>", { desc = "Laravel Routes" })
+map("n", "<leader>lm", "<cmd>Artisan make:", { desc = "Laravel Make" })
+map("n", "<leader>lt", "<cmd>Artisan tinker<CR>", { desc = "Laravel Tinker" })
+map("n", "<leader>lc", "<cmd>Composer<CR>", { desc = "Composer" })
