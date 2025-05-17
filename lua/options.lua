@@ -68,3 +68,5 @@ vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 -- Menonaktifkan folding saat startup untuk performa
 vim.opt.foldenable = false
+
+vim.opt.termguicolors = true
