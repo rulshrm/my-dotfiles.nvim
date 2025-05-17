@@ -19,3 +19,21 @@ dap.configurations.javascript = {
 }
 
 dap.configurations.typescript = dap.configurations.javascript
+
+dap.adapters.php = {
+  type = 'executable',
+  command = 'node',
+  args = { vim.fn.stdpath("data") .. "/mason/packages/php-debug-adapter/extension/out/phpDebug.js" }
+}
+
+dap.configurations.php = {
+  {
+    type = 'php',
+    request = 'launch',
+    name = 'Listen for Xdebug',
+    port = 9003,
+    pathMappings = {
+      ["/var/www/html"] = "${workspaceFolder}"
+    }
+  }
+}
