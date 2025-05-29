@@ -223,6 +223,48 @@ local setup_java_maps = function(bufnr)
     vim.tbl_extend("force", opts, { desc = "Extract Method" }))
   map("v", "<leader>jev", function() require('jdtls').extract_variable(true) end,
     vim.tbl_extend("force", opts, { desc = "Extract Variable" }))
+
+  -- Run Java file
+  local java_utils = require('configs.java_utils')
+
+  map("n", "<leader>jr", function()
+    -- Save file
+    pcall(function() vim.cmd('write!') end)
+    
+    -- Get paths
+    local file_path = vim.fn.expand('%:p')
+    local class_name = vim.fn.expand('%:t:r')
+    local dir_path = vim.fn.expand('%:p:h')
+    
+    -- Compile and run
+    if not java_utils.compile_and_run(file_path, class_name, dir_path) then
+      vim.notify("Failed to run Java file", vim.log.levels.ERROR)
+    end
+  end, vim.tbl_extend("force", opts, { desc = "Run Java File" }))
+
+  -- Run Java with args
+  map("n", "<leader>jR", function()
+    vim.ui.input({ prompt = "Arguments: " }, function(args)
+      if args then
+        -- Simpan file sebelum running
+        vim.cmd('write')
+        
+        -- Get file path dan nama class
+        local file_path = vim.fn.expand('%:p')
+        local class_name = vim.fn.expand('%:t:r')
+        local dir_path = vim.fn.expand('%:p:h')
+        
+        -- Compile dan run dalam terminal baru
+        vim.cmd('split')
+        vim.cmd('terminal')
+        vim.cmd('startinsert')
+        
+        -- Compile dan run commands dengan arguments
+        local compile_cmd = string.format('javac "%s" && java -cp "%s" %s %s', file_path, dir_path, class_name, args)
+        vim.fn.chansend(vim.b.terminal_job_id, compile_cmd .. '\n')
+      end
+    end)
+  end, vim.tbl_extend("force", opts, { desc = "Run Java File with Args" }))
 end
 
 -- Create autocmd untuk setup Java mappings
