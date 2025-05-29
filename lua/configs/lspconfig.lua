@@ -177,6 +177,31 @@ M.setup = function()
     },
   })
 
+  -- Helper function untuk mengumpulkan semua JAR files
+  local function get_java_test_bundles()
+    local bundles = {}
+    local java_test_path = vim.fn.stdpath("data") .. "/mason/packages/java-test/extension/server/"
+    local java_debug_path = vim.fn.stdpath("data") .. "/mason/packages/java-debug-adapter/extension/server/"
+    
+    -- Add java-test bundles
+    local test_bundles = vim.split(vim.fn.glob(java_test_path .. "*.jar"), "\n")
+    for _, bundle in ipairs(test_bundles) do
+      if bundle ~= "" then
+        table.insert(bundles, bundle)
+      end
+    end
+    
+    -- Add java-debug-adapter bundle
+    local debug_bundles = vim.split(vim.fn.glob(java_debug_path .. "com.microsoft.java.debug.plugin-*.jar"), "\n")
+    for _, bundle in ipairs(debug_bundles) do
+      if bundle ~= "" then
+        table.insert(bundles, bundle)
+      end
+    end
+    
+    return bundles
+  end
+
   -- Java LSP Configuration
   lspconfig.jdtls.setup({
     on_attach = function(client, bufnr)
@@ -192,7 +217,7 @@ M.setup = function()
         configuration = {
           runtimes = {
             {
-              name = "Java-23",
+              name = "JavaSE-23",
               path = vim.fn.expand("$JAVA_HOME"),
               default = true
             },
@@ -257,9 +282,7 @@ M.setup = function()
       }
     },
     init_options = {
-      bundles = {
-        vim.fn.glob(vim.fn.stdpath("data") .. "/mason/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar", true)
-      }
+      bundles = get_java_test_bundles()
     }
   })
 end
