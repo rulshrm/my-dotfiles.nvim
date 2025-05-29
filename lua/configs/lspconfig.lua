@@ -176,6 +176,92 @@ M.setup = function()
       "sass", "scss", "less", "template"
     },
   })
+
+  -- Java LSP Configuration
+  lspconfig.jdtls.setup({
+    on_attach = function(client, bufnr)
+      on_attach(client, bufnr)  -- Panggil on_attach default
+    end,
+    capabilities = capabilities,
+    settings = {
+      java = {
+        -- Konfigurasi Java Home
+        home = vim.fn.expand("$JAVA_HOME"),
+        
+        -- Konfigurasi Runtime
+        configuration = {
+          runtimes = {
+            {
+              name = "Java-23",
+              path = vim.fn.expand("$JAVA_HOME"),
+              default = true
+            },
+          }
+        },
+
+        -- Konfigurasi Maven
+        maven = {
+          downloadSources = true,
+          updateSnapshots = true
+        },
+
+        -- Konfigurasi Gradle
+        gradle = {
+          enabled = true,
+          downloadSources = true,
+        },
+
+        -- Format & Completion
+        format = {
+          enabled = true,
+          settings = {
+            url = vim.fn.stdpath("config") .. "/lang-servers/eclipse-java-google-style.xml",
+            profile = "GoogleStyle"
+          }
+        },
+        completion = {
+          favoriteStaticMembers = {
+            "org.junit.Assert.*",
+            "org.junit.Assume.*",
+            "org.junit.jupiter.api.Assertions.*",
+            "org.junit.jupiter.api.Assumptions.*",
+            "org.junit.jupiter.api.DynamicContainer.*",
+            "org.junit.jupiter.api.DynamicTest.*"
+          },
+          importOrder = {
+            "java",
+            "javax",
+            "com",
+            "org"
+          }
+        },
+
+        -- Code Generation & Hints
+        signatureHelp = { enabled = true },
+        contentProvider = { preferred = 'fernflower' },
+        implementationsCodeLens = { enabled = true },
+        referencesCodeLens = { enabled = true },
+        references = { includeDecompiledSources = true },
+        inlayHints = {
+          parameterNames = { enabled = true },
+          debug = { enabled = false }
+        },
+
+        -- Compiler Settings
+        compiler = {
+          nullAnalysis = { mode = 'interactive' },
+          errors = {
+            incompleteClasspath = { severity = "warning" }
+          }
+        }
+      }
+    },
+    init_options = {
+      bundles = {
+        vim.fn.glob("/path/to/java-debug/com.microsoft.java.debug.plugin-*.jar", true)
+      }
+    }
+  })
 end
 
 return M
