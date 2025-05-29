@@ -225,8 +225,8 @@ M.setup = function()
             "org.junit.Assume.*",
             "org.junit.jupiter.api.Assertions.*",
             "org.junit.jupiter.api.Assumptions.*",
-            "org.junit.jupiter.api.DynamicContainer.*",
-            "org.junit.jupiter.api.DynamicTest.*"
+            "org.mockito.Mockito.*",
+            "org.mockito.ArgumentMatchers.*",
           },
           importOrder = {
             "java",
