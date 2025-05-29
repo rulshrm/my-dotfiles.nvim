@@ -37,3 +37,19 @@ dap.configurations.php = {
     }
   }
 }
+
+dap.adapters.java = {
+  type = 'executable',
+  command = 'java',
+  args = {'-jar', vim.fn.stdpath("data") .. '/mason/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar'},
+}
+
+dap.configurations.java = {
+  {
+    type = 'java',
+    request = 'launch',
+    name = "Launch Java Program",
+    mainClass = "${file}",
+    projectName = "${workspaceFolder}",
+  },
+}
