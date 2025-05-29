@@ -228,7 +228,7 @@ local setup_java_maps = function(bufnr)
   local java_utils = require('configs.java_utils')
 
   map("n", "<leader>jr", function()
-    -- Save file
+    -- Save file with error handling
     pcall(function() vim.cmd('write!') end)
     
     -- Get paths
@@ -236,8 +236,14 @@ local setup_java_maps = function(bufnr)
     local class_name = vim.fn.expand('%:t:r')
     local dir_path = vim.fn.expand('%:p:h')
     
+    -- Get package name if exists
+    local package_name = require('configs.java_utils').get_package_name(file_path)
+    if package_name then
+      class_name = package_name .. "." .. class_name
+    end
+    
     -- Compile and run
-    if not java_utils.compile_and_run(file_path, class_name, dir_path) then
+    if not require('configs.java_utils').compile_and_run(file_path, class_name, dir_path) then
       vim.notify("Failed to run Java file", vim.log.levels.ERROR)
     end
   end, vim.tbl_extend("force", opts, { desc = "Run Java File" }))
