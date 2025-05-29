@@ -105,3 +105,22 @@ autocmd("FileType", {
     end
   end,
 })
+
+-- Java specific autocmds
+local java_group = vim.api.nvim_create_augroup("JavaGroup", { clear = true })
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "java",
+  group = java_group,
+  callback = function()
+    -- Set compiler
+    vim.bo.makeprg = "javac %"
+    
+    -- Enable code folding
+    vim.wo.foldmethod = "expr"
+    vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
+    
+    -- Format on save dengan Google style
+    vim.b.format_on_save = true
+  end,
+})
