@@ -27,6 +27,7 @@ M.setup = function()
       }),
       null_ls.builtins.formatting.phpcsfixer,
       null_ls.builtins.formatting.blade_formatter,
+      null_ls.builtins.formatting.google_java_format,
       
       -- Linting sources
       null_ls.builtins.diagnostics.eslint_d.with({
