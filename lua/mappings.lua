@@ -197,3 +197,34 @@ map("n", "<leader>lr", "<cmd>Artisan route:list<CR>", { desc = "Laravel Routes" 
 map("n", "<leader>lm", "<cmd>Artisan make:", { desc = "Laravel Make" })
 map("n", "<leader>lt", "<cmd>Artisan tinker<CR>", { desc = "Laravel Tinker" })
 map("n", "<leader>lc", "<cmd>Composer<CR>", { desc = "Composer" })
+
+-- Java specific mappings
+local setup_java_maps = function(bufnr)
+  local opts = { buffer = bufnr, noremap = true, silent = true }
+  
+  map("n", "<leader>ji", function() require('jdtls').organize_imports() end, 
+    vim.tbl_extend("force", opts, { desc = "Organize Imports" }))
+  
+  map("n", "<leader>jt", function() require('jdtls').test_class() end,
+    vim.tbl_extend("force", opts, { desc = "Test Class" }))
+  
+  map("n", "<leader>jn", function() require('jdtls').test_nearest_method() end,
+    vim.tbl_extend("force", opts, { desc = "Test Method" }))
+  
+  map("n", "<leader>jc", function() require('jdtls').extract_constant() end,
+    vim.tbl_extend("force", opts, { desc = "Extract Constant" }))
+  
+  map("v", "<leader>jm", function() require('jdtls').extract_method(true) end,
+    vim.tbl_extend("force", opts, { desc = "Extract Method" }))
+  
+  map("v", "<leader>je", function() require('jdtls').extract_variable(true) end,
+    vim.tbl_extend("force", opts, { desc = "Extract Variable" }))
+end
+
+-- Create autocmd untuk setup Java mappings
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "java",
+  callback = function(ev)
+    setup_java_maps(ev.buf)
+  end,
+})
