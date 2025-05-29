@@ -202,22 +202,26 @@ map("n", "<leader>lc", "<cmd>Composer<CR>", { desc = "Composer" })
 local setup_java_maps = function(bufnr)
   local opts = { buffer = bufnr, noremap = true, silent = true }
   
-  map("n", "<leader>ji", function() require('jdtls').organize_imports() end, 
+  -- Code Actions
+  map("n", "<leader>jo", function() require('jdtls').organize_imports() end, 
     vim.tbl_extend("force", opts, { desc = "Organize Imports" }))
   
+  -- Testing
   map("n", "<leader>jt", function() require('jdtls').test_class() end,
     vim.tbl_extend("force", opts, { desc = "Test Class" }))
-  
   map("n", "<leader>jn", function() require('jdtls').test_nearest_method() end,
     vim.tbl_extend("force", opts, { desc = "Test Method" }))
   
-  map("n", "<leader>jc", function() require('jdtls').extract_constant() end,
-    vim.tbl_extend("force", opts, { desc = "Extract Constant" }))
+  -- Debugging
+  map("n", "<leader>jb", function() require('dap').toggle_breakpoint() end,
+    vim.tbl_extend("force", opts, { desc = "Toggle Breakpoint" }))
+  map("n", "<F5>", function() require('dap').continue() end,
+    vim.tbl_extend("force", opts, { desc = "Debug: Continue" }))
   
-  map("v", "<leader>jm", function() require('jdtls').extract_method(true) end,
+  -- Refactoring
+  map("v", "<leader>jem", function() require('jdtls').extract_method(true) end,
     vim.tbl_extend("force", opts, { desc = "Extract Method" }))
-  
-  map("v", "<leader>je", function() require('jdtls').extract_variable(true) end,
+  map("v", "<leader>jev", function() require('jdtls').extract_variable(true) end,
     vim.tbl_extend("force", opts, { desc = "Extract Variable" }))
 end
 
