@@ -41,6 +41,7 @@ function M.setup()
       "cssls",
       "tailwindcss",
       "marksman",
+      "jdtls", -- Java language server
       -- Add other LSPs you use here
     },
 
