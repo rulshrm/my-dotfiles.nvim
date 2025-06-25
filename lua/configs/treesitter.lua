@@ -37,15 +37,6 @@ return {
     enable = true,              -- Enable indentation based on syntax
   },
 
-  autotag = {
-    enable = true,              -- Enable autotagging
-    filetypes = {
-      'html', 'javascript', 'typescript', 'javascriptreact', 'typescriptreact', 
-      'svelte', 'vue', 'tsx', 'jsx', 'rescript', 'xml',
-      'php', 'markdown', 'astro', 'glimmer', 'handlebars', 'hbs'
-    },
-  },
-
   context_commentstring = {
     enable = true,              -- Enable context comment string
     enable_autocmd = false,     -- Disable automatic commands
