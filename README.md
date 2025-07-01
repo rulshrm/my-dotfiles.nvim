@@ -1,6 +1,6 @@
 # My Neovim Dotfiles
 
-Welcome to my Neovim configuration! This repository contains my custom Neovim setup tailored for web development, including support for **React**, **TypeScript**, **JavaScript**, and more. It is built using [NvChad](https://github.com/NvChad/NvChad) as the base configuration and extended with additional plugins and customizations.
+Welcome to my Neovim configuration! This repository contains my custom Neovim setup tailored for web development and other programming languages, including support for **React**, **TypeScript**, **JavaScript**, **Java**, **PHP/Laravel**, and more. It is built using [NvChad](https://github.com/NvChad/NvChad) as the base configuration and extended with additional plugins and customizations.
 
 ## Features
 
@@ -68,42 +68,50 @@ Welcome to my Neovim configuration! This repository contains my custom Neovim se
 
 ### General
 - `;`: Enter command mode
-- `jk`: Exit insert mode
+- `jk`: Exit insert mode (in insert mode)
+- `<leader>ih`: Toggle inlay hints
+- `<leader>tw`: Toggle word wrap
+
+### LSP
+- `gd`: Go to Definition
+- `gr`: Go to References
+- `K`: Show hover documentation
+- `<leader>rn`: Rename symbol
+- `<leader>ca`: Code actions
+- `[d`: Previous diagnostic
+- `]d`: Next diagnostic
+- `<leader>d`: Show line diagnostics
 
 ### Formatting
-- `<leader>f`: Format current file with null-ls/prettierd
+- `<leader>f`: Format current file with conform.nvim
 
-### Tab Navigation
-- `<Tab>`: Next tab.
-- `<S-Tab>`: Previous tab.
-- `<leader>tc`: Close current tab.
-- `<leader>ba`: Close all buffers except the current one.
-- `<leader>bl`: Close all buffers to the left.
-- `<leader>br`: Close all buffers to the right.
-- `<leader>1`–`<leader>9`: Go to specific tab.
+### Tab Navigation (using barbar.nvim)
+- `<Tab>`: Next tab
+- `<S-Tab>`: Previous tab
+- `<leader>tc`: Close current tab
+- `<leader>ba`: Close all buffers except current
+- `<leader>bl`: Close all buffers to the left
+- `<leader>br`: Close all buffers to the right
+- `<leader>1-9`: Go to specific tab
+- `<leader>0`: Go to last tab
+
+### Window Management
+- `<leader>ws`: Split horizontally
+- `<leader>wv`: Split vertically
+- `<leader>wh`: Move to left window
+- `<leader>wj`: Move to bottom window
+- `<leader>wk`: Move to top window
+- `<leader>wl`: Move to right window
+- `<leader>wq`: Close current window
 
 ### Telescope
-- `<leader>ff`: Find files.
-- `<leader>fg`: Live grep.
-- `<leader>fb`: Find buffers.
-- `<leader>fh`: Find help tags.
+- `<leader>ff`: Find files
+- `<leader>fg`: Live grep (search in files)
+- `<leader>fb`: Find buffers
+- `<leader>fh`: Find help tags
 
-### W.
-lescope
-- `<leader>ff`: Find files.
-- `<leader>fg`: Live grep.
-- `<leader>fb`: Find buffers.
-- `<leader>fh`: Find help tags.
-ndow Management
-- `<leader>ws`: Split horizontally.
-- `<leader>wv`: Split vertically.
-- `<leader>wh`: Move to the left window.
-- `<leader>wj`: Move to the bottom window.
-- `<leader>wk`: Move to the top window.
-- `<leader>wl`: Move to the right window.
-- `<leader>wq`: Close the current window.
-
-### Git
+### Git Integration
+#### Gitsigns
 - `<leader>gs`: Stage hunk
 - `<leader>gu`: Undo stage hunk
 - `<leader>gp`: Preview hunk
@@ -111,8 +119,30 @@ ndow Management
 - `<leader>gr`: Reset hunk
 - `<leader>gR`: Reset buffer
 
+#### Git Graph (Fugit2)
+- `<leader>gg`: Open Git Graph
+- `<leader>gf`: Show File History
+- `<leader>gdf`: Show Git Diff
+
+#### Git Conflict
+- `<leader>gco`: Choose Ours
+- `<leader>gct`: Choose Theirs
+- `<leader>gcb`: Choose Both
+- `<leader>gcn`: Next Conflict
+- `<leader>gcp`: Previous Conflict
+
+### Java Development
+- `<leader>jr`: Run Java file
+- `<leader>jR`: Run Java file with arguments
+- `<leader>jt`: Run Java test class
+- `<leader>jn`: Run nearest Java test method
+- `<leader>jo`: Organize imports
+- `<leader>jb`: Toggle breakpoint
+- `<leader>jem`: Extract method (visual mode)
+- `<leader>jev`: Extract variable (visual mode)
+
 ### Debugging
-- `<F5>`: Start debugging
+- `<F5>`: Start/Continue debugging
 - `<F10>`: Step over
 - `<F11>`: Step into
 - `<F12>`: Step out
@@ -120,10 +150,37 @@ ndow Management
 - `<leader>dr`: Open debug REPL
 
 ### Copilot
-- `<Tab>`: Accept Copilot suggestion
+- `<Tab>`: Accept suggestion
 - `<C-n>`: Next suggestion
 - `<C-p>`: Previous suggestion
 - `<C-d>`: Dismiss suggestion
+
+### REST Client
+- `<leader>rr`: Run HTTP request
+- `<leader>rp`: Preview HTTP request
+- `<leader>rl`: Run last HTTP request
+
+### Code Refactoring
+- `<leader>re`: Extract function (visual mode)
+- `<leader>rf`: Extract function to file (visual mode)
+- `<leader>rv`: Extract variable (visual mode)
+- `<leader>ri`: Inline variable (visual mode)
+- `<leader>rb`: Extract block
+- `<leader>rbf`: Extract block to file
+
+### Laravel (PHP)
+- `<leader>la`: Laravel Artisan
+- `<leader>lr`: Laravel Routes
+- `<leader>lm`: Laravel Make
+- `<leader>lt`: Laravel Tinker
+- `<leader>lc`: Composer
+
+### Folding
+- `zc`: Close fold under cursor
+- `zo`: Open fold under cursor
+- `za`: Toggle fold under cursor
+- `zM`: Close all folds
+- `zR`: Open all folds
 
 ## File Structure
 
