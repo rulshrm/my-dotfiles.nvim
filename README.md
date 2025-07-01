@@ -188,26 +188,71 @@ Welcome to my Neovim configuration! This repository contains my custom Neovim se
 ~/.config/nvim/
 ├── init.lua                 # Main configuration file
 ├── lazy-lock.json          # Plugin version lock file
-├── chadrc.lua             # NvChad configuration
-├── mappings.lua           # Key mappings
-├── options.lua            # Neovim options
-├── configs/               # Plugin configurations
-│   ├── autocmds.lua      # Auto commands
-│   ├── barbar.lua        # Tab line configuration
-│   ├── chunk.lua         # Code chunk highlighting
-│   ├── cmp.lua           # Completion configuration
-│   ├── dap.lua           # Debug adapter configuration
-│   ├── discord.lua       # Discord presence
-│   ├── gitsigns.lua      # Git integration
-│   ├── inline-diagnostics.lua
-│   ├── lspconfig.lua     # LSP configuration
-│   ├── mason.lua         # LSP installer configuration
-│   ├── null-ls.lua       # Formatting/linting
-│   └── treesitter.lua    # Syntax highlighting
-└── plugins/
-    └── init.lua          # Plugin declarations
+├── LICENSE                 # MIT License file
+├── README.md              # Documentation
+└── lua/                   # Lua configurations
+    ├── configs/           # Plugin configurations
+    │   ├── autocmds.lua          # Auto commands
+    │   ├── barbar.lua            # Tab line configuration
+    │   ├── cmp.lua               # Completion configuration
+    │   ├── copilot-chat.lua      # GitHub Copilot chat
+    │   ├── discord.lua           # Discord presence
+    │   ├── folding.lua           # Code folding settings
+    │   ├── gitsigns.lua          # Git integration
+    │   ├── java_utils.lua        # Java utilities
+    │   ├── lspconfig.lua         # LSP configuration
+    │   ├── notify.lua            # Notification system
+    │   ├── null-ls.lua           # Formatting/linting
+    │   ├── null-ls-patch.lua     # Patches for null-ls
+    │   ├── refactoring.lua       # Code refactoring
+    │   ├── rest.lua              # HTTP client
+    │   ├── telescope.lua         # Fuzzy finder
+    │   ├── treesitter.lua        # Syntax highlighting
+    │   └── which-key.lua         # Keybinding helper
+    ├── mappings.lua       # Key mappings
+    ├── options.lua        # Neovim options
+    └── plugins/           # Plugin definitions
+        ├── completion/    # Completion plugins
+        │   └── init.lua
+        ├── docs/          # Documentation plugins
+        │   └── init.lua
+        ├── editor/        # Editor enhancement plugins
+        │   └── init.lua
+        ├── git/          # Git-related plugins
+        │   └── init.lua
+        ├── lsp/          # Language Server plugins
+        │   └── init.lua
+        ├── ui/           # User Interface plugins
+        │   └── init.lua
+        └── init.lua      # Core plugins
 ```
 
-## License
+### Key Directories
 
-This configuration is open-source and available under the [MIT License](LICENSE).
+- `lua/configs/`: Contains configuration files for individual plugins
+- `lua/plugins/`: Contains plugin declarations and groupings
+- `lua/`: Core Neovim configurations
+  - `mappings.lua`: All keybindings
+  - `options.lua`: Neovim options and settings
+
+### Plugin Organization
+
+- **Core Plugins**: `plugins/init.lua` - Basic and essential plugins
+- **Completion Plugins**: `plugins/completion/init.lua` - Autocompletion and snippets
+- **Editor Plugins**: `plugins/editor/init.lua` - Editor enhancements
+- **Git Plugins**: `plugins/git/init.lua` - Git integration features
+- **LSP Plugins**: `plugins/lsp/init.lua` - Language server related plugins
+- **UI Plugins**: `plugins/ui/init.lua` - User interface improvements
+- **Documentation Plugins**: `plugins/docs/init.lua` - Documentation generation
+
+### Configuration Files
+
+Each plugin configuration in `configs/` follows a modular approach:
+- **LSP**: `lspconfig.lua` - Language server configurations
+- **Formatting**: `null-ls.lua` - Code formatting and linting
+- **Git**: `gitsigns.lua` - Git integration features
+- **Completion**: `cmp.lua` - Autocompletion settings
+- **Java**: `java_utils.lua` - Java-specific utilities
+- **UI**: `notify.lua`, `which-key.lua` - User interface enhancements
+- **Editor**: `folding.lua`, `treesitter.lua` - Editor functionality
+- **Tools**: `rest.lua`, `refactoring.lua` - Development tools
