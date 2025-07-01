@@ -2,73 +2,33 @@
 
 Welcome to my Neovim configuration! This repository contains my custom Neovim setup tailored for web development and other programming languages, including support for **React**, **TypeScript**, **JavaScript**, **Java**, **PHP/Laravel**, and more. It is built using [NvChad](https://github.com/NvChad/NvChad) as the base configuration and extended with additional plugins and customizations.
 
-<details>
-<summary>## Features</summary>
+## Key Features
 
-- **LSP Support**: Configured with `nvim-lspconfig` and `mason.nvim` for managing LSP servers
-- **Formatting and Linting**: Integrated with `null-ls.nvim` for tools like `prettierd`, `eslint_d`, and more
-- **Treesitter**: Syntax highlighting, incremental selection, and text objects powered by `nvim-treesitter`
-- **Autocompletion**: Configured with `nvim-cmp` and `copilot.vim` for AI-powered suggestions
-- **Debugging**: Debugging support using `nvim-dap` for Node.js and TypeScript
-- **Tabline**: Beautiful tabline using `barbar.nvim`
-- **Git Integration**: Git features powered by `gitsigns.nvim`
-- **Rich UI**: Enhanced visuals with `indent-blankline.nvim`, `hlchunk.nvim`, and `nvim-colorizer.lua`
-- **Discord Rich Presence**: Integrated with `neocord`
-- **Import Cost**: View import costs in JavaScript/TypeScript files with `import-cost.nvim`
-</details>
+- **LSP Support** with `nvim-lspconfig` and `mason.nvim`
+- **Formatting/Linting** with `null-ls.nvim`
+- **Autocompletion** with `nvim-cmp` and `copilot.vim`
+- **Git Integration** with `gitsigns.nvim`
+- **Debugging** with `nvim-dap`
 
-<details>
-<summary>## Installation</summary>
+## Quick Install
 
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/rulshrm/my-dotfiles.nvim.git ~/.config/nvim
-   ```
+```bash
+git clone https://github.com/rulshrm/my-dotfiles.nvim.git ~/.config/nvim
+```
 
-2. Install [Neovim](https://neovim.io/) (v0.8 or later)
+Install dependencies:
+- Neovim (v0.8+)
+- Node.js
+- Python
+- Go
+- Rust
 
-3. Install the required dependencies:
-- **Node.js**: Required for LSP servers like `typescript-language-server` and `eslint_d`.
-   - **Python**: Required for Python LSP and tools like `ruff`.
-   - **Go**: Required for Go LSP (`gopls`).
-   - **Rust**: Required for Rust LSP (`rust-analyzer`).
+Then run in Neovim:
+```bash
+:Lazy sync
+```
 
-4. Open Neovim and run the following command to install plugins:
-   ```bash
-      :Lazy sync
-      ```
-
-5. Restart Neovim, and you're ready to go!
-</details>
-
-## Key Features and Plugins
-
-### LSP Configuration
-- Managed by `mason.nvim` and `nvim-lspconfig`
-- Preconfigured LSP servers:
-  - TypeScript/JavaScript (`tsserver`)
-  - HTML/CSS (`html`, `cssls`)
-  - JSON (`jsonls`)
-  - YAML (`yamlls`)
-  - Lua (`lua_ls`)
-
-### Formatting and Linting
-- **`null-ls.nvim`**: Provides formatting through `prettierd` and linting through `eslint_d`
-- Format on save enabled for supported file types
-- Manual formatting with `<leader>f`
-
-### Debugging
-- Debugging support with `nvim-dap`:
-  - Configured for Node.js and TypeScript
-
-### Git Integration
-- Git features with `gitsigns.nvim`:
-  - Stage/unstage hunks
-  - Preview changes
-  - Line blame
-  - and more
-
-## Key Mappings
+## Essential Keymaps
 
 ### General
 - `;`: Enter command mode
