@@ -71,4 +71,30 @@ return {
       "Fugit2GitDiff",
     },
   },
+  
+  {
+    "tpope/vim-fugitive",
+    event = "VeryLazy",
+    config = function()
+      -- Git command aliases
+      vim.cmd([[
+        command! -nargs=0 GStatus Git
+        command! -nargs=0 GCommit Git commit
+        command! -nargs=0 GPush Git push
+        command! -nargs=0 GPull Git pull
+      ]])
+    end,
+  },
+  
+  {
+    "ThePrimeagen/git-worktree.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require("git-worktree").setup({
+        change_directory_command = "cd",
+        update_on_change = true,
+        clearjumps_on_change = true,
+      })
+    end,
+  },
 }
