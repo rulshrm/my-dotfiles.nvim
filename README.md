@@ -2,7 +2,8 @@
 
 Welcome to my Neovim configuration! This repository contains my custom Neovim setup tailored for web development and other programming languages, including support for **React**, **TypeScript**, **JavaScript**, **Java**, **PHP/Laravel**, and more. It is built using [NvChad](https://github.com/NvChad/NvChad) as the base configuration and extended with additional plugins and customizations.
 
-## Features
+<details>
+<summary>## Features</summary>
 
 - **LSP Support**: Configured with `nvim-lspconfig` and `mason.nvim` for managing LSP servers
 - **Formatting and Linting**: Integrated with `null-ls.nvim` for tools like `prettierd`, `eslint_d`, and more
@@ -14,8 +15,10 @@ Welcome to my Neovim configuration! This repository contains my custom Neovim se
 - **Rich UI**: Enhanced visuals with `indent-blankline.nvim`, `hlchunk.nvim`, and `nvim-colorizer.lua`
 - **Discord Rich Presence**: Integrated with `neocord`
 - **Import Cost**: View import costs in JavaScript/TypeScript files with `import-cost.nvim`
+</details>
 
-## Installation
+<details>
+<summary>## Installation</summary>
 
 1. Clone this repository:
    ```bash
@@ -36,6 +39,7 @@ Welcome to my Neovim configuration! This repository contains my custom Neovim se
       ```
 
 5. Restart Neovim, and you're ready to go!
+</details>
 
 ## Key Features and Plugins
 
@@ -182,7 +186,9 @@ Welcome to my Neovim configuration! This repository contains my custom Neovim se
 - `zM`: Close all folds
 - `zR`: Open all folds
 
-## File Structure
+<details>
+
+<summary>## File Structure</summary>
 
 ```
 ~/.config/nvim/
@@ -256,6 +262,8 @@ Each plugin configuration in `configs/` follows a modular approach:
 - **UI**: `notify.lua`, `which-key.lua` - User interface enhancements
 - **Editor**: `folding.lua`, `treesitter.lua` - Editor functionality
 - **Tools**: `rest.lua`, `refactoring.lua` - Development tools
+
+</details>
 
 ## License
 
