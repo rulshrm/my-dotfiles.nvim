@@ -45,4 +45,30 @@ return {
       })
     end,
   },
+  
+  {
+    "SuperBo/fugit2.nvim",
+    opts = {
+      keymaps = {
+        graph = {
+          ["<leader>gg"] = "toggle_git_graph", -- Toggle Git Graph view
+          ["<leader>gf"] = "toggle_file_history", -- Toggle File History view
+          ["<leader>gd"] = "toggle_git_diff", -- Toggle Git Diff view
+          ["<C-k>"] = "select_prev_entry", -- Navigate up
+          ["<C-j>"] = "select_next_entry", -- Navigate down
+          ["<CR>"] = "select_entry", -- Select entry
+          ["q"] = "close", -- Close the view
+        },
+      },
+    },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "sindrets/diffview.nvim",
+    },
+    cmd = {
+      "Fugit2Graph",
+      "Fugit2FileHistory",
+      "Fugit2GitDiff",
+    },
+  },
 }
