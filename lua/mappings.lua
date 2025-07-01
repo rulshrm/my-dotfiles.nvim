@@ -111,6 +111,18 @@ map("n", "<leader>gb", "<Cmd>Gitsigns blame_line<CR>", { desc = "Blame Line" })
 map("n", "<leader>gr", "<Cmd>Gitsigns reset_hunk<CR>", { desc = "Reset Hunk" })
 map("n", "<leader>gR", "<Cmd>Gitsigns reset_buffer<CR>", { desc = "Reset Buffer" })
 
+-- Git keymaps
+map("n", "<leader>gd", "<cmd>DiffviewOpen<cr>", { desc = "Git Diff View" })
+map("n", "<leader>gh", "<cmd>DiffviewFileHistory<cr>", { desc = "Git File History" })
+map("n", "<leader>gc", "<cmd>DiffviewClose<cr>", { desc = "Close Diff View" })
+
+-- Git Conflict keymaps
+map("n", "<leader>gco", "<cmd>GitConflictChooseOurs<cr>", { desc = "Choose Ours" })
+map("n", "<leader>gct", "<cmd>GitConflictChooseTheirs<cr>", { desc = "Choose Theirs" })
+map("n", "<leader>gcb", "<cmd>GitConflictChooseBoth<cr>", { desc = "Choose Both" })
+map("n", "<leader>gcn", "<cmd>GitConflictNextConflict<cr>", { desc = "Next Conflict" })
+map("n", "<leader>gcp", "<cmd>GitConflictPrevConflict<cr>", { desc = "Previous Conflict" })
+
 -- Keybindings untuk Copilot
 map("i", "<Tab>", function()
   vim.fn.feedkeys(vim.fn["copilot#Accept"](), "")
