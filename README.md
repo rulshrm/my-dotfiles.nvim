@@ -256,3 +256,7 @@ Each plugin configuration in `configs/` follows a modular approach:
 - **UI**: `notify.lua`, `which-key.lua` - User interface enhancements
 - **Editor**: `folding.lua`, `treesitter.lua` - Editor functionality
 - **Tools**: `rest.lua`, `refactoring.lua` - Development tools
+
+## License
+
+This configuration is open-source and available under the [MIT License](LICENSE).
