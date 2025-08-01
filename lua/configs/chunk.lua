@@ -12,6 +12,8 @@ M.setup = function()
         "*.vue",
         "*.svelte",
         "*.lua",
+        "*.php",
+        "*.python",
         "*.*"
       },
       chars = {
@@ -26,8 +28,8 @@ M.setup = function()
       },
     },
     indent = {
-      enable = true,
-      use_treesitter = true,
+      enable = true,  -- Indent guide
+      use_treesitter = true,  -- Gunakan treesitter untuk indentasi yang lebih akurat
       chars = {
         "│",
       },
@@ -37,6 +39,7 @@ M.setup = function()
     },
     line_num = {
       enable = true,
+      style = "#806d9c",
     },
     blank = {
       enable = true,
