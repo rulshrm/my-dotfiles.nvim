@@ -15,16 +15,6 @@ return {
     end,
   },
   {
-    "lukas-reineke/indent-blankline.nvim",
-    event = { "BufReadPre", "BufNewFile" },
-    opts = {
-      indent = { char = "│", highlight = "IblChar" },
-    },
-    config = function(_, opts)
-      require("ibl").setup(opts)
-    end,
-  },
-  {
     "shellRaining/hlchunk.nvim",
     event = { "UIEnter" },
     config = function()
