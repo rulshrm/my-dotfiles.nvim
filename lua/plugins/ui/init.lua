@@ -24,4 +24,11 @@ return {
       require("ibl").setup(opts)
     end,
   },
+  {
+    "shellRaining/hlchunk.nvim",
+    event = { "UIEnter" },
+    config = function()
+      require("configs.chunk").setup()
+    end,
+  },
 }
