@@ -124,3 +124,56 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.b.format_on_save = true
   end,
 })
+
+-- Dotfiles and .env files group
+local dotfiles_group = augroup("DotfilesGroup", { clear = true })
+
+autocmd("BufRead", {
+  group = dotfiles_group,
+  pattern = {
+    ".env*",
+    ".*rc",
+    ".clang-format",
+    ".eslintrc*",
+    ".prettierrc*",
+    ".gitignore",
+    ".dockerignore",
+    "*.conf",
+  },
+  callback = function()
+    -- Set filetype for better syntax highlighting
+    vim.bo.filetype = "dotenv"
+    
+    -- Enable line numbers
+    vim.wo.number = true
+    
+    -- Set commentstring
+    vim.bo.commentstring = "# %s"
+    
+    -- Add warning for sensitive files
+    if vim.fn.expand("%:t"):match("%.env.*") then
+      vim.notify(
+        "⚠️ Warning: Editing sensitive environment file", 
+        vim.log.levels.WARN
+      )
+    end
+  end,
+})
+
+-- Hide sensitive values in .env files
+autocmd("BufRead", {
+  group = dotfiles_group,
+  pattern = ".env*",
+  callback = function()
+    -- Highlight sensitive keywords
+    vim.cmd([[
+      syntax match envComment "#.*$"
+      syntax match envKey "\v^\s*\w+\ze\="
+      syntax match envValue "\v\=\zs.*$"
+      
+      highlight link envComment Comment
+      highlight link envKey Identifier
+      highlight link envValue String
+    ]])
+  end,
+})
