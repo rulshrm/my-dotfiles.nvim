@@ -72,7 +72,7 @@ map("n", "<leader>9", "<Cmd>BufferGoto 9<CR>", { desc = "Pindah ke tab 9" })
 map("n", "<leader>0", "<Cmd>BufferLast<CR>", { desc = "Pindah ke tab terakhir" })
 
 -- Telescope mappings
-map("n", "<leader>ff", "<Cmd>Telescope find_files<CR>", { desc = "Cari File" })
+map('n', '<leader>ff', "<cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})<cr>", { desc = "Cari File (Hidden)" })
 map("n", "<leader>fg", "<Cmd>Telescope live_grep<CR>", { desc = "Cari Teks" })
 map("n", "<leader>fb", "<Cmd>Telescope buffers<CR>", { desc = "Cari Buffer" })
 map("n", "<leader>fh", "<Cmd>Telescope help_tags<CR>", { desc = "Cari Help" })
