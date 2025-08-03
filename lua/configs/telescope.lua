@@ -33,6 +33,7 @@ telescope.setup({
       "--smart-case",
       "--hidden",
       "--glob=!.git/*",
+      "--glob=!node_modules/*",
     },
   },
   pickers = {
@@ -44,11 +45,15 @@ telescope.setup({
         "--hidden",  -- Show hidden files
         "--no-ignore",  -- Don't respect .gitignore
         "--exclude", ".git",
+        "--exclude", "node_modules",
       },
     },
     live_grep = {
       additional_args = function()
-        return { "--hidden" }  -- Include hidden files in live grep
+        return { 
+          "--hidden",  -- Include hidden files in live grep
+          "--glob=!node_modules/*"
+        }
       end,
     },
   },
