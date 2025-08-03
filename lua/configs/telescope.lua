@@ -1,18 +1,19 @@
-local actions = require("telescope.actions")
+local telescope = require('telescope')
+local actions = require('telescope.actions')
 
-return {
+telescope.setup({
   defaults = {
     prompt_prefix = " 󰭎 ",
     selection_caret = "  ",
     path_display = { "smart" },
     file_ignore_patterns = {
       "node_modules",
-      ".git",
-      "target",
-      "vendor",
+      ".git/",
       "dist",
       "build",
+      "target",
     },
+    hidden = true,  -- Show hidden files
     mappings = {
       i = {
         ["<C-j>"] = actions.move_selection_next,
@@ -31,24 +32,29 @@ return {
       "--column",
       "--smart-case",
       "--hidden",
-    },
-    pickers = {
-      find_files = {
-        hidden = true,
-        find_command = { "fd", "--type", "f", "--strip-cwd-prefix" },
-      },
-      live_grep = {
-        --@usage don't include the filename in the search results
-        only_sort_text = true,
-      },
-    },
-    extensions = {
-      fzf = {
-        fuzzy = true,
-        override_generic_sorter = true,
-        override_file_sorter = true,
-        case_mode = "smart_case",
-      },
+      "--glob=!.git/*",
     },
   },
-}
+  pickers = {
+    find_files = {
+      hidden = true,  -- Show hidden files in find_files
+      find_command = {
+        "fd",
+        "--type", "f",
+        "--hidden",  -- Show hidden files
+        "--no-ignore",  -- Don't respect .gitignore
+        "--exclude", ".git",
+      },
+    },
+    live_grep = {
+      additional_args = function()
+        return { "--hidden" }  -- Include hidden files in live grep
+      end,
+    },
+  },
+})
+
+-- Optional: Setup telescope-fzf-native if installed
+pcall(function()
+  telescope.load_extension('fzf')
+end)
