@@ -8,6 +8,40 @@ o.cursorlineopt = 'both'
 local lsp_vim = vim.lsp
 lsp_vim.set_log_level("off")
 
+-- Show hidden files
+vim.opt.hidden = true
+
+-- Set higher max file size for reading
+vim.opt.maxmempattern = 2000000  -- 2MB
+
+-- Show all files including dotfiles
+vim.g.nvim_tree_show_hidden = 1
+vim.g.nvim_tree_hide_dotfiles = 0
+
+-- Enable dot file detection
+vim.g.show_hidden = true
+
+-- Enable .env file detection
+vim.g.dotenv_pattern = '.env*'
+
+-- Add .env to recognized file types
+vim.filetype.add({
+  pattern = {
+    ['.env.*'] = 'dotenv',
+    ['.env'] = 'dotenv',
+  },
+})
+
+-- Configure list chars for better visualization
+vim.opt.list = true
+vim.opt.listchars = {
+  tab = '→ ',
+  eol = '↵',
+  trail = '•',
+  extends = '❯',
+  precedes = '❮',
+}
+
 -- highlight untuk hlchunk
 vim.api.nvim_set_hl(0, "HlchunkIndent", { fg = "#2d3343" })
 vim.api.nvim_set_hl(0, "HlchunkScope", { fg = "#61afef" })
@@ -71,7 +105,3 @@ vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldenable = false
 
 vim.opt.termguicolors = true
-
-vim.opt.list = true
-vim.opt.listchars:append "space:⋅"
-vim.opt.listchars:append "eol:↴"
