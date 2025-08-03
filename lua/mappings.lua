@@ -73,7 +73,8 @@ map("n", "<leader>0", "<Cmd>BufferLast<CR>", { desc = "Pindah ke tab terakhir" }
 
 -- Telescope mappings
 map('n', '<leader>ff', "<cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})<cr>", { desc = "Cari File (Hidden)" })
-map("n", "<leader>fg", "<Cmd>Telescope live_grep<CR>", { desc = "Cari Teks" })
+map('n', '<leader>fa', "<cmd>lua require'telescope.builtin'.find_files({ hidden = true, no_ignore = true })<cr>", { desc = "Cari Semua File" })
+map("n", "<leader>fg", "<cmd>lua require'telescope.builtin'.live_grep({ hidden = true })<cr>", { desc = "Cari Teks (Hidden)" })
 map("n", "<leader>fb", "<Cmd>Telescope buffers<CR>", { desc = "Cari Buffer" })
 map("n", "<leader>fh", "<Cmd>Telescope help_tags<CR>", { desc = "Cari Help" })
 
