@@ -38,4 +38,12 @@ return {
       }
     }
   },
+  {
+    "mg979/vim-visual-multi",
+    event = "VeryLazy",
+    branch = "master",
+    config = function()
+      require("configs.visual-multi").setup()
+    end,
+  },
 }
