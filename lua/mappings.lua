@@ -281,3 +281,7 @@ vim.api.nvim_create_autocmd("FileType", {
 map("n", "<leader>gg", "<cmd>Fugit2Graph<cr>", { desc = "Git Graph" })
 map("n", "<leader>gf", "<cmd>Fugit2FileHistory<cr>", { desc = "File History" })
 map("n", "<leader>gdf", "<cmd>Fugit2GitDiff<cr>", { desc = "Git Diff" })
+
+-- File Explorer mappings
+map("n", "<leader>e", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle File Explorer" })
+map("n", "<leader>E", "<cmd>NvimTreeFocus<CR>", { desc = "Focus File Explorer" })
