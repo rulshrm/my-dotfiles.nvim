@@ -283,5 +283,11 @@ map("n", "<leader>gf", "<cmd>Fugit2FileHistory<cr>", { desc = "File History" })
 map("n", "<leader>gdf", "<cmd>Fugit2GitDiff<cr>", { desc = "Git Diff" })
 
 -- File Explorer mappings
-map("n", "<leader>e", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle File Explorer" })
-map("n", "<leader>E", "<cmd>NvimTreeFocus<CR>", { desc = "Focus File Explorer" })
+map("n", "<leader>e", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle Explorer" })
+map("n", "<leader>E", "<cmd>NvimTreeFocus<CR>", { desc = "Focus Explorer" })
+map("n", "<leader>ef", "<cmd>NvimTreeFindFile<CR>", { desc = "Reveal File" })
+map("n", "<leader>er", "<cmd>NvimTreeRefresh<CR>", { desc = "Refresh Explorer" })
+map('n', '<leader>\\', '<cmd>NvimTreeToggle<CR>', 
+  { desc = "Tampilkan/Sembunyikan File Explorer", noremap = true, silent = true })
+map('n', '<leader><bar>', '<cmd>NvimTreeFindFile<CR>', 
+  { desc = "Temukan File Saat Ini di Explorer", noremap = true, silent = true })
