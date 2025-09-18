@@ -51,6 +51,14 @@ vim.api.nvim_set_hl(0, "ImportCostSmall", { fg = "#98c379", bold = true })
 vim.api.nvim_set_hl(0, "ImportCostMedium", { fg = "#e5c07b", bold = true })
 vim.api.nvim_set_hl(0, "ImportCostLarge", { fg = "#e06c75", bold = true })
 
+-- Icon dan folder highlights
+vim.api.nvim_set_hl(0, "NvimTreeFolderIcon", { fg = "#4FC1FF" })
+vim.api.nvim_set_hl(0, "NvimTreeFolderName", { fg = "#4FC1FF" })
+vim.api.nvim_set_hl(0, "NvimTreeOpenedFolderName", { fg = "#9CDCFE", bold = true })
+vim.api.nvim_set_hl(0, "NvimTreeEmptyFolderName", { fg = "#4FC1FF", italic = true })
+vim.api.nvim_set_hl(0, "NvimTreeIndentMarker", { fg = "#3b4261" })
+vim.api.nvim_set_hl(0, "NvimTreeSymlinkFolderName", { fg = "#7FDBCA" })
+
 -- Text wrap configuration
 vim.opt.wrap = true               -- Enable line wrapping
 vim.opt.breakindent = true        -- Preserve indentation in wrapped text
