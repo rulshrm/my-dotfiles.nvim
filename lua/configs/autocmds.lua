@@ -39,20 +39,16 @@ local general_group = augroup("GeneralGroup", { clear = true })
 -- Format group dengan throttling
 autocmd("BufWritePre", {
   group = format_group,
-  pattern = { "*.js", "*.jsx", "*.ts", "*.tsx", "*.json" },
-  callback = format
-})
-
--- Limit format on save hanya untuk file dibawah ukuran tertentu
-autocmd("BufWritePre", {
-  pattern = { "*.js", "*.ts", "*.tsx" },
+  pattern = { "*.js", "*.jsx", "*.ts", "*.tsx", "*.json", "*.lua", "*.php", "*.md", "*.yml", "*.yaml" },
   callback = function()
-    local max_size = 100 * 1024  -- 100KB
+    local max_size = 150 * 1024  -- 150KB
     local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(0))
     if ok and stats and stats.size < max_size then
-      require("conform").format()
+      pcall(function()
+        require("conform").format({ async = false, timeout_ms = 2000, lsp_fallback = true })
+      end)
     end
-  end,
+  end
 })
 
 -- Optimize file reload
