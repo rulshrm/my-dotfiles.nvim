@@ -21,4 +21,24 @@ return {
       require("configs.chunk").setup()
     end,
   },
+  {
+    "nvim-tree/nvim-web-devicons",
+    lazy = false,
+    config = function()
+      require("configs.devicons").setup()
+    end,
+  },
+  {
+    "DaikyXendo/nvim-material-icon",
+    lazy = false,
+  },
+  {
+    "nvim-tree/nvim-tree.lua",
+    lazy = false,
+    version = "*",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require("configs.nvim-tree").setup()
+    end,
+  },
 }
