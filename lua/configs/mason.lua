@@ -13,10 +13,13 @@ function M.setup()
     return
   end
 
-  local lspconfig_status, lspconfig = pcall(require, "lspconfig")
-  if not lspconfig_status then
-    vim.notify("nvim-lspconfig not found!", vim.log.levels.ERROR)
-    return
+  local registry = rawget(vim.lsp, "config")
+  if registry == nil then
+    local ok = pcall(require, "lspconfig")
+    if not ok then
+      vim.notify("nvim-lspconfig not found!", vim.log.levels.ERROR)
+      return
+    end
   end
 
   mason.setup({
@@ -31,6 +34,7 @@ function M.setup()
     -- log_level = vim.log.levels.DEBUG, -- Uncomment for debugging
   })
 
+  local setup_server = require("configs.lspconfig").setup_server
   mason_lspconfig.setup({
     ensure_installed = {
       "lua_ls",
@@ -47,11 +51,11 @@ function M.setup()
 
     handlers = {
       function(server_name)
-        lspconfig[server_name].setup({})
+        setup_server(server_name, {})
       end,
 
       ["lua_ls"] = function()
-        lspconfig.lua_ls.setup({
+        setup_server("lua_ls", {
           settings = {
             Lua = {
               completion = {
@@ -70,13 +74,13 @@ function M.setup()
       end,
       
       ["tsserver"] = function()
-        lspconfig.tsserver.setup({
+        setup_server("tsserver", {
           -- Add any tsserver specific settings here
         })
       end,
 
       ["eslint"] = function()
-        lspconfig.eslint.setup({
+        setup_server("eslint", {
            -- ESLint specific settings
         })
       end,

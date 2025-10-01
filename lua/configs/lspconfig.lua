@@ -1,5 +1,48 @@
 local M = {}
 
+local legacy_lspconfig
+local legacy_checked = false
+
+local function resolve_server(server)
+  local registry = rawget(vim.lsp, "config")
+
+  if registry ~= nil then
+    if type(registry) == "table" and registry[server] then
+      return registry[server]
+    end
+
+    if type(registry) == "function" then
+      local ok, config = pcall(registry, server)
+      if ok and config then
+        return config
+      end
+    end
+
+    return nil
+  end
+
+  if not legacy_checked then
+    local ok, legacy = pcall(require, "lspconfig")
+    legacy_lspconfig = ok and legacy or nil
+    legacy_checked = true
+  end
+
+  if legacy_lspconfig and legacy_lspconfig[server] then
+    return legacy_lspconfig[server]
+  end
+end
+
+local function setup_server(server, opts)
+  local config = resolve_server(server)
+
+  if config and type(config.setup) == "function" then
+    config.setup(opts or {})
+    return
+  end
+
+  vim.notify(("LSP server '%s' could not be configured."):format(server), vim.log.levels.WARN)
+end
+
 -- Cache capabilities
 local capabilities = vim.tbl_deep_extend(
   "force",
@@ -57,18 +100,16 @@ local on_attach = function(client, bufnr)
 end
 
 M.setup = function()
-  local lspconfig = require("lspconfig")
-
   -- Setup LSP dengan handler & capabilities yang di-cache
   for _, server in ipairs({
     "lua_ls", "ts_ls", "html", "cssls", "jsonls"
   }) do
-    lspconfig[server].setup({
+    setup_server(server, {
       capabilities = capabilities,
       handlers = handlers,
       flags = {
         debounce_text_changes = 150,
-      }
+      },
     })
   end
 
@@ -82,14 +123,14 @@ M.setup = function()
   }
 
   for _, server in ipairs(servers) do
-    lspconfig[server].setup({
+    setup_server(server, {
       on_attach = on_attach,
       capabilities = capabilities,
     })
   end
 
   -- Custom configuration for specific LSPs
-  lspconfig.lua_ls.setup({
+  setup_server("lua_ls", {
     on_attach = on_attach,
     capabilities = capabilities,
     settings = {
@@ -107,7 +148,7 @@ M.setup = function()
     },
   })
 
-  lspconfig.rust_analyzer.setup({
+  setup_server("rust_analyzer", {
     on_attach = on_attach,
     capabilities = capabilities,
     settings = {
@@ -123,7 +164,7 @@ M.setup = function()
   })
 
   -- PHP/Laravel Setup
-  lspconfig.intelephense.setup({
+  setup_server("intelephense", {
     on_attach = on_attach,
     capabilities = capabilities,
     settings = {
@@ -153,7 +194,7 @@ M.setup = function()
   })
 
   -- HTML LSP Configuration
-  lspconfig.html.setup({
+  setup_server("html", {
     capabilities = capabilities,
     on_attach = on_attach,
     filetypes = { "html", "template", "jsx", "tsx" },
@@ -168,7 +209,7 @@ M.setup = function()
   })
 
   -- Emmet LSP Configuration
-  lspconfig.emmet_ls.setup({
+  setup_server("emmet_ls", {
     capabilities = capabilities,
     on_attach = on_attach,
     filetypes = {
@@ -203,9 +244,9 @@ M.setup = function()
   end
 
   -- Java LSP Configuration
-  lspconfig.jdtls.setup({
+  setup_server("jdtls", {
     on_attach = function(client, bufnr)
-      on_attach(client, bufnr)  -- Panggil on_attach default
+      on_attach(client, bufnr)
     end,
     capabilities = capabilities,
     settings = {
@@ -287,4 +328,5 @@ M.setup = function()
   })
 end
 
+M.setup_server = setup_server
 return M
