@@ -1,27 +1,10 @@
 return {
   {
-    "hrsh7th/nvim-cmp",
-    event = "InsertEnter",
-    dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-path",
-      "saadparwaiz1/cmp_luasnip", -- sumber snippets untuk cmp
-      "L3MON4D3/LuaSnip",
-      "rafamadriz/friendly-snippets",
-    },
-    config = function()
-      require "configs.cmp"
-    end,
-  },
-
-  -- Copilot via copilot.lua (bukan copilot.vim) agar integrasi dengan cmp rapi
-  {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     build = ":Copilot auth",
     config = function()
-      -- tidak berdampak ke copilot.lua, tapi aman untuk disetel)
+      -- Set variabel ini agar Tab tidak “diambil” Copilot
       vim.g.copilot_no_tab_map = true
       vim.g.copilot_enable_suggestions = true
       vim.g.copilot_assume_mapped = true
@@ -30,7 +13,7 @@ return {
         suggestion = {
           enabled = true,
           auto_trigger = true,
-          -- Hindari <Tab> untuk accept; gunakan kombinasi lain
+          -- Hindari <Tab> untuk accept, gunakan kombinasi lain
           keymap = {
             accept = "<C-l>",
             next = "<M-]>",
@@ -42,10 +25,9 @@ return {
       }
     end,
   },
-
   {
     "zbirenbaum/copilot-cmp",
-    dependencies = { "zbirenbaum/copilot.lua", "hrsh7th/nvim-cmp" },
+    dependencies = { "zbirenbaum/copilot.lua" },
     event = "InsertEnter",
     config = function()
       require("copilot_cmp").setup()
