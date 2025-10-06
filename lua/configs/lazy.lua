@@ -1,4 +1,11 @@
 return {
+  spec = {
+    { import = "plugins" },
+    { import = "plugins.completion" },
+    { import = "plugins.lsp" },
+    { import = "plugins.formatting" },
+  },
+
   defaults = { lazy = true },
   install = { colorscheme = { "nvchad" } },
 
