@@ -7,7 +7,7 @@ local capabilities = vim.tbl_deep_extend(
   require("cmp_nvim_lsp").default_capabilities()
 )
 
--- Diagnostics: ramah performa dan minim distraksi
+-- Diagnostics: performant and minimally distracting
 vim.diagnostic.config {
   update_in_insert = false,
   virtual_text = false,
@@ -18,7 +18,7 @@ vim.diagnostic.config {
 }
 
 local on_attach = function(client, bufnr)
-  -- Nonaktifkan formatting di server tertentu bila pakai formatter eksternal
+  -- Disable formatting for certain servers when using external formatter
   if client.name == "tsserver" or client.name == "vtsls" then
     client.server_capabilities.documentFormattingProvider = false
     client.server_capabilities.documentRangeFormattingProvider = false

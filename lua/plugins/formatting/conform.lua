@@ -4,7 +4,7 @@ return {
     event = { "BufWritePre" },
     opts = {
       format_on_save = function(bufnr)
-        -- Hindari format saat ada LSP yang lambat
+        -- Avoid formatting when there is a slow LSP
         local disable_ft = {}
         if disable_ft[vim.bo[bufnr].filetype] then
           return

@@ -4,7 +4,7 @@ return {
     cmd = "Copilot",
     build = ":Copilot auth",
     config = function()
-      -- Set variabel ini agar Tab tidak “diambil” Copilot
+      -- Set this variable so that Tab is not taken by Copilot
       vim.g.copilot_no_tab_map = true
       vim.g.copilot_enable_suggestions = true
       vim.g.copilot_assume_mapped = true
@@ -13,7 +13,7 @@ return {
         suggestion = {
           enabled = true,
           auto_trigger = true,
-          -- Hindari <Tab> untuk accept, gunakan kombinasi lain
+          -- Avoid using <Tab> to accept, use another key combination
           keymap = {
             accept = "<C-l>",
             next = "<M-]>",

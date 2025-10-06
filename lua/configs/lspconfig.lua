@@ -1,6 +1,6 @@
 local M = {}
 
--- Coba kompatibel dengan registry LSP baru (Neovim 0.11+) dan fallback ke lspconfig klasik
+-- Try to be compatible with the new LSP registry (Neovim 0.11+) and fallback to classic lspconfig
 local legacy_lspconfig
 local legacy_checked = false
 
@@ -69,7 +69,7 @@ vim.diagnostic.config {
 }
 
 local on_attach = function(client, bufnr)
-  -- Nonaktifkan formatting di TS bila memakai formatter eksternal
+  -- Disable formatting in TS when using external formatter
   if client.name == "tsserver" or client.name == "ts_ls" then
     client.server_capabilities.documentFormattingProvider = false
     client.server_capabilities.documentRangeFormattingProvider = false

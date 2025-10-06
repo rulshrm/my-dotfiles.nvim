@@ -16,7 +16,7 @@ opt.wrap = false
 opt.scrolloff = 6
 opt.sidescrolloff = 6
 
--- Completion UI behavior (penting untuk cmp)
+-- Completion UI behavior (important for cmp)
 opt.completeopt = { "menu", "menuone", "noselect" }
 opt.pumheight = 12
 

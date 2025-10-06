@@ -3,7 +3,7 @@ local luasnip = require("luasnip")
 
 require("luasnip.loaders.from_vscode").lazy_load()
 
--- Opsional: prioritaskan Copilot di atas hasil lain
+-- Optional: prioritize Copilot above other results
 local has_copilot_cmp, copilot_cmp = pcall(require, "copilot_cmp.comparators")
 
 cmp.setup({
@@ -17,14 +17,14 @@ cmp.setup({
     ["<C-e>"]     = cmp.mapping.abort(),
     ["<CR>"]      = cmp.mapping.confirm({ select = true }),
 
-    -- Tab “smart”: navigasi jika ada menu/snippet, kalau tidak -> indent normal
+    -- Smart Tab: navigate if menu/snippet is available, otherwise perform normal indent
     ["<Tab>"]     = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
       elseif luasnip.expand_or_jumpable() then
         luasnip.expand_or_jump()
       else
-        fallback() -- kirim Tab biasa (indent)
+        fallback() -- send regular Tab (indent)
       end
     end, { "i", "s" }),
 
@@ -62,7 +62,7 @@ cmp.setup({
   } or nil,
 })
 
--- Integrasi autopairs pada confirm
+-- Integrate autopairs on confirm
 pcall(function()
   local cmp_autopairs = require("nvim-autopairs.completion.cmp")
   cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())

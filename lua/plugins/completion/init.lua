@@ -6,7 +6,7 @@ return {
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
-      "saadparwaiz1/cmp_luasnip", -- sumber snippets untuk cmp
+      "saadparwaiz1/cmp_luasnip", -- source of snippets for cmp
       "L3MON4D3/LuaSnip",
       "rafamadriz/friendly-snippets",
     },
@@ -15,13 +15,13 @@ return {
     end,
   },
 
-  -- Copilot via copilot.lua (bukan copilot.vim) agar integrasi dengan cmp rapi
+  -- Copilot via copilot.lua (not copilot.vim) for better integration with cmp
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     build = ":Copilot auth",
     config = function()
-      -- tidak berdampak ke copilot.lua, tapi aman untuk disetel)
+      -- Does not affect copilot.lua, but safe to set
       vim.g.copilot_no_tab_map = true
       vim.g.copilot_enable_suggestions = true
       vim.g.copilot_assume_mapped = true
@@ -30,7 +30,7 @@ return {
         suggestion = {
           enabled = true,
           auto_trigger = true,
-          -- Hindari <Tab> untuk accept; gunakan kombinasi lain
+          -- Avoid using <Tab> to accept; use another key combination
           keymap = {
             accept = "<C-l>",
             next = "<M-]>",
