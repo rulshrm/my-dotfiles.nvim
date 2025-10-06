@@ -75,14 +75,18 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Load lazy.nvim configuration
-local lazy_config = require "configs.lazy"
+-- Load lazy.nvim configuration and setup plugins
+local ok, lazy_config = pcall(require, "configs.lazy")
+if not ok then
+  vim.notify("configs.lazy not found, skipping lazy.setup()", vim.log.levels.WARN)
+else
+  require("lazy").setup(lazy_config)
+end
 
--- Setup plugins using lazy.nvim
+-- Setup core (keep after lazy setup so plugins can be available if needed)
 require "core.options"
 require "core.keymaps"
 require "core.autocmds"
-require "lazy"
 
 -- Load base46 theme and statusline
 dofile(vim.g.base46_cache .. "defaults")
