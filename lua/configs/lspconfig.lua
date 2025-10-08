@@ -1,4 +1,5 @@
 local M = {}
+local util = require "lspconfig.util"
 
 -- Capabilities (CMP)
 local capabilities = vim.tbl_deep_extend(
@@ -107,6 +108,25 @@ M.setup = function()
           telemetry = { enable = false },
         },
       },
+    }
+  )
+
+  -- ts_ls (custom)
+  vim.lsp.config(
+    "ts_ls",
+    with_common {
+      root_dir = util.root_pattern("package.json", "tsconfig.json", "jsconfig.json"),
+      single_file_support = false, -- hindari attach di file lepas tanpa proyek
+    }
+  )
+  vim.lsp.enable "ts_ls"
+
+  -- denols (custom)
+  vim.lsp.config(
+    "denols",
+    with_common {
+      root_dir = util.root_pattern("deno.json", "deno.jsonc"),
+      -- init_options = { lint = true, unstable = true },
     }
   )
 
@@ -312,6 +332,7 @@ M.setup = function()
     "intelephense",
     "emmet_ls",
     "jdtls",
+    "typescript-language-server",
   }
   for _, name in ipairs(to_enable) do
     vim.lsp.enable(name)
