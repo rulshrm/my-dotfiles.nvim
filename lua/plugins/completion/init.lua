@@ -15,15 +15,13 @@ return {
     end,
   },
 
-  -- Ganti ke copilot.lua agar integrasi dengan copilot-cmp benar,
-  -- dan pastikan Tab tidak digunakan untuk accept suggestion.
+  -- Use both copilot.lua and github/copilot.vim for both ghost text and completion
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     build = ":Copilot auth",
     config = function()
       -- Variabel berikut efektif untuk copilot.vim, bukan copilot.lua.
-      -- Saya set sesuai permintaan Anda; tidak mengganggu copilot.lua.
       vim.g.copilot_no_tab_map = true
       vim.g.copilot_enable_suggestions = true
       vim.g.copilot_assume_mapped = true
@@ -32,8 +30,6 @@ return {
         suggestion = {
           enabled = true,
           auto_trigger = true,
-          -- Jangan pakai <Tab> agar Tab tetap indent;
-          -- gunakan kombinasi lain untuk accept, mis. <C-l>.
           keymap = {
             accept = "<C-l>",
             accept_word = false,
@@ -43,16 +39,39 @@ return {
             dismiss = "<C-]>",
           },
         },
-        panel = { enabled = false },
+        -- Enable panel for more functionality
+        panel = { enabled = true },
+        -- Disable copilot-cmp integration to restore ghost text
+        filetypes = {
+          ["*"] = true,
+        },
       })
     end,
   },
 
   {
+    "github/copilot.vim",
+    event = "InsertEnter",
+    config = function()
+      -- Enable Copilot suggestion (ghost text)
+      vim.g.copilot_no_tab_map = true
+      vim.g.copilot_assume_mapped = true
+      vim.g.copilot_tab_fallback = ""
+      -- Restore ghost text functionality
+      vim.g.copilot_enabled = true
+      vim.g.copilot_enable_suggestions = true
+    end,
+  },
+
+  -- Configure copilot-cmp as a secondary integration
+  {
     "zbirenbaum/copilot-cmp",
     dependencies = { "zbirenbaum/copilot.lua" },
     config = function()
-      require("copilot_cmp").setup()
+      require("copilot_cmp").setup({
+        event = { "InsertEnter", "LspAttach" },
+        fix_pairs = true,
+      })
     end,
   },
 }

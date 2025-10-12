@@ -17,7 +17,17 @@ cmp.setup {
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
     ["<C-Space>"] = cmp.mapping.complete(),
     ["<C-e>"] = cmp.mapping.abort(),
-    ["<CR>"] = cmp.mapping.confirm { select = true },
+    -- Modified: Only confirm when explicitly selected (select = false)
+    ["<CR>"] = cmp.mapping({
+      i = function(fallback)
+        if cmp.visible() and cmp.get_active_entry() then
+          cmp.confirm({ select = false })
+        else
+          fallback() -- Just add a new line
+        end
+      end,
+      s = cmp.mapping.confirm({ select = true }),
+    }),
 
     -- Penting: Tab tetap indent ketika tidak ada menu/snippet,
     -- dan berfungsi untuk navigasi completion/snippet saat ada.

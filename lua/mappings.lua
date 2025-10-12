@@ -109,20 +109,24 @@ map("n", "<leader>gcp", "<cmd>GitConflictPrevConflict<cr>", { desc = "Previous C
 
 -- Keybindings untuk Copilot
 map("i", "<Tab>", function()
-  vim.fn.feedkeys(vim.fn["copilot#Accept"](), "")
-end, { desc = "Copilot Accept", silent = true, expr = true })
+  if require("copilot.suggestion").is_visible() then
+    require("copilot.suggestion").accept()
+  else
+    vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, true, true), "n")
+  end
+end, { desc = "Copilot Accept or Tab", silent = true, expr = false })
 
 map("i", "<C-n>", function()
-  vim.fn.feedkeys(vim.fn["copilot#Next"](), "")
-end, { desc = "Copilot Next Suggestion", silent = true, expr = true })
+  require("copilot.suggestion").next()
+end, { desc = "Copilot Next Suggestion", silent = true })
 
 map("i", "<C-p>", function()
-  vim.fn.feedkeys(vim.fn["copilot#Previous"](), "")
-end, { desc = "Copilot Previous Suggestion", silent = true, expr = true })
+  require("copilot.suggestion").prev() 
+end, { desc = "Copilot Previous Suggestion", silent = true })
 
 map("i", "<C-d>", function()
-  vim.fn.feedkeys(vim.fn["copilot#Dismiss"](), "")
-end, { desc = "Copilot Dismiss Suggestion", silent = true, expr = true })
+  require("copilot.suggestion").dismiss()
+end, { desc = "Copilot Dismiss Suggestion", silent = true })
 
 -- Debugging
 map("n", "<F5>", function() require("dap").continue() end, { desc = "Start Debugging" })
