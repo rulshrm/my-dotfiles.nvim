@@ -281,6 +281,71 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- Python specific mappings
+local setup_python_maps = function(bufnr)
+  local opts = { buffer = bufnr, noremap = true, silent = true }
+  
+  -- Run Python file
+  map("n", "<leader>pr", function()
+    local file_path = vim.fn.expand('%:p')
+    local python_utils = require('configs.python_utils')
+    
+    if not python_utils.run_python(file_path) then
+      vim.notify("Failed to run Python file", vim.log.levels.ERROR)
+    end
+  end, vim.tbl_extend("force", opts, { desc = "Run Python File" }))
+
+  -- Run Python with arguments
+  map("n", "<leader>pR", function()
+    vim.ui.input({ prompt = "Arguments: " }, function(args)
+      if args then
+        local file_path = vim.fn.expand('%:p')
+        local python_utils = require('configs.python_utils')
+        
+        if not python_utils.run_python(file_path, args) then
+          vim.notify("Failed to run Python file", vim.log.levels.ERROR)
+        end
+      end
+    end)
+  end, vim.tbl_extend("force", opts, { desc = "Run Python with Args" }))
+  
+  -- Run with virtual environment
+  map("n", "<leader>pv", function()
+    local file_path = vim.fn.expand('%:p')
+    local python_utils = require('configs.python_utils')
+    
+    if not python_utils.run_python_with_venv(file_path) then
+      vim.notify("Failed to run Python file", vim.log.levels.ERROR)
+    end
+  end, vim.tbl_extend("force", opts, { desc = "Run with Venv" }))
+  
+  -- Run pytest
+  map("n", "<leader>pt", function()
+    local python_utils = require('configs.python_utils')
+    
+    if not python_utils.run_pytest() then
+      vim.notify("Failed to run pytest", vim.log.levels.ERROR)
+    end
+  end, vim.tbl_extend("force", opts, { desc = "Run Pytest" }))
+  
+  -- Run current test file
+  map("n", "<leader>pf", function()
+    local python_utils = require('configs.python_utils')
+    
+    if not python_utils.run_current_test() then
+      vim.notify("Failed to run test file", vim.log.levels.ERROR)
+    end
+  end, vim.tbl_extend("force", opts, { desc = "Run Current Test File" }))
+end
+
+-- Create autocmd for Python mappings
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "python",
+  callback = function(ev)
+    setup_python_maps(ev.buf)
+  end,
+})
+
 -- Git Graph keymaps
 map("n", "<leader>gg", "<cmd>Fugit2Graph<cr>", { desc = "Git Graph" })
 map("n", "<leader>gf", "<cmd>Fugit2FileHistory<cr>", { desc = "File History" })

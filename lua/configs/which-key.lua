@@ -37,7 +37,7 @@ M.setup = function()
     ["<leader>f"] = { name = "Find" },
     ["<leader>fb"] = { "<Cmd>Telescope buffers<CR>", "Find Buffers" },
     ["<leader>ff"] = { "<Cmd>Telescope find_files<CR>", "Find Files" },
-    ["<leader>fg"] = { "<Cmd>Telescope live_grep<CR>", "Live Grep" },
+    ["<leader>fg" ] = { "<Cmd>Telescope live_grep<CR>", "Live Grep" },
     ["<leader>fh"] = { "<Cmd>Telescope help_tags<CR>", "Find Help" },
 
     ["<leader>g"] = {
@@ -92,6 +92,17 @@ M.setup = function()
     ["<leader>t"] = {
       name = "Toggle",
       w = { "<cmd>lua vim.wo.wrap = not vim.wo.wrap<CR>", "Toggle Wrap" },
+    },
+  })
+  
+  wk.register({
+    ["<leader>p"] = {
+      name = "Python",
+      r = { "Run Python File" },
+      R = { "Run Python with Args" },
+      v = { "Run with Venv" },
+      t = { "Run Pytest" },
+      f = { "Run Current Test File" },
     },
   })
 end

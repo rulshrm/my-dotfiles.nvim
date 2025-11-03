@@ -105,6 +105,13 @@ Then run in Neovim:
 - `<leader>jem`: Extract method (visual mode)
 - `<leader>jev`: Extract variable (visual mode)
 
+### Python Development
+- `<leader>pr`: Run Python file
+- `<leader>pR`: Run Python file with arguments
+- `<leader>pv`: Run Python with virtual environment
+- `<leader>pt`: Run pytest (all tests)
+- `<leader>pf`: Run current test file
+
 ### Debugging
 - `<F5>`: Start/Continue debugging
 - `<F10>`: Step over
