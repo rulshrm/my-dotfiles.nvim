@@ -6,6 +6,7 @@ return {
       "nvim-telescope/telescope.nvim",
       "tpope/vim-dotenv",
       "MunifTanjim/nui.nvim",
+      "nvim-neotest/nvim-nio", 
     },
     cmd = { 
       "Artisan", 
@@ -29,6 +30,10 @@ return {
           lsp = {
             enabled = true,
           },
+        },
+        -- Set environment type default
+        environment = {
+          type = "local", -- Atau "sail", "docker-compose", "herd", "valet", "symfony"
         },
       })
     end,
