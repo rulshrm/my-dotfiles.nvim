@@ -36,7 +36,7 @@ M.setup = function()
   wk.register({
     ["<leader>f"] = { name = "Find" },
     ["<leader>fb"] = { "<Cmd>Telescope buffers<CR>", "Find Buffers" },
-    ["<leader>ff"] = { "<Cmd>Telescope find_files<CR>", "Find Files" },
+    ["<leader>ff" ] = { "<Cmd>Telescope find_files<CR>", "Find Files" },
     ["<leader>fg" ] = { "<Cmd>Telescope live_grep<CR>", "Live Grep" },
     ["<leader>fh"] = { "<Cmd>Telescope help_tags<CR>", "Find Help" },
 
@@ -79,7 +79,8 @@ M.setup = function()
       name = "Copilot",
       c = { "<cmd>CopilotChat<CR>", "Open Chat" },
       e = { "<cmd>CopilotChatExplain<CR>", "Explain Code" },
-      t = { "<cmd>CopilotChatTests<CR>", "Generate Tests" },
+      t = { "Toggle Inline Suggestions" },
+      T = { "Toggle Copilot (Full)" },
       r = { "<cmd>CopilotChatReview<CR>", "Review Code" },
       f = { "<cmd>CopilotChatRefactor<CR>", "Refactor Code" },
       d = { "<cmd>CopilotChatDocumentation<CR>", "Generate Documentation" },

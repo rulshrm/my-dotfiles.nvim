@@ -125,6 +125,15 @@ Then run in Neovim:
 - `<C-n>`: Next suggestion
 - `<C-p>`: Previous suggestion
 - `<C-d>`: Dismiss suggestion
+- `<leader>ct`: Toggle inline suggestions (on/off)
+- `<leader>cT`: Toggle Copilot completely (disable/enable)
+- `<leader>cc`: Open Copilot Chat
+- `<leader>ce`: Explain code with Copilot
+- `<leader>cr`: Review code with Copilot
+- `<leader>cf`: Refactor code with Copilot
+- `<leader>cd`: Generate documentation
+- `<leader>cb`: Fix bugs with Copilot
+- `<leader>co`: Optimize code with Copilot
 
 ### REST Client
 - `<leader>rr`: Run HTTP request

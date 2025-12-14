@@ -128,6 +128,32 @@ map("i", "<C-d>", function()
   require("copilot.suggestion").dismiss()
 end, { desc = "Copilot Dismiss Suggestion", silent = true })
 
+-- Toggle Copilot inline suggestions
+map("n", "<leader>ct", function()
+  local copilot_suggestion = require("copilot.suggestion")
+  if vim.g.copilot_suggestion_enabled == false then
+    vim.g.copilot_suggestion_enabled = true
+    copilot_suggestion.toggle_auto_trigger()
+    vim.notify("Copilot inline suggestions enabled", vim.log.levels.INFO)
+  else
+    vim.g.copilot_suggestion_enabled = false
+    copilot_suggestion.toggle_auto_trigger()
+    vim.notify("Copilot inline suggestions disabled", vim.log.levels.INFO)
+  end
+end, { desc = "Toggle Copilot Suggestions", silent = true })
+
+-- Alternative: Disable/Enable Copilot completely
+map("n", "<leader>cT", function()
+  vim.cmd("Copilot disable")
+  if vim.g.copilot_enabled == false then
+    vim.cmd("Copilot enable")
+    vim.notify("Copilot enabled", vim.log.levels.INFO)
+  else
+    vim.cmd("Copilot disable")
+    vim.notify("Copilot disabled", vim.log.levels.INFO)
+  end
+end, { desc = "Toggle Copilot (Full)", silent = true })
+
 -- Debugging
 map("n", "<F5>", function() require("dap").continue() end, { desc = "Start Debugging" })
 map("n", "<F10>", function() require("dap").step_over() end, { desc = "Step Over" })
