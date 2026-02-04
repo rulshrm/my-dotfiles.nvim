@@ -6,12 +6,12 @@ return {
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
-      "saadparwaiz1/cmp_luasnip",     -- pastikan source luasnip aktif di cmp
+      "saadparwaiz1/cmp_luasnip", -- pastikan source luasnip aktif di cmp
       "L3MON4D3/LuaSnip",
       "rafamadriz/friendly-snippets",
     },
     config = function()
-      require("configs.cmp")
+      require "configs.cmp"
     end,
   },
 
@@ -26,14 +26,14 @@ return {
       vim.g.copilot_enable_suggestions = true
       vim.g.copilot_assume_mapped = true
 
-      require("copilot").setup({
+      require("copilot").setup {
         suggestion = {
           enabled = true,
           auto_trigger = true,
           keymap = {
-            accept = "<C-l>",
-            accept_word = false,
-            accept_line = false,
+            accept = "<M-l>",
+            accept_word = "<M-w>",
+            accept_line = "<M-L>",
             next = "<M-]>",
             prev = "<M-[>",
             dismiss = "<C-]>",
@@ -45,7 +45,7 @@ return {
         filetypes = {
           ["*"] = true,
         },
-      })
+      }
     end,
   },
 
@@ -68,10 +68,10 @@ return {
     "zbirenbaum/copilot-cmp",
     dependencies = { "zbirenbaum/copilot.lua" },
     config = function()
-      require("copilot_cmp").setup({
+      require("copilot_cmp").setup {
         event = { "InsertEnter", "LspAttach" },
         fix_pairs = true,
-      })
+      }
     end,
   },
 }
