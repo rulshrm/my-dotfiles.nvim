@@ -10,13 +10,8 @@ return {
   -- Core dependencies
   {
     "nvim-lua/plenary.nvim",
-    lazy = false,
   },
-  {
-    "nvim-treesitter/nvim-treesitter",
-    lazy = false,
-    build = ":TSUpdate",
-  },
+
 
   -- Plugin category imports
   { import = "plugins.lsp" },         -- LSP support

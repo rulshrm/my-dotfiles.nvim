@@ -9,7 +9,7 @@ return {
   },
   {
     "rcarriga/nvim-notify",
-    lazy = false,
+    event = "VeryLazy",
     config = function()
       require("configs.notify").setup()
     end,
@@ -23,18 +23,18 @@ return {
   },
   {
     "nvim-tree/nvim-web-devicons",
-    lazy = false,
+    lazy = true,
     config = function()
       require("configs.devicons").setup()
     end,
   },
   {
     "DaikyXendo/nvim-material-icon",
-    lazy = false,
+    lazy = true,
   },
   {
     "nvim-tree/nvim-tree.lua",
-    lazy = false,
+    cmd = { "NvimTreeToggle", "NvimTreeFocus" },
     version = "*",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
