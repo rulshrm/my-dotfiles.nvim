@@ -40,7 +40,6 @@ function M.setup()
       "vimls",
       "rust_analyzer",
       "gopls",
-      "nimls",
       "intelephense",
       "emmet_ls",
       "jdtls",
