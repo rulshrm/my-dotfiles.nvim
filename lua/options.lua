@@ -4,9 +4,7 @@ require "nvchad.options"
 
 local o = vim.o
 o.cursorlineopt = 'both'
-
-local lsp_vim = vim.lsp
-lsp_vim.set_log_level("off")
+vim.lsp.log.set_level("off")
 
 -- Show hidden files
 vim.opt.hidden = true
