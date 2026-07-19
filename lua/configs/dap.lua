@@ -1,5 +1,66 @@
+- ~/.config/nvim/lua/configs/dap.lua
 local dap = require "dap"
 
+-- ╔══════════════════════════════════════════════════════════════╗
+-- ║  codelldb — C / C++ / Rust  (installed via mason-nvim-dap)  ║
+-- ╚══════════════════════════════════════════════════════════════╝
+local codelldb_path = vim.fn.stdpath("data") .. "/mason/packages/codelldb/extension/adapter/codelldb"
+
+dap.adapters.codelldb = {
+  type = "server",
+  port = "${port}",
+  executable = {
+    command = codelldb_path,
+    args = { "--port", "${port}" },
+  },
+}
+
+-- Shared launch configuration for C/C++
+local cpp_config = {
+  {
+    name = "Launch executable",
+    type = "codelldb",
+    request = "launch",
+    program = function()
+      return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/build/", "file")
+    end,
+    cwd = "${workspaceFolder}",
+    stopOnEntry = false,
+    args = function()
+      local input = vim.fn.input("Arguments: ")
+      return vim.split(input, " ", { trimempty = true })
+    end,
+  },
+  {
+    name = "Launch current file (single-file build)",
+    type = "codelldb",
+    request = "launch",
+    program = function()
+      -- Compile current file with debug symbols, then run
+      local src = vim.fn.expand("%:p")
+      local out = vim.fn.expand("%:p:r")
+      vim.fn.system(string.format("g++ -g -std=c++20 -o %s %s", vim.fn.shellescape(out), vim.fn.shellescape(src)))
+      return out
+    end,
+    cwd = "${workspaceFolder}",
+    stopOnEntry = false,
+  },
+  {
+    name = "Attach to process",
+    type = "codelldb",
+    request = "attach",
+    pid = require("dap.utils").pick_process,
+    cwd = "${workspaceFolder}",
+  },
+}
+
+dap.configurations.cpp = cpp_config
+dap.configurations.c = cpp_config
+dap.configurations.rust = cpp_config
+
+-- ╔════════════════════════════╗
+-- ║  Node.js (node-debug2)    ║
+-- ╚════════════════════════════╝
 dap.adapters.node2 = {
   type = "executable",
   command = "node",
@@ -20,6 +81,9 @@ dap.configurations.javascript = {
 
 dap.configurations.typescript = dap.configurations.javascript
 
+-- ╔════════════════════════╗
+-- ║  PHP (Xdebug)         ║
+-- ╚════════════════════════╝
 dap.adapters.php = {
   type = 'executable',
   command = 'node',
@@ -38,6 +102,9 @@ dap.configurations.php = {
   }
 }
 
+-- ╔════════════════════════╗
+-- ║  Java                 ║
+-- ╚════════════════════════╝
 dap.adapters.java = {
   type = 'executable',
   command = 'java',
@@ -53,3 +120,12 @@ dap.configurations.java = {
     projectName = "${workspaceFolder}",
   },
 }
+
+-- ╔══════════════════════════════════════╗
+-- ║  DAP UI — signs for breakpoints     ║
+-- ╚══════════════════════════════════════╝
+vim.fn.sign_define("DapBreakpoint", { text = "●", texthl = "DapBreakpoint", linehl = "", numhl = "" })
+vim.fn.sign_define("DapBreakpointCondition", { text = "◆", texthl = "DapBreakpointCondition", linehl = "", numhl = "" })
+vim.fn.sign_define("DapBreakpointRejected", { text = "○", texthl = "DapBreakpointRejected", linehl = "", numhl = "" })
+vim.fn.sign_define("DapLogPoint", { text = "◈", texthl = "DapLogPoint", linehl = "", numhl = "" })
+vim.fn.sign_define("DapStopped", { text = "→", texthl = "DapStopped", linehl = "DapStoppedLine", numhl = "" })

@@ -43,6 +43,7 @@ function M.setup()
       "intelephense",
       "emmet_ls",
       "jdtls",
+      "clangd",
     },
     -- Tidak perlu handlers lama berbasis lspconfig.setup
   })

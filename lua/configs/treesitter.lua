@@ -17,6 +17,9 @@ return {
     "blade",            -- Blade templates
     "bash",             -- For dotfiles
     "dockerfile",       -- For Docker files
+    "c",                -- C
+    "cpp",              -- C++
+    "cmake",            -- CMake
   },                    -- Install only what you need
 
   sync_install = false, -- Install parsers asynchronously

@@ -266,6 +266,43 @@ M.setup = function()
     }
   )
 
+  -- clangd (C/C++)
+  vim.lsp.config(
+    "clangd",
+    with_common {
+      cmd = {
+        "clangd",
+        "--offset-encoding=utf-16",
+        "--background-index",
+        "--clang-tidy",
+        "--header-insertion=iwyu",
+        "--completion-style=detailed",
+        "--function-arg-placeholders",
+        "--fallback-style=llvm",
+        "--pch-storage=memory",
+        "-j=4",
+      },
+      filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+      root_dir = util.root_pattern(
+        "compile_commands.json",
+        "compile_flags.txt",
+        "CMakeLists.txt",
+        ".clangd",
+        ".clang-tidy",
+        ".clang-format",
+        ".git"
+      ),
+      init_options = {
+        usePlaceholders = true,
+        completeUnimported = true,
+        clangdFileStatus = true,
+      },
+      capabilities = vim.tbl_deep_extend("force", capabilities, {
+        offsetEncoding = { "utf-16" },
+      }),
+    }
+  )
+
   -- JDTLS (Java)
   vim.lsp.config(
     "jdtls",
@@ -330,6 +367,7 @@ M.setup = function()
     "intelephense",
     "emmet_ls",
     "jdtls",
+    "clangd",
     "typescript-language-server",
   }
   for _, name in ipairs(to_enable) do

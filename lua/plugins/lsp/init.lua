@@ -33,6 +33,8 @@ return {
           html = { "prettierd" },
           yaml = { "prettierd" },
           markdown = { "prettierd" },
+          c = { "clang-format" },
+          cpp = { "clang-format" },
         },
         format_on_save = {
           lsp_fallback = true,

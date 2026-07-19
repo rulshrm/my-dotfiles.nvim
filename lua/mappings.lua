@@ -162,6 +162,65 @@ map("n", "<F12>", function() require("dap").step_out() end, { desc = "Step Out" 
 map("n", "<leader>db", function() require("dap").toggle_breakpoint() end, { desc = "Toggle Breakpoint" })
 map("n", "<leader>dr", function() require("dap").repl.open() end, { desc = "Open Debug REPL" })
 
+-- DAP-UI & extended debug keymaps
+map("n", "<leader>du", function() require("dapui").toggle() end, { desc = "Toggle DAP UI" })
+map("n", "<leader>de", function() require("dapui").eval() end, { desc = "DAP Evaluate Expression" })
+map("v", "<leader>de", function() require("dapui").eval() end, { desc = "DAP Evaluate Selection" })
+map("n", "<leader>dt", function() require("dap").terminate() end, { desc = "Terminate Debug Session" })
+map("n", "<leader>dB", function()
+  require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
+end, { desc = "Conditional Breakpoint" })
+map("n", "<leader>dl", function()
+  require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
+end, { desc = "Log Point" })
+
+-- C++ / CMake specific keymaps (filetype-gated)
+local setup_cpp_maps = function(bufnr)
+  local opts = { buffer = bufnr, noremap = true, silent = true }
+
+  -- CMake workflow
+  map("n", "<leader>cc", "<cmd>CMakeGenerate<CR>",
+    vim.tbl_extend("force", opts, { desc = "CMake Configure" }))
+  map("n", "<leader>cb", "<cmd>CMakeBuild<CR>",
+    vim.tbl_extend("force", opts, { desc = "CMake Build" }))
+  map("n", "<leader>cr", "<cmd>CMakeRun<CR>",
+    vim.tbl_extend("force", opts, { desc = "CMake Run" }))
+  map("n", "<leader>cd", "<cmd>CMakeDebug<CR>",
+    vim.tbl_extend("force", opts, { desc = "CMake Debug" }))
+  map("n", "<leader>cs", "<cmd>CMakeSelectLaunchTarget<CR>",
+    vim.tbl_extend("force", opts, { desc = "CMake Select Target" }))
+  map("n", "<leader>cT", "<cmd>CMakeSelectBuildType<CR>",
+    vim.tbl_extend("force", opts, { desc = "CMake Select Build Type" }))
+  map("n", "<leader>cC", "<cmd>CMakeClean<CR>",
+    vim.tbl_extend("force", opts, { desc = "CMake Clean" }))
+
+  -- Quick single-file compile & run (no CMake needed)
+  map("n", "<leader>cx", function()
+    local src = vim.fn.expand("%:p")
+    local out = vim.fn.expand("%:p:r")
+    vim.cmd("write")
+    vim.cmd("split")
+    vim.cmd("terminal")
+    vim.cmd("startinsert")
+    local cmd = string.format(
+      'g++ -std=c++20 -O2 -Wall -Wextra -o %s %s && %s',
+      vim.fn.shellescape(out), vim.fn.shellescape(src), vim.fn.shellescape(out)
+    )
+    vim.fn.chansend(vim.b.terminal_job_id, cmd .. '\n')
+  end, vim.tbl_extend("force", opts, { desc = "Compile & Run (single file)" }))
+
+  -- Switch between header/source
+  map("n", "<leader>ch", "<cmd>ClangdSwitchSourceHeader<CR>",
+    vim.tbl_extend("force", opts, { desc = "Switch Header/Source" }))
+end
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "c", "cpp", "cmake" },
+  callback = function(ev)
+    setup_cpp_maps(ev.buf)
+  end,
+})
+
 -- Keybindings untuk rest-nvim
 map("n", "<leader>rr", "<cmd>RestNvim<CR>", { desc = "Run HTTP Request" })
 map("n", "<leader>rp", "<cmd>RestNvimPreview<CR>", { desc = "Preview HTTP Request" })

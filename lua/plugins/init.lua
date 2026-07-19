@@ -23,4 +23,5 @@ return {
   { import = "plugins.utils" },       -- Utility functions
   { import = "plugins.testing" },     -- Testing frameworks
   { import = "plugins.project" },     -- Project management
+  { import = "plugins.cpp" },         -- C/C++ development
 }
