@@ -88,7 +88,7 @@ autocmd("FileType", {
     vim.cmd("syntax sync fromstart")
     
     -- Enable treesitter highlighting
-    vim.cmd("TSBufEnable highlight")
+    pcall(vim.treesitter.start)
     
     -- Set indentation
     vim.opt_local.expandtab = true
@@ -114,7 +114,7 @@ vim.api.nvim_create_autocmd("FileType", {
     
     -- Enable code folding
     vim.wo.foldmethod = "expr"
-    vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
+    vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
     
     -- Format on save dengan Google style
     vim.b.format_on_save = true
